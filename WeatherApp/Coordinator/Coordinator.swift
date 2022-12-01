@@ -12,6 +12,7 @@ enum Event {
     case settingsButtonTapped
     case onboardingNotShown
     case daysButtonTapped
+    case detailsButtonTapped
 }
 
 protocol Coordinator {

@@ -217,7 +217,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             return 220
         } else if indexPath.section == 1 {
-            return 160
+            return 184
         } else if indexPath.section == 2 {
             return 30
         }

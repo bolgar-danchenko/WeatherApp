@@ -24,6 +24,8 @@ class MainCoordinator: Coordinator {
             navigationController?.pushViewController(vc, animated: true)
         case .daysButtonTapped:
             print("daysButton tapped")
+        case .detailsButtonTapped:
+            print("detailsButton tapped")
         }
     }
     

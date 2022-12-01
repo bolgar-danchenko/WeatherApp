@@ -13,6 +13,8 @@ class DailyTitleTableViewCell: UITableViewCell, Coordinating {
     
     static let identifier = "DailyTitleTableViewCell"
     
+    // MARK: - Subviews
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Daily Forecast"
@@ -22,6 +24,8 @@ class DailyTitleTableViewCell: UITableViewCell, Coordinating {
     }()
     
     private lazy var daysButton = OrangeButton(action: didTapDaysButton, color: .clear, title: "25 Days", titleColor: .black, font: Styles.rubikRegular16Font)
+    
+    // MARK: - Init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -34,6 +38,8 @@ class DailyTitleTableViewCell: UITableViewCell, Coordinating {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Layout
     
     private func setupView() {
         contentView.clipsToBounds = true
@@ -58,7 +64,9 @@ class DailyTitleTableViewCell: UITableViewCell, Coordinating {
             
         ])
     }
-
+    
+    // MARK: - Configure
+    
     func configure() {
         let myAttributes: [NSAttributedString.Key: Any] = [.underlineStyle: NSUnderlineStyle.single.rawValue]
         let attributeString = NSMutableAttributedString(string: "25 days", attributes: myAttributes)
