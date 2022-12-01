@@ -9,13 +9,15 @@ import Foundation
 import UIKit
 
 enum Event {
-    case buttonTapped
+    case settingsButtonTapped
+    case onboardingNotShown
+    case daysButtonTapped
 }
 
 protocol Coordinator {
     var navigationController: UINavigationController? { get set }
     
-//    func eventOccurred(with type: Event)
+    func eventOccurred(with type: Event)
     func start()
 }
 

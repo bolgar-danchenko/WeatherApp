@@ -20,7 +20,7 @@ struct CurrentWeather: Codable {
     let time: Int // header - date and time
     let summary: String // header - summary
     let icon: String
-    let precipProbability: Int // header - precip probability
+    let precipProbability: Float // header - precip probability
     let temperature: Double // header - current temp
     let windSpeed: Double // header - wind speed
     let cloudCover: Double // header - cloud cover
@@ -53,7 +53,7 @@ struct DailyWeatherEntry: Codable {
     let sunriseTime: Int // header - sunrise time // daily summary - sunrise time
     let sunsetTime: Int // header - sunset time // daily summary - sunset time
     let moonPhase: Double // daily summary - moon phase
-    let precipProbability: Double // daily summary - precip probability
+    let precipProbability: Float // daily summary - precip probability
     let precipType: String?
     let windSpeed: Double // daily summary - wind speed
     let windBearing: Int // daily summary - wind bearing
@@ -95,7 +95,7 @@ struct HourlyWeatherEntry: Codable {
     let time: Int // 24 hours - time
     let summary: String // 24 hours - summary
     let icon: String
-    let precipProbability: Double // 24 hours - precip probability
+    let precipProbability: Float // 24 hours - precip probability
     let precipType: String?
     let temperature: Double // 24 hours - temp
     let apparentTemperature: Double // 24 hours - apparent temp

@@ -9,11 +9,23 @@ import Foundation
 import UIKit
 
 class MainCoordinator: Coordinator {
+    
     var navigationController: UINavigationController?
     
-//    func eventOccurred(with type: Event) {
-//
-//    }
+    func eventOccurred(with type: Event) {
+        switch type {
+        case .settingsButtonTapped:
+            var vc: UIViewController & Coordinating = SettingsViewController()
+            vc.coordinator = self
+            navigationController?.pushViewController(vc, animated: true)
+        case .onboardingNotShown:
+            var vc: UIViewController & Coordinating = OnboardingViewController()
+            vc.coordinator = self
+            navigationController?.pushViewController(vc, animated: true)
+        case .daysButtonTapped:
+            print("daysButton tapped")
+        }
+    }
     
     func start() {
         var vc: UIViewController & Coordinating = MainViewController()
