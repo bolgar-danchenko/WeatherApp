@@ -184,7 +184,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: CurrentTableViewCell.identifier, for: indexPath) as! CurrentTableViewCell
-            cell.configure(with: currentModels)
+            cell.configure(currentModels: currentModels, dailyModels: dailyModels)
             return cell
             
         } else if indexPath.section == 1 {

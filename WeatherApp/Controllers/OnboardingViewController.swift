@@ -50,9 +50,9 @@ class OnboardingViewController: UIViewController, Coordinating {
         return label
     }()
     
-    private lazy var yesButton = OrangeButton(action: didTapYes, color: Styles.orangeButtonColor, title: "USE DEVICE LOCATION", titleColor: .white, font: Styles.rubikMedium16Font)
+    private lazy var yesButton = CustomButton(action: didTapYes, color: Styles.orangeButtonColor, title: "USE DEVICE LOCATION", titleColor: .white, font: Styles.rubikMedium16Font)
     
-    private lazy var noButton = OrangeButton(action: didTapNo, color: .clear, title: "ADD LOCATIONS MANUALLY", titleColor: .white, font: Styles.rubikRegular16Font)
+    private lazy var noButton = CustomButton(action: didTapNo, color: .clear, title: "ADD LOCATIONS MANUALLY", titleColor: .white, font: Styles.rubikRegular16Font)
     
     // MARK: - Lifecycle
     

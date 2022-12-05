@@ -24,7 +24,7 @@
 		B56349582937F21600A0612E /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56349572937F21600A0612E /* DetailsViewController.swift */; };
 		B563495D2937F52500A0612E /* Rubik-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B563495B2937F43B00A0612E /* Rubik-VariableFont_wght.ttf */; };
 		B56349602937FA0200A0612E /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563495F2937FA0200A0612E /* Styles.swift */; };
-		B56349622938C39600A0612E /* OrangeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56349612938C39600A0612E /* OrangeButton.swift */; };
+		B56349622938C39600A0612E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56349612938C39600A0612E /* CustomButton.swift */; };
 		B563496A2938FB4600A0612E /* CurrentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56349692938FB4600A0612E /* CurrentTableViewCell.swift */; };
 		B563496C2938FB5500A0612E /* HourlyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563496B2938FB5500A0612E /* HourlyTableViewCell.swift */; };
 		B563496E2938FB6D00A0612E /* DailyTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563496D2938FB6D00A0612E /* DailyTitleTableViewCell.swift */; };
@@ -53,7 +53,7 @@
 		B56349572937F21600A0612E /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		B563495B2937F43B00A0612E /* Rubik-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		B563495F2937FA0200A0612E /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
-		B56349612938C39600A0612E /* OrangeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrangeButton.swift; sourceTree = "<group>"; };
+		B56349612938C39600A0612E /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		B56349692938FB4600A0612E /* CurrentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTableViewCell.swift; sourceTree = "<group>"; };
 		B563496B2938FB5500A0612E /* HourlyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyTableViewCell.swift; sourceTree = "<group>"; };
 		B563496D2938FB6D00A0612E /* DailyTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTitleTableViewCell.swift; sourceTree = "<group>"; };
@@ -150,7 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				B563495F2937FA0200A0612E /* Styles.swift */,
-				B56349612938C39600A0612E /* OrangeButton.swift */,
+				B56349612938C39600A0612E /* CustomButton.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -270,7 +270,7 @@
 				B563494D2937F17100A0612E /* WeatherModels.swift in Sources */,
 				B563497629392CB500A0612E /* CurrentCollectionViewCell.swift in Sources */,
 				B56349562937F1EB00A0612E /* DailyViewController.swift in Sources */,
-				B56349622938C39600A0612E /* OrangeButton.swift in Sources */,
+				B56349622938C39600A0612E /* CustomButton.swift in Sources */,
 				B563496C2938FB5500A0612E /* HourlyTableViewCell.swift in Sources */,
 				B56349542937F1C400A0612E /* SettingsViewController.swift in Sources */,
 				B56349462937ECE400A0612E /* MainCoordinator.swift in Sources */,

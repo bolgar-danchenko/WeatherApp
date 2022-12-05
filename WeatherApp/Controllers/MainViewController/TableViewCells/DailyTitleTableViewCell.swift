@@ -23,7 +23,7 @@ class DailyTitleTableViewCell: UITableViewCell, Coordinating {
         return label
     }()
     
-    private lazy var daysButton = OrangeButton(action: didTapDaysButton, color: .clear, title: "25 Days", titleColor: .black, font: Styles.rubikRegular16Font)
+    private lazy var daysButton = CustomButton(action: didTapDaysButton, color: .clear, title: "25 Days", titleColor: .black, font: Styles.rubikRegular16Font)
     
     // MARK: - Init
     

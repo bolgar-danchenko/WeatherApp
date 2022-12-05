@@ -61,7 +61,7 @@ class SettingsViewController: UIViewController, Coordinating {
         return label
     }()
     
-    private lazy var settingsButton = OrangeButton(action: didTapSettingsButton, color: Styles.orangeButtonColor, title: "Confirm", titleColor: Styles.solitudeColor, font: Styles.rubikRegular16Font)
+    private lazy var settingsButton = CustomButton(action: didTapSettingsButton, color: Styles.orangeButtonColor, title: "Confirm", titleColor: Styles.solitudeColor, font: Styles.rubikRegular16Font)
     
     private lazy var tempSwitch: UISwitch = {
         let mySwitch = UISwitch()

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class OrangeButton: UIButton {
+class CustomButton: UIButton {
     
     private let buttonAction: () -> ()
     
