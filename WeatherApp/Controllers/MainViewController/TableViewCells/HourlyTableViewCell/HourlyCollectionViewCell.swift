@@ -67,7 +67,7 @@ class HourlyCollectionViewCell: UICollectionViewCell {
             tempLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 2),
             tempLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             tempLabel.heightAnchor.constraint(equalToConstant: 18),
-            tempLabel.widthAnchor.constraint(equalToConstant: 26)
+            tempLabel.widthAnchor.constraint(equalToConstant: 40)
         ])
     }
     

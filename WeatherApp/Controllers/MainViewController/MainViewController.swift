@@ -16,6 +16,7 @@ class MainViewController: UIViewController, Coordinating {
     var currentModels = [CurrentWeather]()
     var hourlyModels = [HourlyWeatherEntry]()
     var dailyModels = [DailyWeatherEntry]()
+    var userLocations = LocationManager.shared.userLocations
     
     // MARK: - Bar button items
     
@@ -124,8 +125,16 @@ class MainViewController: UIViewController, Coordinating {
         alert.addTextField()
         alert.textFields?.first?.placeholder = "City or territory..."
         alert.addAction(UIAlertAction(title: "Add", style: .default) {_ in
-            guard let userInput = alert.textFields?.first?.text else { return }
-            print(userInput)
+            guard let userInput = alert.textFields?.first?.text, !userInput.isEmpty else { return }
+            
+            LocationManager.shared.getLocationFromString(with: userInput) { location in
+                
+                guard let inputLocation = location else { return }
+                
+                LocationManager.shared.currentLocation = inputLocation
+                
+                WeatherManager.shared.requestWeatherForLocation()
+            }
         })
         self.present(alert, animated: true)
     }
@@ -176,8 +185,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         } else if section == 2 {
             // 1 cell with header for daily weather
             return 1
+        } else {
+            return dailyModels.count
         }
-        return dailyModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -65,10 +65,12 @@ class WeatherManager {
             
             let dailyEntries = result.daily.data
             
+            self.dailyModels.removeAll()
             self.dailyModels.append(contentsOf: dailyEntries)
             self.hourlyModels = result.hourly.data
             
             let currentEntries = result.currently
+            self.currentModels.removeAll()
             self.currentModels.append(currentEntries)
             
             let nc = NotificationCenter.default
