@@ -75,6 +75,7 @@ class DailyTitleTableViewCell: UITableViewCell, Coordinating {
     }
     
     @objc func didTapDaysButton() {
+        print("Did tap days button")
         coordinator?.eventOccurred(with: .daysButtonTapped)
     }
 }

@@ -35,11 +35,11 @@ class LocationManager: NSObject {
             var locationName = ""
             
             if let locality = place.locality {
-                locationName += locality
+                locationName += "\(locality), "
             }
             
             if let country = place.country {
-                locationName += ", \(country)"
+                locationName += country
             }
             completion(locationName)
         }

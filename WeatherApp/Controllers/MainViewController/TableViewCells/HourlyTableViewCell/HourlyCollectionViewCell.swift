@@ -57,7 +57,7 @@ class HourlyCollectionViewCell: UICollectionViewCell {
             timeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             timeLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             timeLabel.heightAnchor.constraint(equalToConstant: 18),
-            timeLabel.widthAnchor.constraint(equalToConstant: 40),
+            timeLabel.widthAnchor.constraint(equalToConstant: 45),
             
             weatherImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             weatherImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 3),

@@ -100,9 +100,9 @@ class OnboardingViewController: UIViewController, Coordinating {
         NSLayoutConstraint.activate([
             
             noButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -77),
-            noButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -17),
+            noButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
             noButton.heightAnchor.constraint(equalToConstant: 21),
-            noButton.widthAnchor.constraint(equalToConstant: 292),
+            noButton.widthAnchor.constraint(equalToConstant: 250),
             
             yesButton.bottomAnchor.constraint(equalTo: noButton.topAnchor, constant: -25),
             yesButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 18),
@@ -119,12 +119,12 @@ class OnboardingViewController: UIViewController, Coordinating {
             firstTextLabel.widthAnchor.constraint(equalToConstant: 314),
             firstTextLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             
-            titelLabel.bottomAnchor.constraint(equalTo: firstTextLabel.topAnchor, constant: -56),
+            titelLabel.bottomAnchor.constraint(equalTo: firstTextLabel.topAnchor, constant: -40),
             titelLabel.heightAnchor.constraint(equalToConstant: 63),
             titelLabel.widthAnchor.constraint(equalToConstant: 322),
             titelLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             
-            logo.bottomAnchor.constraint(equalTo: titelLabel.topAnchor, constant: -56),
+            logo.bottomAnchor.constraint(equalTo: titelLabel.topAnchor, constant: -46),
             logo.heightAnchor.constraint(equalToConstant: 196),
             logo.widthAnchor.constraint(equalToConstant: 180),
             logo.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)

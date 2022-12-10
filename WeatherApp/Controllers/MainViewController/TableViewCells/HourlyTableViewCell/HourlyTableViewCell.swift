@@ -82,6 +82,7 @@ class HourlyTableViewCell: UITableViewCell, Coordinating {
     }
 
     @objc func didTapDetailsButton() {
+        print("Did tap details button")
         coordinator?.eventOccurred(with: .detailsButtonTapped)
     }
 }
@@ -111,10 +112,14 @@ extension HourlyTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.backgroundColor = UIColor(cgColor: CGColor(red: 32/255.0, green: 78/255.0, blue: 199/255.0, alpha: 1.0))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            cell?.backgroundColor = .clear
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.backgroundColor = .clear
+        cell?.isHighlighted = false
     }
 }
