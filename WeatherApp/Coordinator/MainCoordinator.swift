@@ -30,7 +30,7 @@ class MainCoordinator: Coordinator {
     }
     
     func start() {
-        var vc: UIViewController & Coordinating = MainViewController()
+        var vc: UIViewController & Coordinating = CityViewController()
         vc.coordinator = self
         navigationController?.setViewControllers([vc], animated: false)
     }

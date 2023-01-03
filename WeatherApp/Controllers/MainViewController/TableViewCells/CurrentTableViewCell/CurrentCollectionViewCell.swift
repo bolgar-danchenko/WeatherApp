@@ -39,7 +39,7 @@ class CurrentCollectionViewCell: UICollectionViewCell {
     
     private lazy var cloudCoverLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.applyStyle(font: Styles.rubikRegular14Font, color: .white)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -47,7 +47,7 @@ class CurrentCollectionViewCell: UICollectionViewCell {
     
     private lazy var windSpeedLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.applyStyle(font: Styles.rubikRegular14Font, color: .white)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -55,7 +55,7 @@ class CurrentCollectionViewCell: UICollectionViewCell {
     
     private lazy var precipLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.applyStyle(font: Styles.rubikRegular14Font, color: .white)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -108,7 +108,7 @@ class CurrentCollectionViewCell: UICollectionViewCell {
     
     private lazy var precipView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "rain")
+        imageView.image = UIImage(named: "precip")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -127,39 +127,6 @@ class CurrentCollectionViewCell: UICollectionViewCell {
         imageView.tintColor = Styles.yellowColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
-    }()
-    
-    private lazy var cloudStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 5
-        stackView.alignment = .center
-        stackView.addArrangedSubview(cloudView)
-        stackView.addArrangedSubview(cloudCoverLabel)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private lazy var windStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 5
-        stackView.alignment = .center
-        stackView.addArrangedSubview(windView)
-        stackView.addArrangedSubview(windSpeedLabel)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private lazy var precipStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 5
-        stackView.alignment = .center
-        stackView.addArrangedSubview(precipView)
-        stackView.addArrangedSubview(precipLabel)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
     }()
     
     // MARK: - Init
@@ -187,9 +154,12 @@ class CurrentCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(ellipseView)
         contentView.addSubview(sunriseView)
         contentView.addSubview(sunsetView)
-        contentView.addSubview(cloudStackView)
-        contentView.addSubview(windStackView)
-        contentView.addSubview(precipStackView)
+        contentView.addSubview(cloudView)
+        contentView.addSubview(cloudCoverLabel)
+        contentView.addSubview(windView)
+        contentView.addSubview(windSpeedLabel)
+        contentView.addSubview(precipView)
+        contentView.addSubview(precipLabel)
     }
     
     private func setupConstraints() {
@@ -239,21 +209,30 @@ class CurrentCollectionViewCell: UICollectionViewCell {
             dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -21),
             dateLabel.widthAnchor.constraint(equalToConstant: 180),
             dateLabel.heightAnchor.constraint(equalToConstant: 20),
-
-            windStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            windStackView.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: 15),
-            windStackView.heightAnchor.constraint(equalToConstant: 20),
-            windStackView.widthAnchor.constraint(equalToConstant: 60),
-
-            cloudStackView.centerYAnchor.constraint(equalTo: windStackView.centerYAnchor),
-            cloudStackView.trailingAnchor.constraint(equalTo: windStackView.leadingAnchor, constant: -19),
-            cloudStackView.heightAnchor.constraint(equalToConstant: 20),
-            cloudStackView.widthAnchor.constraint(equalToConstant: 60),
-
-            precipStackView.centerYAnchor.constraint(equalTo: windStackView.centerYAnchor),
-            precipStackView.leadingAnchor.constraint(equalTo: windStackView.trailingAnchor, constant: 19),
-            precipStackView.heightAnchor.constraint(equalToConstant: 20),
-            precipStackView.widthAnchor.constraint(equalToConstant: 60),
+            
+            windView.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: 15),
+            windView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -30),
+            windView.heightAnchor.constraint(equalToConstant: 16),
+            windView.widthAnchor.constraint(equalToConstant: 25),
+            
+            windSpeedLabel.centerYAnchor.constraint(equalTo: windView.centerYAnchor),
+            windSpeedLabel.leadingAnchor.constraint(equalTo: windView.trailingAnchor, constant: 5),
+            
+            precipView.centerYAnchor.constraint(equalTo: windView.centerYAnchor),
+            precipView.widthAnchor.constraint(equalToConstant: 13),
+            precipView.heightAnchor.constraint(equalToConstant: 15),
+            precipView.leadingAnchor.constraint(equalTo: windSpeedLabel.trailingAnchor, constant: 25),
+            
+            precipLabel.centerYAnchor.constraint(equalTo: windView.centerYAnchor),
+            precipLabel.leadingAnchor.constraint(equalTo: precipView.trailingAnchor, constant: 5),
+            
+            cloudView.centerYAnchor.constraint(equalTo: windView.centerYAnchor),
+            cloudView.widthAnchor.constraint(equalToConstant: 21),
+            cloudView.heightAnchor.constraint(equalToConstant: 18),
+            cloudView.trailingAnchor.constraint(equalTo: cloudCoverLabel.leadingAnchor, constant: -5),
+            
+            cloudCoverLabel.centerYAnchor.constraint(equalTo: windView.centerYAnchor),
+            cloudCoverLabel.trailingAnchor.constraint(equalTo: windView.leadingAnchor, constant: -20),
         
         ])
     }
@@ -272,9 +251,9 @@ class CurrentCollectionViewCell: UICollectionViewCell {
         summaryLabel.text = currentModel.summary
         
         let cloudPercentage = Int(currentModel.cloudCover*100)
-        cloudCoverLabel.text = "\(cloudPercentage)%"
+        cloudCoverLabel.text = "\(Int(cloudPercentage))%"
         
-        windSpeedLabel.text = "\(currentModel.windSpeed)"
+        windSpeedLabel.text = "\(Int(currentModel.windSpeed)) m/s"
         
         let precipPercentage = Int(currentModel.precipProbability*100)
         precipLabel.text = "\(precipPercentage)%"

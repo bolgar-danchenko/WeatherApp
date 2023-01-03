@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController, Coordinating {
+class CityViewController: UIViewController, Coordinating {
 
     var coordinator: Coordinator?
     
@@ -184,7 +184,7 @@ class MainViewController: UIViewController, Coordinating {
 
 // MARK: - TableView Extensions
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+extension CityViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 4
