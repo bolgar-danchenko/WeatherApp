@@ -73,7 +73,7 @@ class CurrentTableViewCell: UITableViewCell, Coordinating {
 extension CurrentTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: contentView.frame.size.width-32, height: 212)
+        return CGSize(width: contentView.frame.size.width-32, height: 200)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

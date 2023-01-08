@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CityViewController: UIViewController, Coordinating {
+class WeatherViewController: UIViewController, Coordinating {
 
     var coordinator: Coordinator?
     
@@ -22,34 +22,6 @@ class CityViewController: UIViewController, Coordinating {
     
     // MARK: - Bar button items
     
-    private lazy var addLocationButton: UIBarButtonItem = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "pin"), for: .normal)
-        button.tintColor = .black
-        button.addTarget(self, action: #selector(addLocation), for: .touchUpInside)
-        
-        let menuBarItem = UIBarButtonItem(customView: button)
-        menuBarItem.customView?.translatesAutoresizingMaskIntoConstraints = false
-        menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 26).isActive = true
-        menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 20).isActive = true
-    
-        return menuBarItem
-    }()
-    
-    private lazy var settingsButton: UIBarButtonItem = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "menu-button"), for: .normal)
-        button.tintColor = .black
-        button.addTarget(self, action: #selector(didTapSettings), for: .touchUpInside)
-        
-        let menuBarItem = UIBarButtonItem(customView: button)
-        menuBarItem.customView?.translatesAutoresizingMaskIntoConstraints = false
-        menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 26).isActive = true
-        menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 26).isActive = true
-    
-        return menuBarItem
-    }()
-    
     private lazy var tableView: UITableView = {
         let tableView = UITableView.init(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -61,13 +33,8 @@ class CityViewController: UIViewController, Coordinating {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "RubikRoman-Regular", size: 18) ?? UIFont()]
-        title = "Current Location"
         
         checkOnboardingStatus()
-        
-        navigationItem.rightBarButtonItem = addLocationButton
-        navigationItem.leftBarButtonItem = settingsButton
         
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(setTitle), name: Notification.Name("WeatherReceived"), object: nil)
@@ -113,7 +80,7 @@ class CityViewController: UIViewController, Coordinating {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 35),
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
@@ -131,29 +98,6 @@ class CityViewController: UIViewController, Coordinating {
     }
     
     // MARK: - Actions
-    
-    @objc private func addLocation() {
-        let alert = UIAlertController(title: "Add Location", message: "", preferredStyle: .alert)
-        alert.addTextField()
-        alert.textFields?.first?.placeholder = "City or territory..."
-        alert.addAction(UIAlertAction(title: "Add", style: .default) {_ in
-            guard let userInput = alert.textFields?.first?.text, !userInput.isEmpty else { return }
-            
-            LocationManager.shared.getLocationFromString(with: userInput) { location in
-                
-                guard let inputLocation = location else { return }
-                
-                LocationManager.shared.currentLocation = inputLocation
-                
-                WeatherManager.shared.requestWeatherForLocation()
-            }
-        })
-        self.present(alert, animated: true)
-    }
-    
-    @objc private func didTapSettings() {
-        coordinator?.eventOccurred(with: .settingsButtonTapped)
-    }
     
     @objc func getWeather() {
         
@@ -184,7 +128,7 @@ class CityViewController: UIViewController, Coordinating {
 
 // MARK: - TableView Extensions
 
-extension CityViewController: UITableViewDelegate, UITableViewDataSource {
+extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 4
@@ -211,11 +155,13 @@ extension CityViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: CurrentTableViewCell.identifier, for: indexPath) as! CurrentTableViewCell
             cell.configure(currentModels: currentModels, dailyModels: dailyModels)
+            cell.selectionStyle = .none
             return cell
             
         } else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: HourlyTableViewCell.identifier, for: indexPath) as! HourlyTableViewCell
             cell.configure(with: hourlyModels)
+            cell.selectionStyle = .none
             return cell
             
         } else if indexPath.section == 2 {
@@ -236,6 +182,9 @@ extension CityViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 1 {
             navigationController?.pushViewController(DetailsViewController(), animated: true)
+        } else if indexPath.section == 3 {
+            let vc = DailyViewController()
+            present(vc, animated: true)
         }
     }
     

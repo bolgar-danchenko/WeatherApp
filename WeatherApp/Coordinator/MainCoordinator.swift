@@ -22,15 +22,16 @@ class MainCoordinator: Coordinator {
             var vc: UIViewController & Coordinating = OnboardingViewController()
             vc.coordinator = self
             navigationController?.pushViewController(vc, animated: true)
-        case .daysButtonTapped:
-            print("daysButton tapped")
         case .detailsButtonTapped:
-            print("detailsButton tapped")
+            print("detailsButtonTapped")
+            var vc: UIViewController & Coordinating = DetailsViewController()
+            vc.coordinator = self
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
     
     func start() {
-        var vc: UIViewController & Coordinating = CityViewController()
+        var vc: UIViewController & Coordinating = MainViewController()
         vc.coordinator = self
         navigationController?.setViewControllers([vc], animated: false)
     }

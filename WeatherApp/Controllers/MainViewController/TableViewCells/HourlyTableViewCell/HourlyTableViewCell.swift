@@ -27,6 +27,7 @@ class HourlyTableViewCell: UITableViewCell, Coordinating {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        coordinator = MainCoordinator()
         
         setupView()
         tuneCollectionView()
@@ -115,6 +116,7 @@ extension HourlyTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             cell?.backgroundColor = .clear
         }
+        coordinator?.eventOccurred(with: .detailsButtonTapped)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

@@ -165,7 +165,7 @@ class CurrentCollectionViewCell: UICollectionViewCell {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            ellipseView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 17),
+            ellipseView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             ellipseView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 33),
             ellipseView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -31),
             ellipseView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -73),
@@ -206,7 +206,7 @@ class CurrentCollectionViewCell: UICollectionViewCell {
             sunsetView.widthAnchor.constraint(equalToConstant: 17),
 
             dateLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -21),
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -18),
             dateLabel.widthAnchor.constraint(equalToConstant: 180),
             dateLabel.heightAnchor.constraint(equalToConstant: 20),
             

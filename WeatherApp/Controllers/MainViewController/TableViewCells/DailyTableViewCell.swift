@@ -117,7 +117,7 @@ class DailyTableViewCell: UITableViewCell {
             precipProbabilityLabel.centerYAnchor.constraint(equalTo: weatherImage.centerYAnchor),
             precipProbabilityLabel.leadingAnchor.constraint(equalTo: weatherImage.trailingAnchor, constant: 5),
             precipProbabilityLabel.heightAnchor.constraint(equalToConstant: 23),
-            precipProbabilityLabel.widthAnchor.constraint(equalToConstant: 25),
+            precipProbabilityLabel.widthAnchor.constraint(equalToConstant: 30),
             
             summaryLabel.centerYAnchor.constraint(equalTo: uiView.centerYAnchor),
             summaryLabel.leadingAnchor.constraint(equalTo: uiView.leadingAnchor, constant: 66),
