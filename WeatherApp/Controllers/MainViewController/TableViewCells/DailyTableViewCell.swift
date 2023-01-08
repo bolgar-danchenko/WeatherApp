@@ -16,6 +16,7 @@ class DailyTableViewCell: UITableViewCell {
     private lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular16Font, color: Styles.dateGrayColor)
+        label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -23,6 +24,8 @@ class DailyTableViewCell: UITableViewCell {
     private lazy var summaryLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular16Font, color: Styles.summaryDarkGrayColor)
+        label.numberOfLines = 0
+        label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -30,6 +33,7 @@ class DailyTableViewCell: UITableViewCell {
     private lazy var tempLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular18Font, color: .black)
+        label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -50,6 +54,7 @@ class DailyTableViewCell: UITableViewCell {
     private lazy var precipProbabilityLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular12Font, color: Styles.darkBlueColor)
+        label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -102,7 +107,7 @@ class DailyTableViewCell: UITableViewCell {
             dateLabel.topAnchor.constraint(equalTo: uiView.topAnchor, constant: 6),
             dateLabel.leadingAnchor.constraint(equalTo: uiView.leadingAnchor, constant: 10),
             dateLabel.heightAnchor.constraint(equalToConstant: 19),
-            dateLabel.widthAnchor.constraint(equalToConstant: 60),
+            dateLabel.trailingAnchor.constraint(equalTo: precipProbabilityLabel.trailingAnchor),
             
             weatherImage.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 4.68),
             weatherImage.leadingAnchor.constraint(equalTo: uiView.leadingAnchor, constant: 10),
@@ -112,17 +117,17 @@ class DailyTableViewCell: UITableViewCell {
             precipProbabilityLabel.centerYAnchor.constraint(equalTo: weatherImage.centerYAnchor),
             precipProbabilityLabel.leadingAnchor.constraint(equalTo: weatherImage.trailingAnchor, constant: 5),
             precipProbabilityLabel.heightAnchor.constraint(equalToConstant: 23),
-            precipProbabilityLabel.widthAnchor.constraint(equalToConstant: 20),
+            precipProbabilityLabel.widthAnchor.constraint(equalToConstant: 25),
             
             summaryLabel.centerYAnchor.constraint(equalTo: uiView.centerYAnchor),
             summaryLabel.leadingAnchor.constraint(equalTo: uiView.leadingAnchor, constant: 66),
-            summaryLabel.trailingAnchor.constraint(equalTo: uiView.trailingAnchor, constant: -72),
-            summaryLabel.heightAnchor.constraint(equalToConstant: 19),
+            summaryLabel.trailingAnchor.constraint(equalTo: tempLabel.leadingAnchor, constant: -5),
+            summaryLabel.heightAnchor.constraint(equalTo: uiView.heightAnchor),
             
             tempLabel.centerYAnchor.constraint(equalTo: uiView.centerYAnchor),
             tempLabel.trailingAnchor.constraint(equalTo: disclosureIndicator.leadingAnchor, constant: -10),
             tempLabel.heightAnchor.constraint(equalToConstant: 21.83),
-            tempLabel.widthAnchor.constraint(equalToConstant: 70),
+            tempLabel.widthAnchor.constraint(equalToConstant: 78),
             
             disclosureIndicator.centerYAnchor.constraint(equalTo: uiView.centerYAnchor),
             disclosureIndicator.trailingAnchor.constraint(equalTo: uiView.trailingAnchor, constant: -10),
@@ -135,29 +140,13 @@ class DailyTableViewCell: UITableViewCell {
     
     func configure(with model: DailyWeatherEntry) {
         self.dateLabel.text = getDate(Date(timeIntervalSince1970: Double(model.time)))
-        self.precipProbabilityLabel.text = "\(Int(model.precipProbability))%"
+        self.precipProbabilityLabel.text = "\(Int(model.precipProbability*100))%"
         
         let celsiusTempMin = WeatherManager.shared.getCelsiusTemp(from: model.temperatureMin)
         let celsiusTempMax = WeatherManager.shared.getCelsiusTemp(from: model.temperatureMax)
         
-        self.tempLabel.text = "\(celsiusTempMin)° - \(celsiusTempMax)°"
-        
-        let summary = model.summary.lowercased()
-        if summary.contains("cloudy") {
-            self.summaryLabel.text = "Party Cloudy"
-        } else if summary.contains("clear") {
-            self.summaryLabel.text = "Clear"
-        } else if summary.contains("rain") {
-            self.summaryLabel.text = "Rain"
-        } else if summary.contains("thunder") {
-            self.summaryLabel.text = "Thunderstorm"
-        } else if summary.contains("overcast") {
-            self.summaryLabel.text = "Overcast"
-        } else if summary.contains("possible drizzle") {
-            self.summaryLabel.text = "Possible Drizzle"
-        } else {
-            self.summaryLabel.text = model.summary
-        }
+        self.tempLabel.text = "\(celsiusTempMin)°/\(celsiusTempMax)°"
+        self.summaryLabel.text = model.summary
         
         let icon = model.icon.lowercased()
         if icon.contains("clear") {

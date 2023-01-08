@@ -202,12 +202,12 @@ class CurrentCollectionViewCell: UICollectionViewCell {
             
             minMaxTempLabel.topAnchor.constraint(equalTo: ellipseView.topAnchor, constant: 16),
             minMaxTempLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            minMaxTempLabel.widthAnchor.constraint(equalToConstant: 60),
+            minMaxTempLabel.widthAnchor.constraint(equalToConstant: 80),
             minMaxTempLabel.heightAnchor.constraint(equalToConstant: 20),
 
             currentTempLabel.topAnchor.constraint(equalTo: minMaxTempLabel.bottomAnchor, constant: 5),
             currentTempLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            currentTempLabel.widthAnchor.constraint(equalToConstant: 60),
+            currentTempLabel.widthAnchor.constraint(equalToConstant: 90),
             currentTempLabel.heightAnchor.constraint(equalToConstant: 40),
 
             summaryLabel.topAnchor.constraint(equalTo: currentTempLabel.bottomAnchor, constant: 5),

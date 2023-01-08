@@ -11,11 +11,14 @@ class MainViewController: UIViewController, Coordinating {
 
     var coordinator: Coordinator?
     
+    let refreshControl = UIRefreshControl()
+    
     // MARK: - Models
     
     var currentModels = [CurrentWeather]()
     var hourlyModels = [HourlyWeatherEntry]()
     var dailyModels = [DailyWeatherEntry]()
+    var userLocations = LocationManager.shared.userLocations
     
     // MARK: - Bar button items
     
@@ -69,6 +72,16 @@ class MainViewController: UIViewController, Coordinating {
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(setTitle), name: Notification.Name("WeatherReceived"), object: nil)
         nc.addObserver(self, selector: #selector(getWeather), name: Notification.Name("WeatherReceived"), object: nil)
+        
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+        DispatchQueue.main.async {
+            WeatherManager.shared.requestWeatherForLocation()
+        }
     }
     
     // MARK: - Layout
@@ -124,8 +137,16 @@ class MainViewController: UIViewController, Coordinating {
         alert.addTextField()
         alert.textFields?.first?.placeholder = "City or territory..."
         alert.addAction(UIAlertAction(title: "Add", style: .default) {_ in
-            guard let userInput = alert.textFields?.first?.text else { return }
-            print(userInput)
+            guard let userInput = alert.textFields?.first?.text, !userInput.isEmpty else { return }
+            
+            LocationManager.shared.getLocationFromString(with: userInput) { location in
+                
+                guard let inputLocation = location else { return }
+                
+                LocationManager.shared.currentLocation = inputLocation
+                
+                WeatherManager.shared.requestWeatherForLocation()
+            }
         })
         self.present(alert, animated: true)
     }
@@ -135,6 +156,11 @@ class MainViewController: UIViewController, Coordinating {
     }
     
     @objc func getWeather() {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.refreshControl.endRefreshing()
+        }
+        
         self.dailyModels = WeatherManager.shared.dailyModels
         self.currentModels = WeatherManager.shared.currentModels
         self.hourlyModels = WeatherManager.shared.hourlyModels
@@ -150,7 +176,6 @@ class MainViewController: UIViewController, Coordinating {
         DispatchQueue.main.async {
             LocationManager.shared.resolveLocationName(with: currentLocation) { locationName in
                 guard let locationName = locationName else { return }
-                print(locationName)
                 self.title = locationName
             }
         }
@@ -176,8 +201,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         } else if section == 2 {
             // 1 cell with header for daily weather
             return 1
+        } else {
+            return dailyModels.count
         }
-        return dailyModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -208,9 +234,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-//        if indexPath.section == 1 {
-//            performSegue(withIdentifier: "ShowDetails", sender: nil)
-//        }
+        if indexPath.section == 1 {
+            navigationController?.pushViewController(DetailsViewController(), animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
