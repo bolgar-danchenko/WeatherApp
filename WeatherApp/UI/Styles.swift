@@ -17,7 +17,6 @@ class Styles {
     static let summaryDarkGrayColor: UIColor = UIColor(red: 0.154, green: 0.152, blue: 0.135, alpha: 1)
     static let yellowColor: UIColor = UIColor(red: 0.965, green: 0.867, blue: 0.004, alpha: 1)
     
-    static let rubikMedium18Font: UIFont = UIFont(name: "RubikRoman-Medium", size: 18) ?? UIFont.systemFont(ofSize: 18)
     static let rubikRegular12Font: UIFont = UIFont(name: "RubikRoman-Regular", size: 12) ?? UIFont.systemFont(ofSize: 12)
     static let rubikRegular16Font: UIFont = UIFont(name: "RubikRoman-Regular", size: 16) ?? UIFont.systemFont(ofSize: 16)
     static let rubikRegular18Font: UIFont = UIFont(name: "RubikRoman-Regular", size: 18) ?? UIFont.systemFont(ofSize: 18)
@@ -25,6 +24,7 @@ class Styles {
     static let rubikRegular14Font: UIFont = UIFont(name: "RubikRoman-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14)
     static let rubikMedium14Font: UIFont = UIFont(name: "RubikRoman-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
     static let rubikMedium16Font: UIFont = UIFont(name: "RubikRoman-Medium", size: 16) ?? UIFont.systemFont(ofSize: 16)
+    static let rubikMedium18Font: UIFont = UIFont(name: "RubikRoman-Medium", size: 18) ?? UIFont.systemFont(ofSize: 18)
     static let rubikMedium36Font: UIFont = UIFont(name: "RubikRoman-Medium", size: 36) ?? UIFont.systemFont(ofSize: 36)
     
 }

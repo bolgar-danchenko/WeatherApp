@@ -78,7 +78,6 @@ extension LocationManager: CLLocationManagerDelegate {
             
             currentLocation = location
             userLocations.append(location)
-            print(userLocations.count)
             locationManager.stopUpdatingLocation()
             WeatherManager.shared.requestWeatherForLocation()
         }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B51CD238296C2FE9001D8C4B /* ChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CD237296C2FE9001D8C4B /* ChartTableViewCell.swift */; };
+		B51CD23A296C2FF4001D8C4B /* DetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CD239296C2FF4001D8C4B /* DetailsTableViewCell.swift */; };
+		B51CD23C296C64B6001D8C4B /* WeatherChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CD23B296C64B6001D8C4B /* WeatherChart.swift */; };
 		B56349292937E77F00A0612E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56349282937E77F00A0612E /* AppDelegate.swift */; };
 		B563492B2937E77F00A0612E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563492A2937E77F00A0612E /* SceneDelegate.swift */; };
 		B56349332937E77F00A0612E /* WeatherApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B56349312937E77F00A0612E /* WeatherApp.xcdatamodeld */; };
@@ -36,6 +39,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B51CD237296C2FE9001D8C4B /* ChartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTableViewCell.swift; sourceTree = "<group>"; };
+		B51CD239296C2FF4001D8C4B /* DetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTableViewCell.swift; sourceTree = "<group>"; };
+		B51CD23B296C64B6001D8C4B /* WeatherChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherChart.swift; sourceTree = "<group>"; };
 		B56349252937E77F00A0612E /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B56349282937E77F00A0612E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B563492A2937E77F00A0612E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +83,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B51CD236296C2F45001D8C4B /* DetailsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B56349572937F21600A0612E /* DetailsViewController.swift */,
+				B51CD237296C2FE9001D8C4B /* ChartTableViewCell.swift */,
+				B51CD239296C2FF4001D8C4B /* DetailsTableViewCell.swift */,
+				B51CD23B296C64B6001D8C4B /* WeatherChart.swift */,
+			);
+			path = DetailsViewController;
+			sourceTree = "<group>";
+		};
 		B563491C2937E77F00A0612E = {
 			isa = PBXGroup;
 			children = (
@@ -137,7 +154,7 @@
 				B56349512937F1B500A0612E /* OnboardingViewController.swift */,
 				B56349532937F1C400A0612E /* SettingsViewController.swift */,
 				B56349552937F1EB00A0612E /* DailyViewController.swift */,
-				B56349572937F21600A0612E /* DetailsViewController.swift */,
+				B51CD236296C2F45001D8C4B /* DetailsViewController */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -270,6 +287,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B51CD238296C2FE9001D8C4B /* ChartTableViewCell.swift in Sources */,
+				B51CD23C296C64B6001D8C4B /* WeatherChart.swift in Sources */,
 				B56349332937E77F00A0612E /* WeatherApp.xcdatamodeld in Sources */,
 				B5A2871D29645D29004E6C08 /* MainViewController.swift in Sources */,
 				B56349702938FB7900A0612E /* DailyTableViewCell.swift in Sources */,
@@ -285,6 +304,7 @@
 				B563494E2937F17100A0612E /* LocationManager.swift in Sources */,
 				B56349482937ED4500A0612E /* WeatherViewController.swift in Sources */,
 				B5A2871B29645D1A004E6C08 /* PageViewController.swift in Sources */,
+				B51CD23A296C2FF4001D8C4B /* DetailsTableViewCell.swift in Sources */,
 				B563494F2937F17100A0612E /* WeatherManager.swift in Sources */,
 				B563496A2938FB4600A0612E /* CurrentTableViewCell.swift in Sources */,
 				B56349522937F1B500A0612E /* OnboardingViewController.swift in Sources */,

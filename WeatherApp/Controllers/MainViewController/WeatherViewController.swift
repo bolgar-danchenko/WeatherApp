@@ -166,7 +166,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
             
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: DailyTitleTableViewCell.identifier, for: indexPath) as! DailyTitleTableViewCell
-            cell.configure()
+//            cell.configure()
             cell.selectionStyle = .none
             return cell
             
@@ -181,7 +181,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.section == 1 {
-            navigationController?.pushViewController(DetailsViewController(), animated: true)
+            navigationController?.pushViewController(DetailsViewController(coordinator: MainCoordinator(), hourlyModels: hourlyModels), animated: true)
         } else if indexPath.section == 3 {
             let vc = DailyViewController()
             present(vc, animated: true)

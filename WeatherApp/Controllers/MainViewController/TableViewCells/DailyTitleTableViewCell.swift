@@ -23,7 +23,7 @@ class DailyTitleTableViewCell: UITableViewCell, Coordinating {
         return label
     }()
     
-    private lazy var daysButton = CustomButton(action: didTapDaysButton, color: .clear, title: "25 Days", titleColor: .black, font: Styles.rubikRegular16Font)
+//    private lazy var daysButton = CustomButton(action: didTapDaysButton, color: .clear, title: "25 Days", titleColor: .black, font: Styles.rubikRegular16Font)
     
     // MARK: - Init
     
@@ -32,7 +32,7 @@ class DailyTitleTableViewCell: UITableViewCell, Coordinating {
         coordinator = MainCoordinator()
         setupView()
         setupConstraints()
-        daysButton.setup()
+//        daysButton.setup()
     }
     
     required init?(coder: NSCoder) {
@@ -46,7 +46,7 @@ class DailyTitleTableViewCell: UITableViewCell, Coordinating {
         contentView.backgroundColor = .white
         
         contentView.addSubview(titleLabel)
-        contentView.addSubview(daysButton)
+//        contentView.addSubview(daysButton)
     }
     
     private func setupConstraints() {
@@ -57,24 +57,24 @@ class DailyTitleTableViewCell: UITableViewCell, Coordinating {
             titleLabel.heightAnchor.constraint(equalToConstant: 22),
             titleLabel.widthAnchor.constraint(equalToConstant: 200),
             
-            daysButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            daysButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
-            daysButton.heightAnchor.constraint(equalToConstant: 20),
-            daysButton.widthAnchor.constraint(equalToConstant: 85)
+//            daysButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+//            daysButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+//            daysButton.heightAnchor.constraint(equalToConstant: 20),
+//            daysButton.widthAnchor.constraint(equalToConstant: 85)
             
         ])
     }
     
     // MARK: - Configure
     
-    func configure() {
-        let myAttributes: [NSAttributedString.Key: Any] = [.underlineStyle: NSUnderlineStyle.single.rawValue]
-        let attributeString = NSMutableAttributedString(string: "25 days", attributes: myAttributes)
-        daysButton.setAttributedTitle(attributeString, for: .normal)
-        daysButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.right
-    }
+//    func configure() {
+//        let myAttributes: [NSAttributedString.Key: Any] = [.underlineStyle: NSUnderlineStyle.single.rawValue]
+//        let attributeString = NSMutableAttributedString(string: "25 days", attributes: myAttributes)
+//        daysButton.setAttributedTitle(attributeString, for: .normal)
+//        daysButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.right
+//    }
     
-    @objc func didTapDaysButton() {
-        print("Did tap days button")
-    }
+//    @objc func didTapDaysButton() {
+//        print("Did tap days button")
+//    }
 }

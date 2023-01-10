@@ -24,7 +24,7 @@ class MainCoordinator: Coordinator {
             navigationController?.pushViewController(vc, animated: true)
         case .detailsButtonTapped:
             print("detailsButtonTapped")
-            var vc: UIViewController & Coordinating = DetailsViewController()
+            var vc: UIViewController & Coordinating = DetailsViewController(coordinator: self, hourlyModels: WeatherManager.shared.hourlyModels)
             vc.coordinator = self
             navigationController?.pushViewController(vc, animated: true)
         }
