@@ -67,7 +67,7 @@ struct DailyWeatherEntry: Codable {
 //    let temperatureHighTime: Int
 //    let temperatureLow: Double
 //    let temperatureLowTime: Int
-//    let apparentTemperatureHigh: Double
+    let apparentTemperatureHigh: Double
 //    let apparentTemperatureHighTime: Int
 //    let dewPoint: Double
 //    let humidity: Double

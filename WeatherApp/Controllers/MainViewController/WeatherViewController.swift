@@ -183,7 +183,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 1 {
             navigationController?.pushViewController(DetailsViewController(coordinator: MainCoordinator(), hourlyModels: hourlyModels), animated: true)
         } else if indexPath.section == 3 {
-            let vc = DailyViewController()
+            let vc = DailyViewController(coordinator: MainCoordinator(), dailyModel: dailyModels[indexPath.row])
             present(vc, animated: true)
         }
     }

@@ -84,6 +84,8 @@ class DetailsViewController: UIViewController, Coordinating {
         tuneTableView()
     }
     
+    // MARK: - Layout
+    
     private func setupSubview() {
         view.addSubview(backArrow)
         view.addSubview(backLabel)
@@ -141,11 +143,15 @@ class DetailsViewController: UIViewController, Coordinating {
         ])
     }
     
+    // MARK: - Actions
+    
     @objc func didTapBack() {
         navigationController?.popViewController(animated: true)
     }
 
 }
+
+// MARK: - TableView Delegate & DataSource
 
 extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
     

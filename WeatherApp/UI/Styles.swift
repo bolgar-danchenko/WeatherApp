@@ -19,9 +19,10 @@ class Styles {
     
     static let rubikRegular12Font: UIFont = UIFont(name: "RubikRoman-Regular", size: 12) ?? UIFont.systemFont(ofSize: 12)
     static let rubikRegular16Font: UIFont = UIFont(name: "RubikRoman-Regular", size: 16) ?? UIFont.systemFont(ofSize: 16)
-    static let rubikRegular18Font: UIFont = UIFont(name: "RubikRoman-Regular", size: 18) ?? UIFont.systemFont(ofSize: 18)
-    static let rubikSemibold16Font: UIFont = UIFont(name: "RubikRoman-SemiBold", size: 16) ?? UIFont.systemFont(ofSize: 16)
     static let rubikRegular14Font: UIFont = UIFont(name: "RubikRoman-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14)
+    static let rubikRegular18Font: UIFont = UIFont(name: "RubikRoman-Regular", size: 18) ?? UIFont.systemFont(ofSize: 18)
+    static let rubikRegular30Font: UIFont = UIFont(name: "RubikRoman-Regular", size: 30) ?? UIFont.systemFont(ofSize: 30)
+    static let rubikSemibold16Font: UIFont = UIFont(name: "RubikRoman-SemiBold", size: 16) ?? UIFont.systemFont(ofSize: 16)
     static let rubikMedium14Font: UIFont = UIFont(name: "RubikRoman-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
     static let rubikMedium16Font: UIFont = UIFont(name: "RubikRoman-Medium", size: 16) ?? UIFont.systemFont(ofSize: 16)
     static let rubikMedium18Font: UIFont = UIFont(name: "RubikRoman-Medium", size: 18) ?? UIFont.systemFont(ofSize: 18)
