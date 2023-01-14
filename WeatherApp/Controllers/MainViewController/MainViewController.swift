@@ -62,8 +62,23 @@ class MainViewController: UIViewController, Coordinating {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(setTitle), name: Notification.Name("WeatherReceived"), object: nil)
+//        nc.addObserver(self, selector: #selector(getWeather), name: Notification.Name("WeatherReceived"), object: nil)
+        
         setupNavigationBar()
         setupLayout()
+    }
+    
+    @objc func setTitle() {
+        guard let currentLocation = LocationManager.shared.currentLocation else { return }
+        
+        DispatchQueue.main.async {
+            LocationManager.shared.resolveLocationName(with: currentLocation) { locationName in
+                guard let locationName = locationName else { return }
+                self.title = locationName
+            }
+        }
     }
     
     // MARK: - Layout

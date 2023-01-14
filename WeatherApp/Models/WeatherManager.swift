@@ -13,6 +13,8 @@ class WeatherManager {
     
     var weatherResponse: WeatherResponse?
     
+    var listOfCities: [WeatherViewController]?
+    
     var dailyModels = [DailyWeatherEntry]()
     var hourlyModels = [HourlyWeatherEntry]()
     var currentModels = [CurrentWeather]()
@@ -28,9 +30,6 @@ class WeatherManager {
         let latitude = currentLocation.coordinate.latitude
         
         let url = "https://api.darksky.net/forecast/ddcc4ebb2a7c9930b90d9e59bda0ba7a/\(latitude),\(longitude)?exclude=[flags,minutely]"
-        
-        // Локация не работает
-//        let url = "https://api.darksky.net/forecast/ddcc4ebb2a7c9930b90d9e59bda0ba7a/40.533349720551236,44.71910089563164?exclude=[flags,minutely]"
         
         URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: { data, response, error in
             

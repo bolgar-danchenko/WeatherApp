@@ -11,6 +11,7 @@
 		B51CD23C296C64B6001D8C4B /* WeatherChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CD23B296C64B6001D8C4B /* WeatherChart.swift */; };
 		B51CD23F296DA2F1001D8C4B /* DailyWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CD23E296DA2F1001D8C4B /* DailyWeatherView.swift */; };
 		B51CD26929709A20001D8C4B /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CD26829709A20001D8C4B /* ChartView.swift */; };
+		B51CD26B2972FA68001D8C4B /* PageViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CD26A2972FA68001D8C4B /* PageViewControllerDelegate.swift */; };
 		B56349292937E77F00A0612E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56349282937E77F00A0612E /* AppDelegate.swift */; };
 		B563492B2937E77F00A0612E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563492A2937E77F00A0612E /* SceneDelegate.swift */; };
 		B56349332937E77F00A0612E /* WeatherApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B56349312937E77F00A0612E /* WeatherApp.xcdatamodeld */; };
@@ -44,6 +45,7 @@
 		B51CD23B296C64B6001D8C4B /* WeatherChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherChart.swift; sourceTree = "<group>"; };
 		B51CD23E296DA2F1001D8C4B /* DailyWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeatherView.swift; sourceTree = "<group>"; };
 		B51CD26829709A20001D8C4B /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		B51CD26A2972FA68001D8C4B /* PageViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewControllerDelegate.swift; sourceTree = "<group>"; };
 		B56349252937E77F00A0612E /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B56349282937E77F00A0612E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B563492A2937E77F00A0612E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -124,13 +126,13 @@
 		B56349272937E77F00A0612E /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
-				B563495E2937F9F400A0612E /* UI */,
-				B56349502937F19D00A0612E /* Controllers */,
-				B56349422937E81400A0612E /* Coordinator */,
 				B56349282937E77F00A0612E /* AppDelegate.swift */,
 				B563492A2937E77F00A0612E /* SceneDelegate.swift */,
 				B56349492937F15900A0612E /* Models */,
+				B56349422937E81400A0612E /* Coordinator */,
+				B56349502937F19D00A0612E /* Controllers */,
 				B56349342937E78000A0612E /* Assets.xcassets */,
+				B563495E2937F9F400A0612E /* UI */,
 				B563495C2937F44900A0612E /* Fonts */,
 				B56349362937E78000A0612E /* LaunchScreen.storyboard */,
 				B56349392937E78000A0612E /* Info.plist */,
@@ -190,8 +192,9 @@
 		B56349672938FB1F00A0612E /* MainViewController */ = {
 			isa = PBXGroup;
 			children = (
-				B5A2871C29645D29004E6C08 /* MainViewController.swift */,
+				B51CD26A2972FA68001D8C4B /* PageViewControllerDelegate.swift */,
 				B5A2871A29645D1A004E6C08 /* PageViewController.swift */,
+				B5A2871C29645D29004E6C08 /* MainViewController.swift */,
 				B56349472937ED4500A0612E /* WeatherViewController.swift */,
 				B56349682938FB2A00A0612E /* TableViewCells */,
 			);
@@ -314,6 +317,7 @@
 				B56349462937ECE400A0612E /* MainCoordinator.swift in Sources */,
 				B56349442937E82100A0612E /* Coordinator.swift in Sources */,
 				B563494E2937F17100A0612E /* LocationManager.swift in Sources */,
+				B51CD26B2972FA68001D8C4B /* PageViewControllerDelegate.swift in Sources */,
 				B56349482937ED4500A0612E /* WeatherViewController.swift in Sources */,
 				B5A2871B29645D1A004E6C08 /* PageViewController.swift in Sources */,
 				B51CD23A296C2FF4001D8C4B /* DetailsTableViewCell.swift in Sources */,

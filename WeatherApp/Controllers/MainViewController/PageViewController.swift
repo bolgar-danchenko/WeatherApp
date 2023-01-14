@@ -7,24 +7,11 @@
 
 import UIKit
 
-// MARK: - Protocol
-
-protocol PageViewControllerDelegate: AnyObject {
-    
-    /// Called when the number of pages is updated
-    func pageViewController(pageVC: PageViewController, didUpdatePageCount count: Int)
-    
-    /// Called when the current index is updated
-    func pageViewController(pageVC: PageViewController, didUpdatePageIndex index: Int)
-}
-
-// MARK: - PageVC
-
 class PageViewController: UIPageViewController {
 
     weak var pageViewControllerDelegate: PageViewControllerDelegate?
     
-    private lazy var cities: [UIViewController] = [WeatherViewController(), WeatherViewController(), WeatherViewController() ]
+    private var cities: [UIViewController] = [WeatherViewController()]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +40,7 @@ extension PageViewController: UIPageViewControllerDataSource {
         let previousIndex = vcIndex - 1
         
         guard previousIndex >= 0 else {
-            return cities.last
+            return nil
         }
         
         guard cities.count > previousIndex else {
@@ -73,7 +60,7 @@ extension PageViewController: UIPageViewControllerDataSource {
         let citiesCount = cities.count
         
         guard citiesCount != nextIndex else {
-            return cities.first
+            return nil
         }
         
         guard citiesCount > nextIndex else {

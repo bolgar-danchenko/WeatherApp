@@ -18,7 +18,7 @@ class WeatherViewController: UIViewController, Coordinating {
     var currentModels = [CurrentWeather]()
     var hourlyModels = [HourlyWeatherEntry]()
     var dailyModels = [DailyWeatherEntry]()
-    var userLocations = LocationManager.shared.userLocations
+//    var userLocations = LocationManager.shared.userLocations
     
     // MARK: - Bar button items
     
