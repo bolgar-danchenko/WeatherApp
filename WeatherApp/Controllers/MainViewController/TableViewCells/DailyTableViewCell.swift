@@ -127,7 +127,7 @@ class DailyTableViewCell: UITableViewCell {
             tempLabel.centerYAnchor.constraint(equalTo: uiView.centerYAnchor),
             tempLabel.trailingAnchor.constraint(equalTo: disclosureIndicator.leadingAnchor, constant: -10),
             tempLabel.heightAnchor.constraint(equalToConstant: 21.83),
-            tempLabel.widthAnchor.constraint(equalToConstant: 78),
+            tempLabel.widthAnchor.constraint(equalToConstant: 80),
             
             disclosureIndicator.centerYAnchor.constraint(equalTo: uiView.centerYAnchor),
             disclosureIndicator.trailingAnchor.constraint(equalTo: uiView.trailingAnchor, constant: -10),

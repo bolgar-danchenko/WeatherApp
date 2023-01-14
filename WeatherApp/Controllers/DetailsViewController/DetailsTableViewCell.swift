@@ -11,6 +11,8 @@ class DetailsTableViewCell: UITableViewCell {
 
     static let identifier = "DetailsTableViewCell"
     
+    var hidesBottomSeparator = false
+    
     // MARK: - Subviews
     
     private lazy var dateLabel: UILabel = {
@@ -65,6 +67,14 @@ class DetailsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular14Font, color: .black)
         label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var feelsValueLabel: UILabel = {
+        let label = UILabel()
+        label.applyStyle(font: Styles.rubikRegular14Font, color: .black)
+        label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -136,6 +146,13 @@ class DetailsTableViewCell: UITableViewCell {
     
     // MARK: - Layout
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let bottomSeparator = subviews.first { $0.frame.minY >= bounds.maxY - 1 && $0.frame.height <= 1 }
+        bottomSeparator?.isHidden = hidesBottomSeparator
+    }
+    
     private func setupView() {
         contentView.clipsToBounds = true
         contentView.backgroundColor = Styles.solitudeColor
@@ -147,6 +164,7 @@ class DetailsTableViewCell: UITableViewCell {
         contentView.addSubview(windLabel)
         contentView.addSubview(precipLabel)
         contentView.addSubview(cloudLabel)
+        contentView.addSubview(feelsValueLabel)
         contentView.addSubview(windValueLabel)
         contentView.addSubview(precipValueLabel)
         contentView.addSubview(cloudValueLabel)
@@ -171,7 +189,6 @@ class DetailsTableViewCell: UITableViewCell {
             
             tempLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 10),
             tempLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            tempLabel.widthAnchor.constraint(equalToConstant: 30),
             tempLabel.heightAnchor.constraint(equalToConstant: 23),
             
             summaryImage.centerYAnchor.constraint(equalTo: timeLabel.centerYAnchor),
@@ -183,6 +200,10 @@ class DetailsTableViewCell: UITableViewCell {
             summaryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 90),
             summaryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             summaryLabel.heightAnchor.constraint(equalToConstant: 19),
+            
+            feelsValueLabel.centerYAnchor.constraint(equalTo: summaryLabel.centerYAnchor),
+            feelsValueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            feelsValueLabel.heightAnchor.constraint(equalToConstant: 19),
             
             windImage.centerXAnchor.constraint(equalTo: summaryImage.centerXAnchor),
             windImage.topAnchor.constraint(equalTo: summaryImage.bottomAnchor, constant: 16),
@@ -232,14 +253,15 @@ class DetailsTableViewCell: UITableViewCell {
         self.dateLabel.text = getDate(Date(timeIntervalSince1970: Double(model.time)))
         self.timeLabel.text = getTime(Date(timeIntervalSince1970: Double(model.time)))
         self.tempLabel.text = "\(WeatherManager.shared.getCelsiusTemp(from: model.temperature))°"
+        self.feelsValueLabel.text = "Feels like \(WeatherManager.shared.getCelsiusTemp(from: model.apparentTemperature))°"
         
         self.summaryLabel.text = model.summary
         self.windLabel.text = "Wind"
         self.windValueLabel.text = "\(Int(model.windSpeed)) m/s"
         self.precipLabel.text = "Precipitation"
-        self.precipValueLabel.text = "\(Int(model.precipProbability*100))%"
+        self.precipValueLabel.text = "\(Int(model.precipProbability * 100))%"
         self.cloudLabel.text = "Cloud Cover"
-        self.cloudValueLabel.text = "\(Int(model.cloudCover*100))%"
+        self.cloudValueLabel.text = "\(Int(model.cloudCover * 100))%"
     }
     
     private func getDate(_ date: Date?) -> String {

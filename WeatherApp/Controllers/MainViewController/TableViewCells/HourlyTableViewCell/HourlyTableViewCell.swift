@@ -23,7 +23,7 @@ class HourlyTableViewCell: UITableViewCell, Coordinating {
         return collectionView
     }()
     
-    private lazy var detailsButton = CustomButton(action: didTapDetailsButton, color: .clear, title: "Forecast for 48 hours", titleColor: .black, font: Styles.rubikRegular16Font)
+    private lazy var detailsButton = CustomButton(action: didTapDetailsButton, color: .clear, title: "Forecast for 24 hours", titleColor: .black, font: Styles.rubikRegular16Font)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -76,7 +76,7 @@ class HourlyTableViewCell: UITableViewCell, Coordinating {
         collectionView.reloadData()
         
         let myAttributes: [NSAttributedString.Key: Any] = [.underlineStyle: NSUnderlineStyle.single.rawValue]
-        let attributeString = NSMutableAttributedString(string: "Detailed forecast for 48 hours", attributes: myAttributes)
+        let attributeString = NSMutableAttributedString(string: "Detailed forecast for 24 hours", attributes: myAttributes)
         detailsButton.setAttributedTitle(attributeString, for: .normal)
         detailsButton.setAttributedTitle(attributeString, for: .normal)
         detailsButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.right

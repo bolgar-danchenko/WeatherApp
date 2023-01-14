@@ -120,14 +120,12 @@ class DetailsViewController: UIViewController, Coordinating {
     }
     
     private func tuneTableView() {
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.backgroundColor = .white
-        
         tableView.register(DetailsTableViewCell.self, forCellReuseIdentifier: DetailsTableViewCell.identifier)
         
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .singleLine
+        tableView.separatorInset = .init(top: 0, left: 16, bottom: 0, right: 16)
         tableView.separatorColor = Styles.darkBlueColor
         tableView.allowsSelection = false
         tableView.isUserInteractionEnabled = true
@@ -155,7 +153,6 @@ class DetailsViewController: UIViewController, Coordinating {
             chartView.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 15),
             chartView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             chartView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            chartView.heightAnchor.constraint(equalToConstant: 160),
             
             tableView.topAnchor.constraint(equalTo: chartView.bottomAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -188,6 +185,9 @@ extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: DetailsTableViewCell.identifier, for: indexPath) as! DetailsTableViewCell
         cell.configure(with: hourlyModels[indexPath.row])
+        
+        let numberOfRows = self.tableView(tableView, numberOfRowsInSection: indexPath.section)
+        cell.hidesBottomSeparator = indexPath.row == numberOfRows - 1
         return cell
     }
     

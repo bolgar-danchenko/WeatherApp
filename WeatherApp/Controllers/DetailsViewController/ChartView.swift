@@ -31,7 +31,6 @@ class ChartView: UIView {
         self.addSubview(chartView)
         
         NSLayoutConstraint.activate([
-            
             chartView.topAnchor.constraint(equalTo: self.topAnchor),
             chartView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             chartView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
