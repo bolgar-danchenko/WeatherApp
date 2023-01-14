@@ -40,6 +40,12 @@ class DetailsViewController: UIViewController, Coordinating {
         return label
     }()
     
+    private lazy var chartView: UIView = {
+        let view = ChartView(hourlyModels: hourlyModels)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView.init(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -51,7 +57,15 @@ class DetailsViewController: UIViewController, Coordinating {
     init(coordinator: Coordinator, hourlyModels: [HourlyWeatherEntry]) {
         super.init(nibName: nil, bundle: nil)
         self.coordinator = coordinator
-        self.hourlyModels = hourlyModels
+        
+        var models = [HourlyWeatherEntry]()
+        for model in hourlyModels {
+            if models.count < 24 {
+                models.append(model)
+            }
+        }
+        
+        self.hourlyModels = models
     }
     
     required init?(coder: NSCoder) {
@@ -90,6 +104,7 @@ class DetailsViewController: UIViewController, Coordinating {
         view.addSubview(backArrow)
         view.addSubview(backLabel)
         view.addSubview(locationLabel)
+        view.addSubview(chartView)
         view.addSubview(tableView)
     }
     
@@ -115,6 +130,7 @@ class DetailsViewController: UIViewController, Coordinating {
         tableView.separatorStyle = .singleLine
         tableView.separatorColor = Styles.darkBlueColor
         tableView.allowsSelection = false
+        tableView.isUserInteractionEnabled = true
     }
     
     private func setupConstraints() {
@@ -136,10 +152,15 @@ class DetailsViewController: UIViewController, Coordinating {
             locationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             locationLabel.heightAnchor.constraint(equalToConstant: 22),
             
-            tableView.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 15),
+            chartView.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 15),
+            chartView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            chartView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            chartView.heightAnchor.constraint(equalToConstant: 160),
+            
+            tableView.topAnchor.constraint(equalTo: chartView.bottomAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
     
@@ -156,32 +177,21 @@ class DetailsViewController: UIViewController, Coordinating {
 extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else {
-            return hourlyModels.count
-        }
+        return hourlyModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            return UITableViewCell()
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: DetailsTableViewCell.identifier, for: indexPath) as! DetailsTableViewCell
-            cell.configure(with: hourlyModels[indexPath.row])
-            return cell
-        }
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: DetailsTableViewCell.identifier, for: indexPath) as! DetailsTableViewCell
+        cell.configure(with: hourlyModels[indexPath.row])
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return 10
-        } else {
-            return 160
-        }
+        return 160
     }
 }

@@ -91,7 +91,10 @@ struct HourlyWeather: Codable {
     let data: [HourlyWeatherEntry]
 }
 
-struct HourlyWeatherEntry: Codable {
+struct HourlyWeatherEntry: Codable, Identifiable {
+    
+    let id = UUID()
+    
     let time: Int // 24 hours - time
     let summary: String // 24 hours - summary
     let icon: String

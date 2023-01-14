@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B51CD238296C2FE9001D8C4B /* ChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CD237296C2FE9001D8C4B /* ChartTableViewCell.swift */; };
 		B51CD23A296C2FF4001D8C4B /* DetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CD239296C2FF4001D8C4B /* DetailsTableViewCell.swift */; };
 		B51CD23C296C64B6001D8C4B /* WeatherChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CD23B296C64B6001D8C4B /* WeatherChart.swift */; };
 		B51CD23F296DA2F1001D8C4B /* DailyWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CD23E296DA2F1001D8C4B /* DailyWeatherView.swift */; };
+		B51CD26929709A20001D8C4B /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CD26829709A20001D8C4B /* ChartView.swift */; };
 		B56349292937E77F00A0612E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56349282937E77F00A0612E /* AppDelegate.swift */; };
 		B563492B2937E77F00A0612E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563492A2937E77F00A0612E /* SceneDelegate.swift */; };
 		B56349332937E77F00A0612E /* WeatherApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B56349312937E77F00A0612E /* WeatherApp.xcdatamodeld */; };
@@ -40,10 +40,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B51CD237296C2FE9001D8C4B /* ChartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTableViewCell.swift; sourceTree = "<group>"; };
 		B51CD239296C2FF4001D8C4B /* DetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTableViewCell.swift; sourceTree = "<group>"; };
 		B51CD23B296C64B6001D8C4B /* WeatherChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherChart.swift; sourceTree = "<group>"; };
 		B51CD23E296DA2F1001D8C4B /* DailyWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeatherView.swift; sourceTree = "<group>"; };
+		B51CD26829709A20001D8C4B /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		B56349252937E77F00A0612E /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B56349282937E77F00A0612E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B563492A2937E77F00A0612E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -89,9 +89,9 @@
 			isa = PBXGroup;
 			children = (
 				B56349572937F21600A0612E /* DetailsViewController.swift */,
-				B51CD237296C2FE9001D8C4B /* ChartTableViewCell.swift */,
 				B51CD239296C2FF4001D8C4B /* DetailsTableViewCell.swift */,
 				B51CD23B296C64B6001D8C4B /* WeatherChart.swift */,
+				B51CD26829709A20001D8C4B /* ChartView.swift */,
 			);
 			path = DetailsViewController;
 			sourceTree = "<group>";
@@ -298,10 +298,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B51CD238296C2FE9001D8C4B /* ChartTableViewCell.swift in Sources */,
 				B51CD23C296C64B6001D8C4B /* WeatherChart.swift in Sources */,
 				B56349332937E77F00A0612E /* WeatherApp.xcdatamodeld in Sources */,
 				B5A2871D29645D29004E6C08 /* MainViewController.swift in Sources */,
+				B51CD26929709A20001D8C4B /* ChartView.swift in Sources */,
 				B56349702938FB7900A0612E /* DailyTableViewCell.swift in Sources */,
 				B56349602937FA0200A0612E /* Styles.swift in Sources */,
 				B563494D2937F17100A0612E /* WeatherModels.swift in Sources */,
@@ -470,7 +470,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -498,7 +498,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
