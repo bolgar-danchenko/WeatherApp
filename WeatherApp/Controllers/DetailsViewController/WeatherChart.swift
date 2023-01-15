@@ -50,13 +50,17 @@ struct WeatherChart: View {
                         
                         AreaMark(
                             x: .value("Time", getTime(hour.time)),
-                            yStart: .value("Temperature", WeatherManager.shared.getCelsiusTemp(from: hour.temperature)),
+                            yStart: .value("Temperature", WeatherManager.shared.getCelsiusTemp(from: hour.temperature) >= 0 ? WeatherManager.shared.getCelsiusTemp(from: hour.temperature) - 1 : WeatherManager.shared.getCelsiusTemp(from: hour.temperature) + 1),
                             yEnd: .value("minValue", 0)
                         )
-                        .foregroundStyle(Gradient(colors: [
+                        .foregroundStyle(WeatherManager.shared.getCelsiusTemp(from: hour.temperature) >= 0 ? Gradient(colors: [
                             Color(red: 61/255.0, green: 105/255.0, blue: 220/225.0, opacity: 0.3),
                             Color(red: 32/255.0, green: 78/255.0, blue: 199/225.0, opacity: 0.3),
                             Color(red: 32/255.0, green: 78/255.0, blue: 199/225.0, opacity: 0),
+                        ]) : Gradient(colors: [
+                            Color(red: 32/255.0, green: 78/255.0, blue: 199/225.0, opacity: 0),
+                            Color(red: 32/255.0, green: 78/255.0, blue: 199/225.0, opacity: 0.3),
+                            Color(red: 61/255.0, green: 105/255.0, blue: 220/225.0, opacity: 0.3),
                         ]))
                     }
                 }

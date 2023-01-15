@@ -7,9 +7,7 @@
 
 import UIKit
 
-class DailyTitleTableViewCell: UITableViewCell, Coordinating {
-
-    var coordinator: Coordinator?
+class DailyTitleTableViewCell: UITableViewCell {
     
     static let identifier = "DailyTitleTableViewCell"
     
@@ -29,7 +27,6 @@ class DailyTitleTableViewCell: UITableViewCell, Coordinating {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        coordinator = MainCoordinator()
         setupView()
         setupConstraints()
 //        daysButton.setup()

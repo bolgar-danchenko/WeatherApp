@@ -7,9 +7,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController, Coordinating {
-
-    var coordinator: Coordinator?
+class MainViewController: UIViewController {
     
     // MARK: - Subviews
     
@@ -62,12 +60,22 @@ class MainViewController: UIViewController, Coordinating {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        checkOnboardingStatus()
+        
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(setTitle), name: Notification.Name("WeatherReceived"), object: nil)
 //        nc.addObserver(self, selector: #selector(getWeather), name: Notification.Name("WeatherReceived"), object: nil)
         
         setupNavigationBar()
         setupLayout()
+    }
+    
+    private func checkOnboardingStatus() {
+        if !UserDefaults.standard.bool(forKey: "seen-onboarding") {
+            navigationController?.pushViewController(OnboardingViewController(), animated: true)
+        } else {
+            LocationManager.shared.getUserLocation()
+        }
     }
     
     @objc func setTitle() {
@@ -136,7 +144,7 @@ class MainViewController: UIViewController, Coordinating {
     }
     
     @objc private func didTapSettings() {
-        coordinator?.eventOccurred(with: .settingsButtonTapped)
+        navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
 }
 

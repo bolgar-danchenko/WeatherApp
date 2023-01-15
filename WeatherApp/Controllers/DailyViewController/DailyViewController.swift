@@ -7,9 +7,7 @@
 
 import UIKit
 
-class DailyViewController: UIViewController, Coordinating {
-
-    var coordinator: Coordinator?
+class DailyViewController: UIViewController {
     
     var dailyModel: DailyWeatherEntry
     
@@ -50,8 +48,7 @@ class DailyViewController: UIViewController, Coordinating {
     
     // MARK: - Lifecycle
     
-    init(coordinator: Coordinator, dailyModel: DailyWeatherEntry) {
-        self.coordinator = coordinator
+    init(dailyModel: DailyWeatherEntry) {
         self.dailyModel = dailyModel
         super.init(nibName: nil, bundle: nil)
     }

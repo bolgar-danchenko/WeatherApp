@@ -15,6 +15,7 @@ class LocationManager: NSObject {
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var timeZone: String?
+    
     var userLocations = [CLLocation]()
     
     func getUserLocation() {

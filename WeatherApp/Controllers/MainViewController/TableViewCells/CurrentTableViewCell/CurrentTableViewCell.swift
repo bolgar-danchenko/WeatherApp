@@ -7,9 +7,7 @@
 
 import UIKit
 
-class CurrentTableViewCell: UITableViewCell, Coordinating {
-    
-    var coordinator: Coordinator?
+class CurrentTableViewCell: UITableViewCell {
     
     static let identifier = "CurrentTableViewCell"
     

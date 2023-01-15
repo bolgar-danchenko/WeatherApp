@@ -7,9 +7,7 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController, Coordinating {
-
-    var coordinator: Coordinator?
+class DetailsViewController: UIViewController {
     
     var hourlyModels = [HourlyWeatherEntry]()
     
@@ -54,9 +52,8 @@ class DetailsViewController: UIViewController, Coordinating {
     
     // MARK: - Lifecycle
     
-    init(coordinator: Coordinator, hourlyModels: [HourlyWeatherEntry]) {
+    init(hourlyModels: [HourlyWeatherEntry]) {
         super.init(nibName: nil, bundle: nil)
-        self.coordinator = coordinator
         
         var models = [HourlyWeatherEntry]()
         for model in hourlyModels {

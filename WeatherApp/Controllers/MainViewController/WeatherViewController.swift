@@ -7,9 +7,7 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController, Coordinating {
-
-    var coordinator: Coordinator?
+class WeatherViewController: UIViewController {
     
     let refreshControl = UIRefreshControl()
     
@@ -30,14 +28,20 @@ class WeatherViewController: UIViewController, Coordinating {
     
     // MARK: - Lifecycle
     
+//    init(location: CLLocation) {
+//        super.init(nibName: nil, bundle: nil)
+//        self.location = location
+//    }
+//    
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        checkOnboardingStatus()
-        
         let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(setTitle), name: Notification.Name("WeatherReceived"), object: nil)
         nc.addObserver(self, selector: #selector(getWeather), name: Notification.Name("WeatherReceived"), object: nil)
         
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -87,16 +91,6 @@ class WeatherViewController: UIViewController, Coordinating {
         ])
     }
     
-    // MARK: - Private methods
-    
-    private func checkOnboardingStatus() {
-        if !UserDefaults.standard.bool(forKey: "seen-onboarding") {
-            coordinator?.eventOccurred(with: .onboardingNotShown)
-        } else {
-            LocationManager.shared.getUserLocation()
-        }
-    }
-    
     // MARK: - Actions
     
     @objc func getWeather() {
@@ -111,17 +105,6 @@ class WeatherViewController: UIViewController, Coordinating {
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
-        }
-    }
-    
-    @objc func setTitle() {
-        guard let currentLocation = LocationManager.shared.currentLocation else { return }
-        
-        DispatchQueue.main.async {
-            LocationManager.shared.resolveLocationName(with: currentLocation) { locationName in
-                guard let locationName = locationName else { return }
-                self.title = locationName
-            }
         }
     }
 }
@@ -181,9 +164,9 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.section == 1 {
-            navigationController?.pushViewController(DetailsViewController(coordinator: MainCoordinator(), hourlyModels: hourlyModels), animated: true)
+            navigationController?.pushViewController(DetailsViewController(hourlyModels: hourlyModels), animated: true)
         } else if indexPath.section == 3 {
-            let vc = DailyViewController(coordinator: MainCoordinator(), dailyModel: dailyModels[indexPath.row])
+            let vc = DailyViewController(dailyModel: dailyModels[indexPath.row])
             present(vc, animated: true)
         }
     }

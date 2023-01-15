@@ -7,9 +7,7 @@
 
 import UIKit
 
-class OnboardingViewController: UIViewController, Coordinating {
-
-    var coordinator: Coordinator?
+class OnboardingViewController: UIViewController {
     
     // MARK: - Subviews
     

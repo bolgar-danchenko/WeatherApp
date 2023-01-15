@@ -17,8 +17,6 @@
 		B56349332937E77F00A0612E /* WeatherApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B56349312937E77F00A0612E /* WeatherApp.xcdatamodeld */; };
 		B56349352937E78000A0612E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B56349342937E78000A0612E /* Assets.xcassets */; };
 		B56349382937E78000A0612E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B56349362937E78000A0612E /* LaunchScreen.storyboard */; };
-		B56349442937E82100A0612E /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56349432937E82100A0612E /* Coordinator.swift */; };
-		B56349462937ECE400A0612E /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56349452937ECE400A0612E /* MainCoordinator.swift */; };
 		B56349482937ED4500A0612E /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56349472937ED4500A0612E /* WeatherViewController.swift */; };
 		B563494D2937F17100A0612E /* WeatherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563494A2937F17100A0612E /* WeatherModels.swift */; };
 		B563494E2937F17100A0612E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563494B2937F17100A0612E /* LocationManager.swift */; };
@@ -53,8 +51,6 @@
 		B56349342937E78000A0612E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B56349372937E78000A0612E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B56349392937E78000A0612E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B56349432937E82100A0612E /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		B56349452937ECE400A0612E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		B56349472937ED4500A0612E /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		B563494A2937F17100A0612E /* WeatherModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherModels.swift; sourceTree = "<group>"; };
 		B563494B2937F17100A0612E /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -129,7 +125,6 @@
 				B56349282937E77F00A0612E /* AppDelegate.swift */,
 				B563492A2937E77F00A0612E /* SceneDelegate.swift */,
 				B56349492937F15900A0612E /* Models */,
-				B56349422937E81400A0612E /* Coordinator */,
 				B56349502937F19D00A0612E /* Controllers */,
 				B56349342937E78000A0612E /* Assets.xcassets */,
 				B563495E2937F9F400A0612E /* UI */,
@@ -139,15 +134,6 @@
 				B56349312937E77F00A0612E /* WeatherApp.xcdatamodeld */,
 			);
 			path = WeatherApp;
-			sourceTree = "<group>";
-		};
-		B56349422937E81400A0612E /* Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				B56349432937E82100A0612E /* Coordinator.swift */,
-				B56349452937ECE400A0612E /* MainCoordinator.swift */,
-			);
-			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		B56349492937F15900A0612E /* Models */ = {
@@ -314,8 +300,6 @@
 				B51CD23F296DA2F1001D8C4B /* DailyWeatherView.swift in Sources */,
 				B563496C2938FB5500A0612E /* HourlyTableViewCell.swift in Sources */,
 				B56349542937F1C400A0612E /* SettingsViewController.swift in Sources */,
-				B56349462937ECE400A0612E /* MainCoordinator.swift in Sources */,
-				B56349442937E82100A0612E /* Coordinator.swift in Sources */,
 				B563494E2937F17100A0612E /* LocationManager.swift in Sources */,
 				B51CD26B2972FA68001D8C4B /* PageViewControllerDelegate.swift in Sources */,
 				B56349482937ED4500A0612E /* WeatherViewController.swift in Sources */,
