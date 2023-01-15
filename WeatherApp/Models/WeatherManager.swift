@@ -13,6 +13,8 @@ class WeatherManager {
     
     var weatherResponse: WeatherResponse?
     
+    var listOfCities: [WeatherViewController]?
+    
     var dailyModels = [DailyWeatherEntry]()
     var hourlyModels = [HourlyWeatherEntry]()
     var currentModels = [CurrentWeather]()
@@ -28,9 +30,6 @@ class WeatherManager {
         let latitude = currentLocation.coordinate.latitude
         
         let url = "https://api.darksky.net/forecast/ddcc4ebb2a7c9930b90d9e59bda0ba7a/\(latitude),\(longitude)?exclude=[flags,minutely]"
-        
-        // Локация не работает
-//        let url = "https://api.darksky.net/forecast/ddcc4ebb2a7c9930b90d9e59bda0ba7a/40.533349720551236,44.71910089563164?exclude=[flags,minutely]"
         
         URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: { data, response, error in
             
@@ -83,4 +82,20 @@ class WeatherManager {
         let celsiusTemp = (Int(temp) - 32) * 5 / 9
         return celsiusTemp
     }
+    
+    func getTime(date: Int, format: String) -> String {
+        let inputDate = Date(timeIntervalSince1970: Double(date))
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        
+        return formatter.string(from: inputDate)
+    }
+}
+
+enum TimeFormat: String {
+    case time = "HH:mm" // 12:00
+    case date = "d/MM" // 25/11
+    case dateAndTime = "MMM d, h:mm a" // Nov 26, 3:12 PM
+    case dayAndDate = "E, dd/MM" // Wed, 25/11
 }

@@ -7,9 +7,7 @@
 
 import UIKit
 
-class HourlyTableViewCell: UITableViewCell, Coordinating {
-
-    var coordinator: Coordinator?
+class HourlyTableViewCell: UITableViewCell {
     
     static let identifier = "HourlyTableViewCell"
     
@@ -23,7 +21,14 @@ class HourlyTableViewCell: UITableViewCell, Coordinating {
         return collectionView
     }()
     
-    private lazy var detailsButton = CustomButton(action: didTapDetailsButton, color: .clear, title: "Forecast for 24 hours", titleColor: .black, font: Styles.rubikRegular16Font)
+    private lazy var detailsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Forecast for 24 hours"
+        label.font = Styles.rubikRegular16Font
+        label.textAlignment = .right
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -31,7 +36,6 @@ class HourlyTableViewCell: UITableViewCell, Coordinating {
         setupView()
         tuneCollectionView()
         setupConstraints()
-        detailsButton.setup()
     }
     
     required init?(coder: NSCoder) {
@@ -51,18 +55,18 @@ class HourlyTableViewCell: UITableViewCell, Coordinating {
     
     private func setupView() {
         contentView.addSubview(collectionView)
-        contentView.addSubview(detailsButton)
+        contentView.addSubview(detailsLabel)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            detailsButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            detailsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
-            detailsButton.heightAnchor.constraint(equalToConstant: 20),
-            detailsButton.widthAnchor.constraint(equalToConstant: 300),
+            detailsLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            detailsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            detailsLabel.heightAnchor.constraint(equalToConstant: 20),
+            detailsLabel.widthAnchor.constraint(equalToConstant: 300),
             
-            collectionView.topAnchor.constraint(equalTo: detailsButton.bottomAnchor, constant: 24),
+            collectionView.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 24),
             collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
@@ -74,16 +78,9 @@ class HourlyTableViewCell: UITableViewCell, Coordinating {
         self.models = models
         collectionView.reloadData()
         
-        let myAttributes: [NSAttributedString.Key: Any] = [.underlineStyle: NSUnderlineStyle.single.rawValue]
-        let attributeString = NSMutableAttributedString(string: "Detailed forecast for 24 hours", attributes: myAttributes)
-        detailsButton.setAttributedTitle(attributeString, for: .normal)
-        detailsButton.setAttributedTitle(attributeString, for: .normal)
-        detailsButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.right
-    }
-
-    @objc func didTapDetailsButton() {
-        print("Did tap details button")
-        coordinator?.eventOccurred(with: .detailsButtonTapped)
+        let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
+        let underlineAttributedString = NSAttributedString(string: "Detailed forecast for 24 hours", attributes: underlineAttribute)
+        detailsLabel.attributedText = underlineAttributedString
     }
 }
 

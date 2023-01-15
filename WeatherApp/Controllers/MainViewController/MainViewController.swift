@@ -2,25 +2,14 @@
 //  MainViewController.swift
 //  WeatherApp
 //
-//  Created by Konstantin Bolgar-Danchenko on 30.11.2022.
+//  Created by Konstantin Bolgar-Danchenko on 03.01.2023.
 //
 
 import UIKit
 
-class MainViewController: UIViewController, Coordinating {
-
-    var coordinator: Coordinator?
+class MainViewController: UIViewController {
     
-    let refreshControl = UIRefreshControl()
-    
-    // MARK: - Models
-    
-    var currentModels = [CurrentWeather]()
-    var hourlyModels = [HourlyWeatherEntry]()
-    var dailyModels = [DailyWeatherEntry]()
-    var userLocations = LocationManager.shared.userLocations
-    
-    // MARK: - Bar button items
+    // MARK: - Subviews
     
     private lazy var addLocationButton: UIBarButtonItem = {
         let button = UIButton(type: .system)
@@ -50,84 +39,87 @@ class MainViewController: UIViewController, Coordinating {
         return menuBarItem
     }()
     
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView.init(frame: .zero, style: .plain)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
+    private lazy var pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        
+        pageControl.currentPageIndicatorTintColor = .black
+        pageControl.pageIndicatorTintColor = .black
+        pageControl.preferredIndicatorImage = UIImage(systemName: "circle")
+        if #available(iOS 16.0, *) {
+            pageControl.preferredCurrentPageIndicatorImage = UIImage(systemName: "circle.fill")
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        return pageControl
     }()
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "RubikRoman-Regular", size: 18) ?? UIFont()]
-        title = "Current Location"
         
         checkOnboardingStatus()
         
-        navigationItem.rightBarButtonItem = addLocationButton
-        navigationItem.leftBarButtonItem = settingsButton
-        
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(setTitle), name: Notification.Name("WeatherReceived"), object: nil)
-        nc.addObserver(self, selector: #selector(getWeather), name: Notification.Name("WeatherReceived"), object: nil)
+//        nc.addObserver(self, selector: #selector(getWeather), name: Notification.Name("WeatherReceived"), object: nil)
         
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
-        tableView.addSubview(refreshControl)
+        setupNavigationBar()
+        setupLayout()
     }
     
-    @objc func refresh(_ sender: AnyObject) {
+    private func checkOnboardingStatus() {
+        if !UserDefaults.standard.bool(forKey: "seen-onboarding") {
+            navigationController?.pushViewController(OnboardingViewController(), animated: true)
+        } else {
+            LocationManager.shared.getUserLocation()
+        }
+    }
+    
+    @objc func setTitle() {
+        guard let currentLocation = LocationManager.shared.currentLocation else { return }
+        
         DispatchQueue.main.async {
-            WeatherManager.shared.requestWeatherForLocation()
+            LocationManager.shared.resolveLocationName(with: currentLocation) { locationName in
+                guard let locationName = locationName else { return }
+                self.title = locationName
+            }
         }
     }
     
     // MARK: - Layout
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    private func setupNavigationBar() {
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "RubikRoman-Regular", size: 18) ?? UIFont()]
+        title = "Current Location"
         
-        view.addSubview(tableView)
-        
-        tuneTableView()
-        setupConstraints()
+        navigationItem.rightBarButtonItem = addLocationButton
+        navigationItem.leftBarButtonItem = settingsButton
     }
     
-    private func tuneTableView() {
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.backgroundColor = .white
+    private func setupLayout() {
+        let pageVC = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        addChild(pageVC)
+        pageVC.pageViewControllerDelegate = self
+        pageVC.view.translatesAutoresizingMaskIntoConstraints = false
         
-        tableView.register(CurrentTableViewCell.self, forCellReuseIdentifier: CurrentTableViewCell.identifier)
-        tableView.register(HourlyTableViewCell.self, forCellReuseIdentifier: HourlyTableViewCell.identifier)
-        tableView.register(DailyTitleTableViewCell.self, forCellReuseIdentifier: DailyTitleTableViewCell.identifier)
-        tableView.register(DailyTableViewCell.self, forCellReuseIdentifier: DailyTableViewCell.identifier)
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.separatorStyle = .none
-    }
-    
-    private func setupConstraints() {
-        let safeArea = view.safeAreaLayoutGuide
+        view.addSubview(pageVC.view)
+        pageVC.view.addSubview(pageControl)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+            pageVC.view.topAnchor.constraint(equalTo: view.topAnchor),
+            pageVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pageVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pageVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            pageControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -15),
+            pageControl.heightAnchor.constraint(equalToConstant: 50),
+            pageControl.leadingAnchor.constraint(equalTo: pageVC.view.leadingAnchor, constant: 16),
+            pageControl.trailingAnchor.constraint(equalTo: pageVC.view.trailingAnchor, constant: -16),
+            pageControl.centerXAnchor.constraint(equalTo: pageVC.view.centerXAnchor)
         ])
-    }
-    
-    // MARK: - Private methods
-    
-    private func checkOnboardingStatus() {
-        if !UserDefaults.standard.bool(forKey: "seen-onboarding") {
-            coordinator?.eventOccurred(with: .onboardingNotShown)
-        } else {
-            LocationManager.shared.getUserLocation()
-        }
     }
     
     // MARK: - Actions
@@ -152,102 +144,19 @@ class MainViewController: UIViewController, Coordinating {
     }
     
     @objc private func didTapSettings() {
-        coordinator?.eventOccurred(with: .settingsButtonTapped)
-    }
-    
-    @objc func getWeather() {
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.refreshControl.endRefreshing()
-        }
-        
-        self.dailyModels = WeatherManager.shared.dailyModels
-        self.currentModels = WeatherManager.shared.currentModels
-        self.hourlyModels = WeatherManager.shared.hourlyModels
-        
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
-    
-    @objc func setTitle() {
-        guard let currentLocation = LocationManager.shared.currentLocation else { return }
-        
-        DispatchQueue.main.async {
-            LocationManager.shared.resolveLocationName(with: currentLocation) { locationName in
-                guard let locationName = locationName else { return }
-                self.title = locationName
-            }
-        }
+        navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
 }
 
-// MARK: - TableView Extensions
+// MARK: - Delegate
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+extension MainViewController: PageViewControllerDelegate {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+    func pageViewController(pageVC: PageViewController, didUpdatePageCount count: Int) {
+        pageControl.numberOfPages = count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if section == 0 {
-            // 1 cell that is CollectionTableViewCell
-            return 1
-        } else if section == 1 {
-            // 1 cell that is CollectionTableViewCell
-            return 1
-        } else if section == 2 {
-            // 1 cell with header for daily weather
-            return 1
-        } else {
-            return dailyModels.count
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: CurrentTableViewCell.identifier, for: indexPath) as! CurrentTableViewCell
-            cell.configure(currentModels: currentModels, dailyModels: dailyModels)
-            return cell
-            
-        } else if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: HourlyTableViewCell.identifier, for: indexPath) as! HourlyTableViewCell
-            cell.configure(with: hourlyModels)
-            return cell
-            
-        } else if indexPath.section == 2 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: DailyTitleTableViewCell.identifier, for: indexPath) as! DailyTitleTableViewCell
-            cell.configure()
-            cell.selectionStyle = .none
-            return cell
-            
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: DailyTableViewCell.identifier, for: indexPath) as! DailyTableViewCell
-            cell.configure(with: dailyModels[indexPath.row])
-            return cell
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        if indexPath.section == 1 {
-            navigationController?.pushViewController(DetailsViewController(), animated: true)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return 220
-        } else if indexPath.section == 1 {
-            return 184
-        } else if indexPath.section == 2 {
-            return 30
-        }
-
-        return 66
+    func pageViewController(pageVC: PageViewController, didUpdatePageIndex index: Int) {
+        pageControl.currentPage = index
     }
 }

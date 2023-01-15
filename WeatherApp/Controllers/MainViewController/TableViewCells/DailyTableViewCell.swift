@@ -117,7 +117,7 @@ class DailyTableViewCell: UITableViewCell {
             precipProbabilityLabel.centerYAnchor.constraint(equalTo: weatherImage.centerYAnchor),
             precipProbabilityLabel.leadingAnchor.constraint(equalTo: weatherImage.trailingAnchor, constant: 5),
             precipProbabilityLabel.heightAnchor.constraint(equalToConstant: 23),
-            precipProbabilityLabel.widthAnchor.constraint(equalToConstant: 25),
+            precipProbabilityLabel.widthAnchor.constraint(equalToConstant: 30),
             
             summaryLabel.centerYAnchor.constraint(equalTo: uiView.centerYAnchor),
             summaryLabel.leadingAnchor.constraint(equalTo: uiView.leadingAnchor, constant: 66),
@@ -127,7 +127,7 @@ class DailyTableViewCell: UITableViewCell {
             tempLabel.centerYAnchor.constraint(equalTo: uiView.centerYAnchor),
             tempLabel.trailingAnchor.constraint(equalTo: disclosureIndicator.leadingAnchor, constant: -10),
             tempLabel.heightAnchor.constraint(equalToConstant: 21.83),
-            tempLabel.widthAnchor.constraint(equalToConstant: 78),
+            tempLabel.widthAnchor.constraint(equalToConstant: 80),
             
             disclosureIndicator.centerYAnchor.constraint(equalTo: uiView.centerYAnchor),
             disclosureIndicator.trailingAnchor.constraint(equalTo: uiView.trailingAnchor, constant: -10),
@@ -139,7 +139,7 @@ class DailyTableViewCell: UITableViewCell {
     // MARK: - Configure
     
     func configure(with model: DailyWeatherEntry) {
-        self.dateLabel.text = getDate(Date(timeIntervalSince1970: Double(model.time)))
+        self.dateLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.date.rawValue)
         self.precipProbabilityLabel.text = "\(Int(model.precipProbability*100))%"
         
         let celsiusTempMin = WeatherManager.shared.getCelsiusTemp(from: model.temperatureMin)
@@ -156,16 +156,5 @@ class DailyTableViewCell: UITableViewCell {
         } else {
             self.weatherImage.image = UIImage(named: "cloud")
         }
-    }
-    
-    private func getDate(_ date: Date?) -> String {
-        guard let inputDate = date else {
-            return ""
-        }
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d/MM" // 25/11
-        
-        return formatter.string(from: inputDate)
     }
 }

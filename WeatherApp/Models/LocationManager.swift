@@ -15,6 +15,7 @@ class LocationManager: NSObject {
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var timeZone: String?
+    
     var userLocations = [CLLocation]()
     
     func getUserLocation() {
@@ -78,7 +79,6 @@ extension LocationManager: CLLocationManagerDelegate {
             
             currentLocation = location
             userLocations.append(location)
-            print(userLocations.count)
             locationManager.stopUpdatingLocation()
             WeatherManager.shared.requestWeatherForLocation()
         }

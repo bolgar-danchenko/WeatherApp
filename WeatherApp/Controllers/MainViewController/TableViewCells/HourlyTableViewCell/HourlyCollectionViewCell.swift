@@ -76,7 +76,7 @@ class HourlyCollectionViewCell: UICollectionViewCell {
         let celsiusTemp = WeatherManager.shared.getCelsiusTemp(from: model.temperature)
         self.tempLabel.text = "\(celsiusTemp)°"
         
-        self.timeLabel.text = getTime(Date(timeIntervalSince1970: Double(model.time)))
+        self.timeLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.time.rawValue)
         
         let icon = model.icon.lowercased()
         if icon.contains("clear") {
@@ -86,16 +86,5 @@ class HourlyCollectionViewCell: UICollectionViewCell {
         } else {
             self.weatherImage.image = UIImage(named: "cloud")
         }
-    }
-    
-    func getTime(_ date: Date?) -> String {
-        guard let inputDate = date else {
-            return ""
-        }
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm" // 12:00
-        
-        return formatter.string(from: inputDate)
     }
 }

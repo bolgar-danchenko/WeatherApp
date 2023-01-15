@@ -7,9 +7,7 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController, Coordinating {
-    
-    var coordinator: Coordinator?
+class SettingsViewController: UIViewController {
     
     // MARK: - Subviews
     

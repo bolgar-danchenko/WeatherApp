@@ -24,15 +24,6 @@ struct CurrentWeather: Codable {
     let temperature: Double // header - current temp
     let windSpeed: Double // header - wind speed
     let cloudCover: Double // header - cloud cover
-//    let precipIntensity: Int
-//    let dewPoint: Double
-//    let humidity: Double
-//    let pressure: Double
-//    let windGust: Double
-//    let windBearing: Int
-//    let uvIndex: Int
-//    let visibility: Double
-//    let ozone: Double
 }
 
 struct DailyWeather: Codable {
@@ -40,11 +31,6 @@ struct DailyWeather: Codable {
     let icon: String
     let data: [DailyWeatherEntry]
 }
-
-// daily summary - temp
-// daily summary - apparent temp
-// daily summary - moonrise time
-// daily summary - moonset time
 
 struct DailyWeatherEntry: Codable {
     let time: Int // daily summary - date
@@ -61,28 +47,7 @@ struct DailyWeatherEntry: Codable {
     let uvIndex: Int // daily summary - uv index
     let temperatureMin: Double // header - min temp
     let temperatureMax: Double // header - max temp
-//    let precipIntensity: Float
-//    let precipIntensityMax: Float
-//    let temperatureHigh: Double
-//    let temperatureHighTime: Int
-//    let temperatureLow: Double
-//    let temperatureLowTime: Int
-//    let apparentTemperatureHigh: Double
-//    let apparentTemperatureHighTime: Int
-//    let dewPoint: Double
-//    let humidity: Double
-//    let pressure: Double
-//    let windGust: Double
-//    let windGustTime: Int
-//    let uvIndexTime: Int
-//    let visibility: Double
-//    let ozone: Double
-//    let temperatureMinTime: Int
-//    let temperatureMaxTime: Int
-//    let apparentTemperatureMin: Double
-//    let apparentTemperatureMinTime: Int
-//    let apparentTemperatureMax: Double
-//    let apparentTemperatureMaxTime: Int
+    let apparentTemperatureHigh: Double
 }
 
 struct HourlyWeather: Codable {
@@ -91,7 +56,10 @@ struct HourlyWeather: Codable {
     let data: [HourlyWeatherEntry]
 }
 
-struct HourlyWeatherEntry: Codable {
+struct HourlyWeatherEntry: Codable, Identifiable {
+    
+    let id = UUID()
+    
     let time: Int // 24 hours - time
     let summary: String // 24 hours - summary
     let icon: String
@@ -102,12 +70,11 @@ struct HourlyWeatherEntry: Codable {
     let windSpeed: Double // 24 hours - wind speed
     let windBearing: Int // 24 hours - wind bearing
     let cloudCover: Double // 24 hours - cloud cover
-//    let precipIntensity: Float
-//    let dewPoint: Double
-//    let humidity: Double
-//    let pressure: Double
-//    let windGust: Double
-//    let uvIndex: Int
-//    let visibility: Double
-//    let ozone: Double
+}
+
+enum MoonPhases: String {
+    case newMoon = "New Moon"
+    case quarter = "Quarter"
+    case fullMoon = "Full Moon"
+    case crescent = "Crescent"
 }
