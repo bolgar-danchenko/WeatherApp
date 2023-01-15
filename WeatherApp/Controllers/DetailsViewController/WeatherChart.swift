@@ -13,15 +13,6 @@ struct WeatherChart: View {
     
     let hourlyModels: [HourlyWeatherEntry]
     
-    func getTime(_ dateInt: Int) -> String {
-        
-        let date = Date(timeIntervalSince1970: Double(dateInt))
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm" // 12:00
-        return formatter.string(from: date)
-    }
-    
     var body: some View {
         
         ScrollView(.horizontal, showsIndicators: false) {
@@ -30,14 +21,14 @@ struct WeatherChart: View {
                 Chart {
                     ForEach(hourlyModels) { hour in
                         LineMark(
-                            x: .value("Time", getTime(hour.time)),
+                            x: .value("Time", WeatherManager.shared.getTime(date: hour.time, format: TimeFormat.time.rawValue)),
                             y: .value("Temperature", WeatherManager.shared.getCelsiusTemp(from: hour.temperature))
                         )
                         .lineStyle(.init(lineWidth: 0.7))
                         .foregroundStyle(Color(uiColor: Styles.darkBlueColor))
                         
                         PointMark(
-                            x: .value("Time", getTime(hour.time)),
+                            x: .value("Time", WeatherManager.shared.getTime(date: hour.time, format: TimeFormat.time.rawValue)),
                             y: .value("Temperature", WeatherManager.shared.getCelsiusTemp(from: hour.temperature))
                         )
                         .foregroundStyle(.white)
@@ -49,7 +40,7 @@ struct WeatherChart: View {
                         }
                         
                         AreaMark(
-                            x: .value("Time", getTime(hour.time)),
+                            x: .value("Time", WeatherManager.shared.getTime(date: hour.time, format: TimeFormat.time.rawValue)),
                             yStart: .value("Temperature", WeatherManager.shared.getCelsiusTemp(from: hour.temperature) >= 0 ? WeatherManager.shared.getCelsiusTemp(from: hour.temperature) - 1 : WeatherManager.shared.getCelsiusTemp(from: hour.temperature) + 1),
                             yEnd: .value("minValue", 0)
                         )
@@ -75,14 +66,14 @@ struct WeatherChart: View {
                 Chart {
                     ForEach(hourlyModels) { hour in
                         LineMark(
-                            x: .value("Time", getTime(hour.time)),
+                            x: .value("Time", WeatherManager.shared.getTime(date: hour.time, format: TimeFormat.time.rawValue)),
                             y: .value("Precipitation", Int(hour.precipProbability * 100))
                         )
                         .lineStyle(.init(lineWidth: 1.0))
                         .foregroundStyle(Color(uiColor: Styles.darkBlueColor))
                         
                         PointMark(
-                            x: .value("Time", getTime(hour.time)),
+                            x: .value("Time", WeatherManager.shared.getTime(date: hour.time, format: TimeFormat.time.rawValue)),
                             y: .value("Precipitation", Int(hour.precipProbability * 100))
                         )
                         .foregroundStyle(Color(uiColor: Styles.darkBlueColor))

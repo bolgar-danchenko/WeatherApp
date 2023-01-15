@@ -23,7 +23,7 @@ class DetailsViewController: UIViewController {
     
     private lazy var backLabel: UILabel = {
         let backLabel = UILabel()
-        backLabel.text = "Forecast for 48 hours"
+        backLabel.text = "Forecast for 24 hours"
         backLabel.font = Styles.rubikRegular16Font
         backLabel.textColor = Styles.settingsGrayColor
         backLabel.translatesAutoresizingMaskIntoConstraints = false

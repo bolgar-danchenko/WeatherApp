@@ -82,4 +82,20 @@ class WeatherManager {
         let celsiusTemp = (Int(temp) - 32) * 5 / 9
         return celsiusTemp
     }
+    
+    func getTime(date: Int, format: String) -> String {
+        let inputDate = Date(timeIntervalSince1970: Double(date))
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        
+        return formatter.string(from: inputDate)
+    }
+}
+
+enum TimeFormat: String {
+    case time = "HH:mm" // 12:00
+    case date = "d/MM" // 25/11
+    case dateAndTime = "MMM d, h:mm a" // Nov 26, 3:12 PM
+    case dayAndDate = "E, dd/MM" // Wed, 25/11
 }

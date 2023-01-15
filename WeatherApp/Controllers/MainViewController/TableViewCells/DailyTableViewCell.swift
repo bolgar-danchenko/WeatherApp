@@ -139,7 +139,7 @@ class DailyTableViewCell: UITableViewCell {
     // MARK: - Configure
     
     func configure(with model: DailyWeatherEntry) {
-        self.dateLabel.text = getDate(Date(timeIntervalSince1970: Double(model.time)))
+        self.dateLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.date.rawValue)
         self.precipProbabilityLabel.text = "\(Int(model.precipProbability*100))%"
         
         let celsiusTempMin = WeatherManager.shared.getCelsiusTemp(from: model.temperatureMin)
@@ -156,16 +156,5 @@ class DailyTableViewCell: UITableViewCell {
         } else {
             self.weatherImage.image = UIImage(named: "cloud")
         }
-    }
-    
-    private func getDate(_ date: Date?) -> String {
-        guard let inputDate = date else {
-            return ""
-        }
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d/MM" // 25/11
-        
-        return formatter.string(from: inputDate)
     }
 }

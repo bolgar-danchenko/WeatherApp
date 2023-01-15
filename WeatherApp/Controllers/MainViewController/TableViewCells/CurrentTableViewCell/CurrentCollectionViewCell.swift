@@ -258,32 +258,10 @@ class CurrentCollectionViewCell: UICollectionViewCell {
         let precipPercentage = Int(currentModel.precipProbability*100)
         precipLabel.text = "\(precipPercentage)%"
 
-        dateLabel.text = getDateTime(Date(timeIntervalSince1970: Double(currentModel.time)))
+        dateLabel.text = WeatherManager.shared.getTime(date: currentModel.time, format: TimeFormat.dateAndTime.rawValue)
         
-        sunriseTimeLabel.text = getTime(Date(timeIntervalSince1970: Double(dailyModel.sunriseTime)))
+        sunriseTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunriseTime, format: TimeFormat.time.rawValue)
         
-        sunsetTimeLabel.text = getTime(Date(timeIntervalSince1970: Double(dailyModel.sunsetTime)))
-    }
-    
-    func getDateTime(_ date: Date?) -> String {
-        guard let inputDate = date else {
-            return ""
-        }
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, h:mm a" // Nov 26, 3:12 PM
-        
-        return formatter.string(from: inputDate)
-    }
-    
-    func getTime(_ date: Date?) -> String {
-        guard let inputDate = date else {
-            return ""
-        }
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm" // 12:00
-        
-        return formatter.string(from: inputDate)
+        sunsetTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunsetTime, format: TimeFormat.time.rawValue)
     }
 }

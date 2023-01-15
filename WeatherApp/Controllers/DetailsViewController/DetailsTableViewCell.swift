@@ -250,8 +250,8 @@ class DetailsTableViewCell: UITableViewCell {
     
     func configure(with model: HourlyWeatherEntry) {
         
-        self.dateLabel.text = getDate(Date(timeIntervalSince1970: Double(model.time)))
-        self.timeLabel.text = getTime(Date(timeIntervalSince1970: Double(model.time)))
+        self.dateLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.dayAndDate.rawValue)
+        self.timeLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.time.rawValue)
         self.tempLabel.text = "\(WeatherManager.shared.getCelsiusTemp(from: model.temperature))°"
         self.feelsValueLabel.text = "Feels like \(WeatherManager.shared.getCelsiusTemp(from: model.apparentTemperature))°"
         
@@ -262,27 +262,5 @@ class DetailsTableViewCell: UITableViewCell {
         self.precipValueLabel.text = "\(Int(model.precipProbability * 100))%"
         self.cloudLabel.text = "Cloud Cover"
         self.cloudValueLabel.text = "\(Int(model.cloudCover * 100))%"
-    }
-    
-    private func getDate(_ date: Date?) -> String {
-        guard let inputDate = date else {
-            return ""
-        }
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "E, dd/MM" // Wed, 25/11
-        
-        return formatter.string(from: inputDate)
-    }
-    
-    private func getTime(_ date: Date?) -> String {
-        guard let inputDate = date else {
-            return ""
-        }
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm" // 12:00
-        
-        return formatter.string(from: inputDate)
     }
 }
