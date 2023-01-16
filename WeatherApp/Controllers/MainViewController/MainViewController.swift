@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class MainViewController: UIViewController {
     
@@ -62,11 +63,16 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        checkOnboardingStatus()
+        LocationManager.shared.newLocationHandler = { location in
+            
+            WeatherManager.shared.requestWeather(for: location)
+            
+            self.pageController?.addWeatherController(location: location)
+            self.pageControl.numberOfPages += 1
+            self.pageController?.goToController(with: location)
+        }
         
-        let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(setTitle), name: Notification.Name("WeatherReceived"), object: nil)
-//        nc.addObserver(self, selector: #selector(getWeather), name: Notification.Name("WeatherReceived"), object: nil)
+        checkOnboardingStatus()
         
         setupNavigationBar()
         setupLayout()
@@ -80,11 +86,9 @@ class MainViewController: UIViewController {
         }
     }
     
-    @objc func setTitle() {
-        guard let currentLocation = LocationManager.shared.currentLocation else { return }
-        
+    private func setTitle(location: CLLocation) {
         DispatchQueue.main.async {
-            LocationManager.shared.resolveLocationName(with: currentLocation) { locationName in
+            LocationManager.shared.resolveLocationName(with: location) { locationName in
                 guard let locationName = locationName else { return }
                 self.title = locationName
             }
@@ -135,17 +139,7 @@ class MainViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Add", style: .default) {_ in
             guard let userInput = alert.textFields?.first?.text, !userInput.isEmpty else { return }
             
-            LocationManager.shared.getLocationFromString(with: userInput) { [unowned self] location in
-                
-                guard let inputLocation = location else { return }
-                
-                LocationManager.shared.currentLocation = inputLocation
-                
-                WeatherManager.shared.requestWeatherForLocation()
-                
-                self.pageController?.addWeatherController()
-                self.pageControl.numberOfPages += 1
-            }
+            LocationManager.shared.getLocationFromString(with: userInput)
         })
         self.present(alert, animated: true)
     }
@@ -159,11 +153,12 @@ class MainViewController: UIViewController {
 
 extension MainViewController: PageViewControllerDelegate {
     
-    func pageViewController(pageVC: PageViewController, didUpdatePageCount count: Int) {
-        pageControl.numberOfPages = count
-    }
-    
     func pageViewController(pageVC: PageViewController, didUpdatePageIndex index: Int) {
-        pageControl.currentPage = index
+        DispatchQueue.main.async {
+            self.pageControl.currentPage = index
+        }
+        guard let weatherController = pageVC.currentViewController() as? WeatherViewController,
+        let location = weatherController.location else { return }
+        setTitle(location: location)
     }
 }

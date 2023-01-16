@@ -29,6 +29,8 @@ class WeatherSummary: UIView {
     
     private lazy var summaryLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 2
+        label.textAlignment = .center
         label.applyStyle(font: Styles.rubikMedium18Font, color: .black)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -206,8 +208,11 @@ class WeatherSummary: UIView {
             
             summaryLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             summaryLabel.topAnchor.constraint(equalTo: weatherImage.bottomAnchor, constant: 13),
+            summaryLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            summaryLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            summaryLabel.heightAnchor.constraint(equalToConstant: 45),
             
-            feelsLikeLabel.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: 28),
+            feelsLikeLabel.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: 20),
             feelsLikeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 54),
             
             windLabel.topAnchor.constraint(equalTo: feelsLikeLabel.bottomAnchor, constant: 27),

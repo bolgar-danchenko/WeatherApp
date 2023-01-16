@@ -6,28 +6,51 @@
 //
 
 import UIKit
+import CoreLocation
 
 class PageViewController: UIPageViewController {
 
     weak var pageViewControllerDelegate: PageViewControllerDelegate?
     
-    private var cities: [UIViewController] = [WeatherViewController()]
+    private var cities: [UIViewController] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         dataSource = self
         delegate = self
+    }
+    
+    func currentViewController() -> UIViewController? {
+        let firstVC = viewControllers?.first
+        return firstVC
+    }
+    
+    func goToController(with location: CLLocation) {
         
-        pageViewControllerDelegate?.pageViewController(pageVC: self, didUpdatePageCount: cities.count)
+        guard let searchedController = cities.first(where: { ($0 as? WeatherViewController)?.location == location }) else { return }
         
-        if let firstVC = cities.first {
-            setViewControllers([firstVC], direction: .forward, animated: true)
+        setViewControllers([searchedController], direction: .forward, animated: true)
+        
+        if let index = cities.firstIndex(of: searchedController) {
+            pageViewControllerDelegate?.pageViewController(pageVC: self, didUpdatePageIndex: index)
         }
     }
     
-    func addWeatherController() {
-        cities.append(WeatherViewController())
+    func addWeatherController(location: CLLocation) {
+        let weatherVC = WeatherViewController()
+        weatherVC.location = location
+        cities.append(weatherVC)
+        
+        guard viewControllers?.isEmpty == true else { return }
+        
+        if let firstVC = cities.first {
+            setViewControllers([firstVC], direction: .forward, animated: true)
+            
+            if let index = cities.firstIndex(of: firstVC) {
+                pageViewControllerDelegate?.pageViewController(pageVC: self, didUpdatePageIndex: index)
+            }
+        }
     }
 }
 

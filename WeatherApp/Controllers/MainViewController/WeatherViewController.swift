@@ -18,7 +18,7 @@ class WeatherViewController: UIViewController {
     var hourlyModels = [HourlyWeatherEntry]()
     var dailyModels = [DailyWeatherEntry]()
     
-//    let location: CLLocation
+    var location: CLLocation?
     
     // MARK: - Bar button items
     
@@ -29,15 +29,6 @@ class WeatherViewController: UIViewController {
     }()
     
     // MARK: - Lifecycle
-    
-//    init(location: CLLocation) {
-//        super.init(nibName: nil, bundle: nil)
-//        self.location = location
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,9 +42,18 @@ class WeatherViewController: UIViewController {
         tableView.addSubview(refreshControl)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
+    
     @objc func refresh(_ sender: AnyObject) {
+        
+        guard let location = location else { return }
+        
         DispatchQueue.main.async {
-            WeatherManager.shared.requestWeatherForLocation()
+            WeatherManager.shared.requestWeather(for: location)
         }
     }
     
@@ -101,9 +101,11 @@ class WeatherViewController: UIViewController {
             self.refreshControl.endRefreshing()
         }
         
-        self.dailyModels = WeatherManager.shared.dailyModels
-        self.currentModels = WeatherManager.shared.currentModels
-        self.hourlyModels = WeatherManager.shared.hourlyModels
+        guard let currentModel = WeatherManager.shared.listOfCities.first(where: { $0.location == location }) else { return }
+        
+        self.dailyModels = currentModel.dailyModels
+        self.currentModels = [currentModel.currentModels]
+        self.hourlyModels = currentModel.hourlyModels
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -169,7 +171,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
             navigationController?.pushViewController(DetailsViewController(hourlyModels: hourlyModels), animated: true)
         } else if indexPath.section == 3 {
 //            let vc = DailyViewController(dailyModel: dailyModels[indexPath.row])
-            let vc = MasterViewController(dailyModels: dailyModels, selectedDay: indexPath.row)
+            let vc = DailyViewController(dailyModels: dailyModels, selectedDay: indexPath.row)
             present(vc, animated: true)
         }
     }

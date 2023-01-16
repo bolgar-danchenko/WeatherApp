@@ -12,6 +12,7 @@ class LocationManager: NSObject {
     
     static let shared = LocationManager()
     
+    var newLocationHandler: ((CLLocation) -> Void)?
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var timeZone: String?
@@ -46,7 +47,7 @@ class LocationManager: NSObject {
         }
     }
     
-    func getLocationFromString(with address: String, completion: @escaping (_ location: CLLocation?) -> Void) {
+    func getLocationFromString(with address: String) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address) { [weak self] placemarks, error in
             
@@ -58,7 +59,6 @@ class LocationManager: NSObject {
             
             guard let placemarks = placemarks,
                   let location = placemarks.first?.location else {
-                completion(nil)
                 return
             }
             if !strongSelf.userLocations.contains(where: { $0.coordinate == location.coordinate }) {
@@ -66,7 +66,7 @@ class LocationManager: NSObject {
             } else {
                 print("Location already exists")
             }
-            completion(location)
+            strongSelf.newLocationHandler?(location)
         }
     }
 }
@@ -80,7 +80,9 @@ extension LocationManager: CLLocationManagerDelegate {
             currentLocation = location
             userLocations.append(location)
             locationManager.stopUpdatingLocation()
-            WeatherManager.shared.requestWeatherForLocation()
+            WeatherManager.shared.requestWeather(for: location)
+            
+            newLocationHandler?(location)
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MasterViewController: UIViewController {
+class DailyViewController: UIViewController {
     
     var dailyModels: [DailyWeatherEntry]
     var selectedDay: Int
@@ -199,7 +199,6 @@ class MasterViewController: UIViewController {
     
     private func setupDailyView() {
         dailyView.removeFromSuperview()
-        
         dailyView = DailyView(dailyModel: dailyModels[selectedDay])
         dailyView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(dailyView)
