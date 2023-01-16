@@ -181,9 +181,9 @@
 		B56349672938FB1F00A0612E /* MainViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B5A2871C29645D29004E6C08 /* MainViewController.swift */,
 				B51CD26A2972FA68001D8C4B /* PageViewControllerDelegate.swift */,
 				B5A2871A29645D1A004E6C08 /* PageViewController.swift */,
-				B5A2871C29645D29004E6C08 /* MainViewController.swift */,
 				B56349472937ED4500A0612E /* WeatherViewController.swift */,
 				B56349682938FB2A00A0612E /* TableViewCells */,
 			);

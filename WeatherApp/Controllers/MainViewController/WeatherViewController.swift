@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class WeatherViewController: UIViewController {
     
@@ -16,7 +17,8 @@ class WeatherViewController: UIViewController {
     var currentModels = [CurrentWeather]()
     var hourlyModels = [HourlyWeatherEntry]()
     var dailyModels = [DailyWeatherEntry]()
-//    var userLocations = LocationManager.shared.userLocations
+    
+//    let location: CLLocation
     
     // MARK: - Bar button items
     
@@ -32,7 +34,7 @@ class WeatherViewController: UIViewController {
 //        super.init(nibName: nil, bundle: nil)
 //        self.location = location
 //    }
-//    
+//
 //    required init?(coder: NSCoder) {
 //        fatalError("init(coder:) has not been implemented")
 //    }

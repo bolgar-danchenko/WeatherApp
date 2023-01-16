@@ -9,6 +9,8 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    private var pageController: PageViewController?
+    
     // MARK: - Subviews
     
     private lazy var addLocationButton: UIBarButtonItem = {
@@ -120,6 +122,8 @@ class MainViewController: UIViewController {
             pageControl.trailingAnchor.constraint(equalTo: pageVC.view.trailingAnchor, constant: -16),
             pageControl.centerXAnchor.constraint(equalTo: pageVC.view.centerXAnchor)
         ])
+        
+        pageController = pageVC
     }
     
     // MARK: - Actions
@@ -131,13 +135,16 @@ class MainViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Add", style: .default) {_ in
             guard let userInput = alert.textFields?.first?.text, !userInput.isEmpty else { return }
             
-            LocationManager.shared.getLocationFromString(with: userInput) { location in
+            LocationManager.shared.getLocationFromString(with: userInput) { [unowned self] location in
                 
                 guard let inputLocation = location else { return }
                 
                 LocationManager.shared.currentLocation = inputLocation
                 
                 WeatherManager.shared.requestWeatherForLocation()
+                
+                self.pageController?.addWeatherController()
+                self.pageControl.numberOfPages += 1
             }
         })
         self.present(alert, animated: true)

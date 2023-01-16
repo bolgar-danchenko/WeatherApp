@@ -11,7 +11,7 @@ class PageViewController: UIPageViewController {
 
     weak var pageViewControllerDelegate: PageViewControllerDelegate?
     
-    private var cities: [UIViewController] = [WeatherViewController(), WeatherViewController(), WeatherViewController()]
+    private var cities: [UIViewController] = [WeatherViewController()]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +24,10 @@ class PageViewController: UIPageViewController {
         if let firstVC = cities.first {
             setViewControllers([firstVC], direction: .forward, animated: true)
         }
+    }
+    
+    func addWeatherController() {
+        cities.append(WeatherViewController())
     }
 }
 
