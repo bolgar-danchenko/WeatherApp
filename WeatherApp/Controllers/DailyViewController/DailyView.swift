@@ -138,9 +138,10 @@ class DailyView: UIView {
     init(dailyModel: DailyWeatherEntry) {
         self.dailyModel = dailyModel
         super.init(frame: CGRect.zero)
+        configure()
         setupSubview()
         setupConstraints()
-        configure()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -170,8 +171,6 @@ class DailyView: UIView {
     private func setupConstraints() {
         
         NSLayoutConstraint.activate([
-            
-            
             
             summaryView.topAnchor.constraint(equalTo: self.topAnchor),
             summaryView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),

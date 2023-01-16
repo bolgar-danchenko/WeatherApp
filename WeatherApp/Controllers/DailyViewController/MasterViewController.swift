@@ -62,7 +62,6 @@ class MasterViewController: UIViewController {
     
     private lazy var dailyView: UIView = {
         let view = WeatherSummary(dailyModel: dailyModels[selectedDay])
-        view.layer.cornerRadius = 5
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -83,25 +82,13 @@ class MasterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
+        
         setButtons()
         configureCustomSegmentedControl()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        view.backgroundColor = .white
-        setButtons()
-        configureCustomSegmentedControl()
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
         setupSubview()
         setupConstraints()
+        setupDailyView()
     }
     
     @objc func didTapBack() {
@@ -197,12 +184,7 @@ class MasterViewController: UIViewController {
                 if let index = segmentedControlButtons.firstIndex(of: button) {
                     selectedDay = index
                     
-                    dailyView.removeFromSuperview()
-                    
-                    dailyView = DailyView(dailyModel: dailyModels[selectedDay])
-                    dailyView.translatesAutoresizingMaskIntoConstraints = false
-                    view.addSubview(dailyView)
-                    setupConstraints()
+                    setupDailyView()
                 }
                 
                 
@@ -213,5 +195,14 @@ class MasterViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func setupDailyView() {
+        dailyView.removeFromSuperview()
+        
+        dailyView = DailyView(dailyModel: dailyModels[selectedDay])
+        dailyView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(dailyView)
+        setupConstraints()
     }
 }
