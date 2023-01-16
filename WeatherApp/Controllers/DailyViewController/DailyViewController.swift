@@ -35,7 +35,6 @@ class DailyViewController: UIViewController {
     
     private lazy var locationLabel: UILabel = {
         let label = UILabel()
-        label.text = "Current Location"
         label.applyStyle(font: Styles.rubikMedium18Font, color: .black)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -51,11 +50,18 @@ class DailyViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var scrollView: UIScrollView = {
+    private lazy var stackScrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.contentSize = CGSize(width: .zero, height: 50)
+//        scrollView.contentSize = CGSize(width: .zero, height: 50)
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.backgroundColor = .white
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    private lazy var verticalScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
@@ -83,7 +89,7 @@ class DailyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+        setLocation()
         setButtons()
         configureCustomSegmentedControl()
         setupSubview()
@@ -101,9 +107,10 @@ class DailyViewController: UIViewController {
         view.addSubview(backLabel)
         view.addSubview(backArrow)
         view.addSubview(locationLabel)
-        view.addSubview(scrollView)
-        scrollView.addSubview(stackView)
-        view.addSubview(dailyView)
+        view.addSubview(stackScrollView)
+        stackScrollView.addSubview(stackView)
+        view.addSubview(verticalScrollView)
+        verticalScrollView.addSubview(dailyView)
     }
     
     private func setupConstraints() {
@@ -123,34 +130,32 @@ class DailyViewController: UIViewController {
             locationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             locationLabel.heightAnchor.constraint(equalToConstant: 22),
             
-            scrollView.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 40),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            scrollView.heightAnchor.constraint(equalToConstant: 50),
+            stackScrollView.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 40),
+            stackScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            stackScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            stackScrollView.heightAnchor.constraint(equalToConstant: 50),
             
-            stackView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            stackView.centerYAnchor.constraint(equalTo: stackScrollView.centerYAnchor),
+            stackView.leadingAnchor.constraint(equalTo: stackScrollView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: stackScrollView.trailingAnchor),
             stackView.heightAnchor.constraint(equalToConstant: 36),
             
-            dailyView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 40),
-            dailyView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            dailyView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            dailyView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            verticalScrollView.topAnchor.constraint(equalTo: stackScrollView.bottomAnchor, constant: 40),
+            verticalScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            verticalScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            verticalScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            dailyView.topAnchor.constraint(equalTo: verticalScrollView.topAnchor),
+            dailyView.leadingAnchor.constraint(equalTo: verticalScrollView.leadingAnchor),
+            dailyView.trailingAnchor.constraint(equalTo: verticalScrollView.trailingAnchor),
+            dailyView.bottomAnchor.constraint(equalTo: verticalScrollView.bottomAnchor)
         ])
     }
     
     // MARK: - Private
     
     private func setLocation() {
-        guard let currentLocation = LocationManager.shared.currentLocation else { return }
-        
-        DispatchQueue.main.async {
-            LocationManager.shared.resolveLocationName(with: currentLocation) { locationName in
-                guard let locationName = locationName else { return }
-                self.locationLabel.text = locationName
-            }
-        }
+        locationLabel.text = UserDefaults.standard.string(forKey: "current_title")
     }
     
     private func setButtons() {
@@ -186,8 +191,6 @@ class DailyViewController: UIViewController {
                     
                     setupDailyView()
                 }
-                
-                
             } else {
                 UIView.animate(withDuration: 0.2, delay: 0.1, options: .transitionFlipFromLeft) {
                     button.backgroundColor = .white

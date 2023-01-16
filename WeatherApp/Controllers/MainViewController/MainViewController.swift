@@ -91,6 +91,7 @@ class MainViewController: UIViewController {
             LocationManager.shared.resolveLocationName(with: location) { locationName in
                 guard let locationName = locationName else { return }
                 self.title = locationName
+                UserDefaults.standard.set(locationName, forKey: "current_title")
             }
         }
     }

@@ -126,13 +126,6 @@ class DailyView: UIView {
         return imageView
     }()
     
-    private lazy var dottedLine: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "dottedLine")?.withTintColor(Styles.darkBlueColor, renderingMode: .alwaysTemplate)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
     // MARK: - Init
     
     init(dailyModel: DailyWeatherEntry) {
@@ -141,7 +134,7 @@ class DailyView: UIView {
         configure()
         setupSubview()
         setupConstraints()
-        
+        self.clipsToBounds = true
     }
     
     required init?(coder: NSCoder) {
@@ -165,7 +158,6 @@ class DailyView: UIView {
         self.addSubview(sunsetTime)
         self.addSubview(moonPhaseValue)
         self.addSubview(separatorLine)
-        self.addSubview(dottedLine)
     }
     
     private func setupConstraints() {
@@ -221,11 +213,6 @@ class DailyView: UIView {
             separatorLine.topAnchor.constraint(equalTo: sunLabel.bottomAnchor, constant: 15),
             separatorLine.heightAnchor.constraint(equalToConstant: 100),
             separatorLine.widthAnchor.constraint(equalToConstant: 1),
-            
-            dottedLine.topAnchor.constraint(equalTo: dayLength.bottomAnchor, constant: 12),
-            dottedLine.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            dottedLine.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            dottedLine.heightAnchor.constraint(equalToConstant: 2),
         ])
     }
     
