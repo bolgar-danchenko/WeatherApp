@@ -24,18 +24,19 @@ class ChartView: UIView {
     
     private func setupView() {
         
-        let controller = UIHostingController(rootView: WeatherChart(hourlyModels: hourlyModels))
-        guard let chartView = controller.view else { return }
-        chartView.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.addSubview(chartView)
-        
-        NSLayoutConstraint.activate([
-            chartView.topAnchor.constraint(equalTo: self.topAnchor),
-            chartView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            chartView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            chartView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-        ])
+        DispatchQueue.main.async {
+            let controller = UIHostingController(rootView: WeatherChart(hourlyModels: self.hourlyModels))
+            guard let chartView = controller.view else { return }
+            chartView.translatesAutoresizingMaskIntoConstraints = false
+            
+            self.addSubview(chartView)
+            
+            NSLayoutConstraint.activate([
+                chartView.topAnchor.constraint(equalTo: self.topAnchor),
+                chartView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+                chartView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+                chartView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            ])
+        }
     }
-
 }

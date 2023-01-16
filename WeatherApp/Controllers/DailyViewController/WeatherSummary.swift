@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DailyWeatherView: UIView {
+class WeatherSummary: UIView {
 
     var dailyModel: DailyWeatherEntry
     

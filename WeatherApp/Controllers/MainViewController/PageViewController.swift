@@ -11,7 +11,7 @@ class PageViewController: UIPageViewController {
 
     weak var pageViewControllerDelegate: PageViewControllerDelegate?
     
-    private var cities: [UIViewController] = [WeatherViewController()]
+    private var cities: [UIViewController] = [WeatherViewController(), WeatherViewController(), WeatherViewController()]
     
     override func viewDidLoad() {
         super.viewDidLoad()
