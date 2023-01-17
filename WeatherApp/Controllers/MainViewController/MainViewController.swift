@@ -98,17 +98,6 @@ class MainViewController: UIViewController {
         ])
     }
     
-    private func getWeather() {
-        LocationManager.shared.newLocationHandler = { location in
-            
-            WeatherManager.shared.requestWeather(for: location)
-            
-            self.pageController?.addWeatherController(location: location)
-            self.pageControl.numberOfPages += 1
-            self.pageController?.goToController(with: location)
-        }
-    }
-    
     // MARK: - Layout
     
     private func setupNavigationBar() {
@@ -161,6 +150,17 @@ class MainViewController: UIViewController {
                 self.title = locationName
                 UserDefaults.standard.set(locationName, forKey: "current_title")
             }
+        }
+    }
+    
+    private func getWeather() {
+        LocationManager.shared.newLocationHandler = { location in
+            
+            WeatherManager.shared.requestWeather(for: location)
+            
+            self.pageController?.addWeatherController(location: location)
+            self.pageControl.numberOfPages += 1
+            self.pageController?.goToController(with: location)
         }
     }
     

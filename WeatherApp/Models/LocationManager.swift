@@ -25,8 +25,12 @@ class LocationManager: NSObject {
         
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { placemarks, error in
-            guard let place = placemarks?.first, error == nil else {
-                print(error?.localizedDescription ?? "No errors")
+            
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            guard let place = placemarks?.first else {
                 completion(nil)
                 return }
             
@@ -65,7 +69,8 @@ class LocationManager: NSObject {
 
 extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if !locations.isEmpty { //, currentLocation == nil {
+        
+        if !locations.isEmpty {
             
             guard let location = locations.first else { return }
             

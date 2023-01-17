@@ -12,6 +12,7 @@ class Styles {
     static let darkBlueColor: UIColor = UIColor(red: 0.125, green: 0.306, blue: 0.78, alpha: 1)
     static let solitudeColor: UIColor = UIColor(red: 0.914, green: 0.933, blue: 0.98, alpha: 1)
     static let settingsGrayColor: UIColor = UIColor(red: 0.538, green: 0.513, blue: 0.513, alpha: 1)
+    static let settingsPinkColor: UIColor = UIColor(red: 0.996, green: 0.929, blue: 0.914, alpha: 1)
     static let orangeButtonColor: UIColor = UIColor(red: 0.949, green: 0.431, blue: 0.067, alpha: 1)
     static let dateGrayColor: UIColor = UIColor(red: 0.604, green: 0.587, blue: 0.587, alpha: 1)
     static let summaryDarkGrayColor: UIColor = UIColor(red: 0.154, green: 0.152, blue: 0.135, alpha: 1)
