@@ -254,7 +254,13 @@ class DetailsTableViewCell: UITableViewCell {
     func configure(with model: HourlyWeatherEntry) {
         
         dateLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.dayAndDate.rawValue)
-        timeLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.time.rawValue)
+        
+        if UserDefaults.standard.value(forKey: "time-units") as? String == "24h" {
+            timeLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.time24.rawValue)
+        } else {
+            timeLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.time12.rawValue)
+        }
+        
         tempLabel.text = "\(WeatherManager.shared.getTemp(from: model.temperature))°"
         feelsValueLabel.text = "Feels like \(WeatherManager.shared.getTemp(from: model.apparentTemperature))°"
         

@@ -257,11 +257,15 @@ class CurrentCollectionViewCell: UICollectionViewCell {
         
         let precipPercentage = Int(currentModel.precipProbability*100)
         precipLabel.text = "\(precipPercentage)%"
-
-        dateLabel.text = WeatherManager.shared.getTime(date: currentModel.time, format: TimeFormat.dateAndTime.rawValue)
         
-        sunriseTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunriseTime, format: TimeFormat.time.rawValue)
-        
-        sunsetTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunsetTime, format: TimeFormat.time.rawValue)
+        if UserDefaults.standard.value(forKey: "time-units") as? String == "24h" {
+            dateLabel.text = WeatherManager.shared.getTime(date: currentModel.time, format: TimeFormat.dateAndTime24.rawValue)
+            sunriseTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunriseTime, format: TimeFormat.time24.rawValue)
+            sunsetTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunsetTime, format: TimeFormat.time24.rawValue)
+        } else {
+            dateLabel.text = WeatherManager.shared.getTime(date: currentModel.time, format: TimeFormat.dateAndTime12.rawValue)
+            sunriseTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunriseTime, format: TimeFormat.time12.rawValue)
+            sunsetTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunsetTime, format: TimeFormat.time12.rawValue)
+        }
     }
 }

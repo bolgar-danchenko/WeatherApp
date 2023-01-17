@@ -219,8 +219,14 @@ class DailyView: UIView {
     // MARK: - Configure
     
     private func configure() {
-        sunriseTime.text = WeatherManager.shared.getTime(date: dailyModel.sunriseTime, format: TimeFormat.time.rawValue)
-        sunsetTime.text = WeatherManager.shared.getTime(date: dailyModel.sunsetTime, format: TimeFormat.time.rawValue)
+        
+        if UserDefaults.standard.value(forKey: "time-units") as? String == "24h" {
+            sunriseTime.text = WeatherManager.shared.getTime(date: dailyModel.sunriseTime, format: TimeFormat.time24.rawValue)
+            sunsetTime.text = WeatherManager.shared.getTime(date: dailyModel.sunsetTime, format: TimeFormat.time24.rawValue)
+        } else {
+            sunriseTime.text = WeatherManager.shared.getTime(date: dailyModel.sunriseTime, format: TimeFormat.time12.rawValue)
+            sunsetTime.text = WeatherManager.shared.getTime(date: dailyModel.sunsetTime, format: TimeFormat.time12.rawValue)
+        }
         
         moonPhaseValue.text = "\(Int(dailyModel.moonPhase * 100))%"
         moonStatus.text = checkMoonPhase(phase: dailyModel.moonPhase)
