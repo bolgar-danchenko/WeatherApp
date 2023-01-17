@@ -55,7 +55,7 @@ class DailyTableViewCell: UITableViewCell {
     private lazy var precipProbabilityLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular12Font, color: Styles.darkBlueColor)
-        label.textAlignment = .right
+        label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -116,7 +116,7 @@ class DailyTableViewCell: UITableViewCell {
             weatherImage.widthAnchor.constraint(equalToConstant: 17),
             
             precipProbabilityLabel.centerYAnchor.constraint(equalTo: weatherImage.centerYAnchor),
-            precipProbabilityLabel.trailingAnchor.constraint(equalTo: summaryLabel.leadingAnchor, constant: -7),
+            precipProbabilityLabel.trailingAnchor.constraint(equalTo: summaryLabel.leadingAnchor, constant: -5),
             precipProbabilityLabel.heightAnchor.constraint(equalToConstant: 23),
             precipProbabilityLabel.widthAnchor.constraint(equalToConstant: 30),
             
@@ -141,6 +141,7 @@ class DailyTableViewCell: UITableViewCell {
     
     func configure(with model: DailyWeatherEntry) {
         dateLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.date.rawValue)
+        
         precipProbabilityLabel.text = "\(Int(model.precipProbability*100))%"
         
         let celsiusTempMin = WeatherManager.shared.getCelsiusTemp(from: model.temperatureMin)

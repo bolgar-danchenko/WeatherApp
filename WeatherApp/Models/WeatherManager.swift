@@ -19,9 +19,7 @@ class WeatherManager {
     
     static let shared = WeatherManager()
     
-    var weatherResponse: WeatherResponse?
-    
-    var listOfCities = [CityWeather]()
+    var cityWeatherList = [CityWeather]()
     
     func requestWeather(for location: CLLocation) {
         
@@ -59,13 +57,11 @@ class WeatherManager {
                 return
             }
             
-            self.weatherResponse = result
-            
             let dailyEntries = result.daily.data
             
             let cityWeather = CityWeather(location: location, dailyModels: dailyEntries, hourlyModels: result.hourly.data, currentModels: result.currently)
             
-            self.listOfCities.append(cityWeather)
+            self.cityWeatherList.append(cityWeather)
             
             let nc = NotificationCenter.default
             nc.post(name: Notification.Name("WeatherReceived"), object: nil)

@@ -42,6 +42,15 @@ class MainViewController: UIViewController {
         return menuBarItem
     }()
     
+    private lazy var noLocationLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No locations added"
+        label.applyStyle(font: Styles.rubikMedium18Font, color: .lightGray)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         
@@ -62,7 +71,34 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        setupSubview()
+        checkOnboardingStatus()
+        setupNavigationBar()
+        getWeather()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        if LocationManager.shared.newLocationHandler != nil {
+            getWeather()
+            setupPageViewController()
+        }
+    }
+    
+    private func setupSubview() {
+        view.addSubview(noLocationLabel)
+        
+        NSLayoutConstraint.activate([
+            noLocationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noLocationLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            noLocationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            noLocationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+        ])
+    }
+    
+    private func getWeather() {
         LocationManager.shared.newLocationHandler = { location in
             
             WeatherManager.shared.requestWeather(for: location)
@@ -71,24 +107,19 @@ class MainViewController: UIViewController {
             self.pageControl.numberOfPages += 1
             self.pageController?.goToController(with: location)
         }
-        
-        checkOnboardingStatus()
-        
-        setupNavigationBar()
-        setupLayout()
     }
     
     // MARK: - Layout
     
     private func setupNavigationBar() {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "RubikRoman-Regular", size: 18) ?? UIFont()]
-        title = "Current Location"
+        title = "No Location"
         
         navigationItem.rightBarButtonItem = addLocationButton
         navigationItem.leftBarButtonItem = settingsButton
     }
     
-    private func setupLayout() {
+    private func setupPageViewController() {
         let pageVC = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         addChild(pageVC)
         pageVC.pageViewControllerDelegate = self
@@ -140,10 +171,22 @@ class MainViewController: UIViewController {
         alert.addTextField()
         alert.textFields?.first?.placeholder = "City or territory..."
         alert.addAction(UIAlertAction(title: "Add", style: .default) {_ in
-            guard let userInput = alert.textFields?.first?.text, !userInput.isEmpty else { return }
+            guard let userInput = alert.textFields?.first?.text, !userInput.isEmpty else {
+                let alert = UIAlertController(title: "Error", message: "Input cannot be empty", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(alert, animated: true)
+                return
+            }
             
-            LocationManager.shared.getLocationFromString(with: userInput)
+            if LocationManager.shared.newLocationHandler != nil {
+                LocationManager.shared.getLocationFromString(with: userInput)
+            } else {
+                LocationManager.shared.getLocationFromString(with: userInput)
+                self.getWeather()
+                self.setupPageViewController()
+            }
         })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         self.present(alert, animated: true)
     }
     

@@ -14,10 +14,6 @@ class LocationManager: NSObject {
     
     let locationManager = CLLocationManager()
     var newLocationHandler: ((CLLocation) -> Void)?
-    var currentLocation: CLLocation?
-    var timeZone: String?
-    
-    var userLocations = [CLLocation]()
     
     func getUserLocation() {
         locationManager.delegate = self
@@ -61,11 +57,7 @@ class LocationManager: NSObject {
                   let location = placemarks.first?.location else {
                 return
             }
-            if !strongSelf.userLocations.contains(where: { $0.coordinate == location.coordinate }) {
-                strongSelf.userLocations.append(location)
-            } else {
-                print("Location already exists")
-            }
+            
             strongSelf.newLocationHandler?(location)
         }
     }
@@ -73,15 +65,12 @@ class LocationManager: NSObject {
 
 extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if !locations.isEmpty, currentLocation == nil {
+        if !locations.isEmpty { //, currentLocation == nil {
             
             guard let location = locations.first else { return }
             
-            currentLocation = location
-            userLocations.append(location)
             locationManager.stopUpdatingLocation()
             WeatherManager.shared.requestWeather(for: location)
-            
             newLocationHandler?(location)
         }
     }

@@ -101,7 +101,7 @@ class WeatherViewController: UIViewController {
             self.refreshControl.endRefreshing()
         }
         
-        guard let currentModel = WeatherManager.shared.listOfCities.first(where: { $0.location == location }) else { return }
+        guard let currentModel = WeatherManager.shared.cityWeatherList.first(where: { $0.location == location }) else { return }
         
         self.dailyModels = currentModel.dailyModels
         self.currentModels = [currentModel.currentModels]

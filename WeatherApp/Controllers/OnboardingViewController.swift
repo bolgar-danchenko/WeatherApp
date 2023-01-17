@@ -134,13 +134,11 @@ class OnboardingViewController: UIViewController {
     @objc func didTapYes() {
         LocationManager.shared.getUserLocation()
         UserDefaults.standard.set(true, forKey: "seen-onboarding")
-        UserDefaults.standard.set(true, forKey: "did-allow-location")
         navigationController?.popViewController(animated: true)
     }
     
     @objc func didTapNo() {
         UserDefaults.standard.set(true, forKey: "seen-onboarding")
-        UserDefaults.standard.set(false, forKey: "did-allow-location")
         navigationController?.popViewController(animated: true)
     }
 }
