@@ -23,6 +23,7 @@ class WeatherSummary: UIView {
     
     private lazy var weatherImage: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -198,16 +199,15 @@ class WeatherSummary: UIView {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            weatherImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
-            weatherImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 134),
-            weatherImage.widthAnchor.constraint(equalToConstant: 26),
-            weatherImage.heightAnchor.constraint(equalToConstant: 29),
-            
-            tempLabel.centerYAnchor.constraint(equalTo: weatherImage.centerYAnchor),
-            tempLabel.leadingAnchor.constraint(equalTo: weatherImage.trailingAnchor, constant: 10),
+            tempLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 19),
+            tempLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 170),
+        
+            weatherImage.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor),
+            weatherImage.trailingAnchor.constraint(equalTo: tempLabel.leadingAnchor, constant: -10),
+            weatherImage.heightAnchor.constraint(equalToConstant: 30),
             
             summaryLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            summaryLabel.topAnchor.constraint(equalTo: weatherImage.bottomAnchor, constant: 13),
+            summaryLabel.topAnchor.constraint(equalTo: tempLabel.bottomAnchor, constant: 15),
             summaryLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             summaryLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             summaryLabel.heightAnchor.constraint(equalToConstant: 45),

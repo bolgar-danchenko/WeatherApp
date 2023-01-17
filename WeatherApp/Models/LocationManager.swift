@@ -12,8 +12,8 @@ class LocationManager: NSObject {
     
     static let shared = LocationManager()
     
-    var newLocationHandler: ((CLLocation) -> Void)?
     let locationManager = CLLocationManager()
+    var newLocationHandler: ((CLLocation) -> Void)?
     var currentLocation: CLLocation?
     var timeZone: String?
     

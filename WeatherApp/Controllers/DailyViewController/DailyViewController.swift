@@ -59,13 +59,6 @@ class DailyViewController: UIViewController {
         return scrollView
     }()
     
-    private lazy var verticalScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
-    
     private lazy var dailyView: UIView = {
         let view = WeatherSummary(dailyModel: dailyModels[selectedDay])
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -109,8 +102,7 @@ class DailyViewController: UIViewController {
         view.addSubview(locationLabel)
         view.addSubview(stackScrollView)
         stackScrollView.addSubview(stackView)
-        view.addSubview(verticalScrollView)
-        verticalScrollView.addSubview(dailyView)
+        view.addSubview(dailyView)
     }
     
     private func setupConstraints() {
@@ -140,15 +132,10 @@ class DailyViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: stackScrollView.trailingAnchor),
             stackView.heightAnchor.constraint(equalToConstant: 36),
             
-            verticalScrollView.topAnchor.constraint(equalTo: stackScrollView.bottomAnchor, constant: 40),
-            verticalScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            verticalScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            verticalScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            dailyView.topAnchor.constraint(equalTo: verticalScrollView.topAnchor),
-            dailyView.leadingAnchor.constraint(equalTo: verticalScrollView.leadingAnchor),
-            dailyView.trailingAnchor.constraint(equalTo: verticalScrollView.trailingAnchor),
-            dailyView.bottomAnchor.constraint(equalTo: verticalScrollView.bottomAnchor)
+            dailyView.topAnchor.constraint(equalTo: stackScrollView.bottomAnchor, constant: 40),
+            dailyView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            dailyView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            dailyView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
     

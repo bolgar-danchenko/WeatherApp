@@ -78,24 +78,6 @@ class MainViewController: UIViewController {
         setupLayout()
     }
     
-    private func checkOnboardingStatus() {
-        if !UserDefaults.standard.bool(forKey: "seen-onboarding") {
-            navigationController?.pushViewController(OnboardingViewController(), animated: true)
-        } else {
-            LocationManager.shared.getUserLocation()
-        }
-    }
-    
-    private func setTitle(location: CLLocation) {
-        DispatchQueue.main.async {
-            LocationManager.shared.resolveLocationName(with: location) { locationName in
-                guard let locationName = locationName else { return }
-                self.title = locationName
-                UserDefaults.standard.set(locationName, forKey: "current_title")
-            }
-        }
-    }
-    
     // MARK: - Layout
     
     private func setupNavigationBar() {
@@ -129,6 +111,26 @@ class MainViewController: UIViewController {
         ])
         
         pageController = pageVC
+    }
+    
+    // MARK: - Private
+    
+    private func checkOnboardingStatus() {
+        if !UserDefaults.standard.bool(forKey: "seen-onboarding") {
+            navigationController?.pushViewController(OnboardingViewController(), animated: true)
+        } else {
+            LocationManager.shared.getUserLocation()
+        }
+    }
+    
+    private func setTitle(location: CLLocation) {
+        DispatchQueue.main.async {
+            LocationManager.shared.resolveLocationName(with: location) { locationName in
+                guard let locationName = locationName else { return }
+                self.title = locationName
+                UserDefaults.standard.set(locationName, forKey: "current_title")
+            }
+        }
     }
     
     // MARK: - Actions

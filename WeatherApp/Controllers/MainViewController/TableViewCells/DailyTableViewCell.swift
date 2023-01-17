@@ -40,6 +40,7 @@ class DailyTableViewCell: UITableViewCell {
     
     private lazy var weatherImage: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -54,7 +55,7 @@ class DailyTableViewCell: UITableViewCell {
     private lazy var precipProbabilityLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular12Font, color: Styles.darkBlueColor)
-        label.textAlignment = .left
+        label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -115,7 +116,7 @@ class DailyTableViewCell: UITableViewCell {
             weatherImage.widthAnchor.constraint(equalToConstant: 17),
             
             precipProbabilityLabel.centerYAnchor.constraint(equalTo: weatherImage.centerYAnchor),
-            precipProbabilityLabel.leadingAnchor.constraint(equalTo: weatherImage.trailingAnchor, constant: 5),
+            precipProbabilityLabel.trailingAnchor.constraint(equalTo: summaryLabel.leadingAnchor, constant: -7),
             precipProbabilityLabel.heightAnchor.constraint(equalToConstant: 23),
             precipProbabilityLabel.widthAnchor.constraint(equalToConstant: 30),
             
@@ -139,22 +140,22 @@ class DailyTableViewCell: UITableViewCell {
     // MARK: - Configure
     
     func configure(with model: DailyWeatherEntry) {
-        self.dateLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.date.rawValue)
-        self.precipProbabilityLabel.text = "\(Int(model.precipProbability*100))%"
+        dateLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.date.rawValue)
+        precipProbabilityLabel.text = "\(Int(model.precipProbability*100))%"
         
         let celsiusTempMin = WeatherManager.shared.getCelsiusTemp(from: model.temperatureMin)
         let celsiusTempMax = WeatherManager.shared.getCelsiusTemp(from: model.temperatureMax)
         
-        self.tempLabel.text = "\(celsiusTempMin)°/\(celsiusTempMax)°"
-        self.summaryLabel.text = model.summary
+        tempLabel.text = "\(celsiusTempMin)°/\(celsiusTempMax)°"
+        summaryLabel.text = model.summary
         
         let icon = model.icon.lowercased()
         if icon.contains("clear") {
-            self.weatherImage.image = UIImage(named: "sun")
+            weatherImage.image = UIImage(named: "sun")
         } else if icon.contains("rain") {
-            self.weatherImage.image = UIImage(named: "cloud-rain")
+            weatherImage.image = UIImage(named: "cloud-rain")
         } else {
-            self.weatherImage.image = UIImage(named: "cloud")
+            weatherImage.image = UIImage(named: "cloud")
         }
     }
 }
