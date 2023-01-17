@@ -172,9 +172,7 @@ class MainViewController: UIViewController {
         alert.textFields?.first?.placeholder = "City or territory..."
         alert.addAction(UIAlertAction(title: "Add", style: .default) {_ in
             guard let userInput = alert.textFields?.first?.text, !userInput.isEmpty else {
-                let alert = UIAlertController(title: "Error", message: "Input cannot be empty", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                self.present(alert, animated: true)
+                AlertModel.shared.okActionAlert(title: "Attention", message: "Location cannot be ampty")
                 return
             }
             

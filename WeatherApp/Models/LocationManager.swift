@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import CoreLocation
 
 class LocationManager: NSObject {
@@ -27,12 +28,14 @@ class LocationManager: NSObject {
         geocoder.reverseGeocodeLocation(location) { placemarks, error in
             
             if let error = error {
+                AlertModel.shared.okActionAlert(title: "Attention", message: "Something went wrong. Please try again later.")
                 print(error.localizedDescription)
             }
             
             guard let place = placemarks?.first else {
                 completion(nil)
-                return }
+                return
+            }
             
             var locationName = ""
             
@@ -54,13 +57,12 @@ class LocationManager: NSObject {
             guard let strongSelf = self else { return }
             
             if let error = error {
+                AlertModel.shared.okActionAlert(title: "Attention", message: "This location is unavailable")
                 print(error.localizedDescription)
             }
             
             guard let placemarks = placemarks,
-                  let location = placemarks.first?.location else {
-                return
-            }
+                  let location = placemarks.first?.location else { return }
             
             strongSelf.newLocationHandler?(location)
         }
@@ -72,7 +74,10 @@ extension LocationManager: CLLocationManagerDelegate {
         
         if !locations.isEmpty {
             
-            guard let location = locations.first else { return }
+            guard let location = locations.first else {
+                AlertModel.shared.okActionAlert(title: "Attention", message: "Unable to determine your location")
+                return
+            }
             
             locationManager.stopUpdatingLocation()
             WeatherManager.shared.requestWeather(for: location)

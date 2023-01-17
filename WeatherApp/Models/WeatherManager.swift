@@ -26,22 +26,26 @@ class WeatherManager {
         let longitude = location.coordinate.longitude
         let latitude = location.coordinate.latitude
         
-        let url = "https://api.darksky.net/forecast/ddcc4ebb2a7c9930b90d9e59bda0ba7a/\(latitude),\(longitude)?exclude=[flags,minutely]"
+        let urlString = "https://api.darksky.net/forecast/ddcc4ebb2a7c9930b90d9e59bda0ba7a/\(latitude),\(longitude)?exclude=[flags,minutely]"
         
-        URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: { data, response, error in
+        guard let url = URL(string: urlString) else { return }
+        
+        URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
             
             if let error {
+                AlertModel.shared.okActionAlert(title: "Attention", message: "Weather is currently unavailable. Please try again later.")
                 print(error.localizedDescription)
                 return
             }
             
             if (response as? HTTPURLResponse)?.statusCode != 200 {
+                AlertModel.shared.okActionAlert(title: "Attention", message: "Weather is currently unavailable. Please try again later.")
                 print("Status code = \((response as? HTTPURLResponse)?.statusCode ?? 0)")
                 return
             }
             
             guard let data else {
-                print("Could not receive data")
+                AlertModel.shared.okActionAlert(title: "Attention", message: "Weather is currently unavailable. Please try again later.")
                 return
             }
             
@@ -50,10 +54,12 @@ class WeatherManager {
             do {
                 json = try JSONDecoder().decode(WeatherResponse.self, from: data)
             } catch {
+                AlertModel.shared.okActionAlert(title: "Attention", message: "Weather is currently unavailable. Please try again later.")
                 print("Error: \(error)")
             }
             
             guard let result = json else {
+                AlertModel.shared.okActionAlert(title: "Attention", message: "Weather is currently unavailable. Please try again later.")
                 return
             }
             

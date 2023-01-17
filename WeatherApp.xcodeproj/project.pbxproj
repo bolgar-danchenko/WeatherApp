@@ -36,6 +36,7 @@
 		B563497329391AE100A0612E /* HourlyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563497229391AE100A0612E /* HourlyCollectionViewCell.swift */; };
 		B563497629392CB500A0612E /* CurrentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563497529392CB500A0612E /* CurrentCollectionViewCell.swift */; };
 		B580C0E82976C7EC00A3F1B6 /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B580C0E72976C7EC00A3F1B6 /* CustomSwitch.swift */; };
+		B580C10A2977049800A3F1B6 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B580C1092977049800A3F1B6 /* AlertModel.swift */; };
 		B5A2871B29645D1A004E6C08 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A2871A29645D1A004E6C08 /* PageViewController.swift */; };
 		B5A2871D29645D29004E6C08 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A2871C29645D29004E6C08 /* MainViewController.swift */; };
 /* End PBXBuildFile section */
@@ -72,6 +73,7 @@
 		B563497229391AE100A0612E /* HourlyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyCollectionViewCell.swift; sourceTree = "<group>"; };
 		B563497529392CB500A0612E /* CurrentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentCollectionViewCell.swift; sourceTree = "<group>"; };
 		B580C0E72976C7EC00A3F1B6 /* CustomSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
+		B580C1092977049800A3F1B6 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		B5A2871A29645D1A004E6C08 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		B5A2871C29645D29004E6C08 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -147,6 +149,9 @@
 				B563494B2937F17100A0612E /* LocationManager.swift */,
 				B563494C2937F17100A0612E /* WeatherManager.swift */,
 				B563494A2937F17100A0612E /* WeatherModels.swift */,
+				B56349612938C39600A0612E /* CustomButton.swift */,
+				B580C0E72976C7EC00A3F1B6 /* CustomSwitch.swift */,
+				B580C1092977049800A3F1B6 /* AlertModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -175,8 +180,6 @@
 			isa = PBXGroup;
 			children = (
 				B563495F2937FA0200A0612E /* Styles.swift */,
-				B56349612938C39600A0612E /* CustomButton.swift */,
-				B580C0E72976C7EC00A3F1B6 /* CustomSwitch.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				B56349292937E77F00A0612E /* AppDelegate.swift in Sources */,
 				B56349582937F21600A0612E /* DetailsViewController.swift in Sources */,
 				B563496E2938FB6D00A0612E /* DailyTitleTableViewCell.swift in Sources */,
+				B580C10A2977049800A3F1B6 /* AlertModel.swift in Sources */,
 				B563492B2937E77F00A0612E /* SceneDelegate.swift in Sources */,
 				B563497329391AE100A0612E /* HourlyCollectionViewCell.swift in Sources */,
 			);
