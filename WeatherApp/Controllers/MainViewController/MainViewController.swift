@@ -81,7 +81,7 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if LocationManager.shared.newLocationHandler != nil {
+        if pageController == nil {
             getWeather()
             setupPageViewController()
         }
