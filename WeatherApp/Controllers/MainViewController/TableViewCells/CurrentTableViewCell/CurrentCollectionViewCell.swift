@@ -253,7 +253,7 @@ class CurrentCollectionViewCell: UICollectionViewCell {
         let cloudPercentage = Int(currentModel.cloudCover*100)
         cloudCoverLabel.text = "\(Int(cloudPercentage))%"
         
-        windSpeedLabel.text = "\(Int(currentModel.windSpeed)) m/s"
+        windSpeedLabel.text = WeatherManager.shared.getSpeed(from: currentModel.windSpeed)
         
         let precipPercentage = Int(currentModel.precipProbability*100)
         precipLabel.text = "\(precipPercentage)%"

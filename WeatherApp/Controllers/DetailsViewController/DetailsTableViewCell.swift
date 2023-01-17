@@ -253,14 +253,14 @@ class DetailsTableViewCell: UITableViewCell {
     
     func configure(with model: HourlyWeatherEntry) {
         
-        self.dateLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.dayAndDate.rawValue)
-        self.timeLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.time.rawValue)
-        self.tempLabel.text = "\(WeatherManager.shared.getTemp(from: model.temperature))°"
-        self.feelsValueLabel.text = "Feels like \(WeatherManager.shared.getTemp(from: model.apparentTemperature))°"
+        dateLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.dayAndDate.rawValue)
+        timeLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.time.rawValue)
+        tempLabel.text = "\(WeatherManager.shared.getTemp(from: model.temperature))°"
+        feelsValueLabel.text = "Feels like \(WeatherManager.shared.getTemp(from: model.apparentTemperature))°"
         
-        self.summaryLabel.text = model.summary
-        self.windValueLabel.text = "\(Int(model.windSpeed)) m/s"
-        self.precipValueLabel.text = "\(Int(model.precipProbability * 100))%"
-        self.cloudValueLabel.text = "\(Int(model.cloudCover * 100))%"
+        summaryLabel.text = model.summary
+        windValueLabel.text = WeatherManager.shared.getSpeed(from: model.windSpeed)
+        precipValueLabel.text = "\(Int(model.precipProbability * 100))%"
+        cloudValueLabel.text = "\(Int(model.cloudCover * 100))%"
     }
 }

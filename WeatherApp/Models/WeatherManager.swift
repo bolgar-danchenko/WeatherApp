@@ -91,6 +91,15 @@ class WeatherManager {
         }
     }
     
+    func getSpeed(from speed: Double) -> String {
+        if UserDefaults.standard.value(forKey: "speed-units") as? String == "km" {
+            let kmSpeed = Int(speed * 0.9144)
+            return "\(kmSpeed) m/s"
+        } else {
+            return "\(Int(speed)) yd/s"
+        }
+    }
+    
     func getTime(date: Int, format: String) -> String {
         let inputDate = Date(timeIntervalSince1970: Double(date))
         
