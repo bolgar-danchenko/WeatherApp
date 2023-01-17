@@ -82,9 +82,13 @@ class WeatherManager {
         UserDefaults.standard.set(true, forKey: "isNotificationOn")
     }
     
-    func getCelsiusTemp(from temp: Double) -> Int {
-        let celsiusTemp = (Int(temp) - 32) * 5 / 9
-        return celsiusTemp
+    func getTemp(from temp: Double) -> Int {
+        if UserDefaults.standard.value(forKey: "temp-units") as? String == "celsius" {
+            let celsiusTemp = (Int(temp) - 32) * 5 / 9
+            return celsiusTemp
+        } else {
+            return Int(temp)
+        }
     }
     
     func getTime(date: Int, format: String) -> String {

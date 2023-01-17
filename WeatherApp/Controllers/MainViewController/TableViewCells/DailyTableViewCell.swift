@@ -144,8 +144,8 @@ class DailyTableViewCell: UITableViewCell {
         
         precipProbabilityLabel.text = "\(Int(model.precipProbability*100))%"
         
-        let celsiusTempMin = WeatherManager.shared.getCelsiusTemp(from: model.temperatureMin)
-        let celsiusTempMax = WeatherManager.shared.getCelsiusTemp(from: model.temperatureMax)
+        let celsiusTempMin = WeatherManager.shared.getTemp(from: model.temperatureMin)
+        let celsiusTempMax = WeatherManager.shared.getTemp(from: model.temperatureMax)
         
         tempLabel.text = "\(celsiusTempMin)°/\(celsiusTempMax)°"
         summaryLabel.text = model.summary

@@ -255,8 +255,8 @@ class DetailsTableViewCell: UITableViewCell {
         
         self.dateLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.dayAndDate.rawValue)
         self.timeLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.time.rawValue)
-        self.tempLabel.text = "\(WeatherManager.shared.getCelsiusTemp(from: model.temperature))°"
-        self.feelsValueLabel.text = "Feels like \(WeatherManager.shared.getCelsiusTemp(from: model.apparentTemperature))°"
+        self.tempLabel.text = "\(WeatherManager.shared.getTemp(from: model.temperature))°"
+        self.feelsValueLabel.text = "Feels like \(WeatherManager.shared.getTemp(from: model.apparentTemperature))°"
         
         self.summaryLabel.text = model.summary
         self.windValueLabel.text = "\(Int(model.windSpeed)) m/s"

@@ -273,7 +273,7 @@ class WeatherSummary: UIView {
     
     private func configure() {
         
-        self.tempLabel.text = "\(WeatherManager.shared.getCelsiusTemp(from: dailyModel.temperatureMax))°"
+        self.tempLabel.text = "\(WeatherManager.shared.getTemp(from: dailyModel.temperatureMax))°"
         self.summaryLabel.text = dailyModel.summary
         
         let icon = dailyModel.icon.lowercased()
@@ -285,7 +285,7 @@ class WeatherSummary: UIView {
             self.weatherImage.image = UIImage(named: "cloud")
         }
         
-        self.feelsLikeValue.text = "\(WeatherManager.shared.getCelsiusTemp(from: dailyModel.apparentTemperatureHigh))°"
+        self.feelsLikeValue.text = "\(WeatherManager.shared.getTemp(from: dailyModel.apparentTemperatureHigh))°"
         self.windValue.text = "\(Int(dailyModel.windSpeed)) m/s"
         self.uvIndexValue.text = "\(dailyModel.uvIndex)"
         self.precipValue.text = "\(Int(dailyModel.precipProbability * 100))%"

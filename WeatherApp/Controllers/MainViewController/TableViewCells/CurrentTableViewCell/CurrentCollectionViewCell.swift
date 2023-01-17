@@ -241,11 +241,11 @@ class CurrentCollectionViewCell: UICollectionViewCell {
     
     func configure(currentModel: CurrentWeather, dailyModel: DailyWeatherEntry) {
         
-        let currentCelsiusTemp = WeatherManager.shared.getCelsiusTemp(from: currentModel.temperature)
+        let currentCelsiusTemp = WeatherManager.shared.getTemp(from: currentModel.temperature)
         currentTempLabel.text = "\(currentCelsiusTemp)°"
         
-        let minCelsiusTemp = WeatherManager.shared.getCelsiusTemp(from: dailyModel.temperatureMin)
-        let maxCelsiusTemp = WeatherManager.shared.getCelsiusTemp(from: dailyModel.temperatureMax)
+        let minCelsiusTemp = WeatherManager.shared.getTemp(from: dailyModel.temperatureMin)
+        let maxCelsiusTemp = WeatherManager.shared.getTemp(from: dailyModel.temperatureMax)
         minMaxTempLabel.text = "\(minCelsiusTemp)°/\(maxCelsiusTemp)°"
         
         summaryLabel.text = currentModel.summary
