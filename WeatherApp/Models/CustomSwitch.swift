@@ -16,10 +16,10 @@ class CustomSwitch: UISwitch {
         self.switchAction = action
         super.init(frame: .zero)
         
-        backgroundColor = Styles.settingsPinkColor
+        backgroundColor = Styles.darkBlueColor
         onTintColor = Styles.darkBlueColor
+        thumbTintColor = Styles.settingsPinkColor
         layer.cornerRadius = 15
-        isOn = true
         translatesAutoresizingMaskIntoConstraints = false
     }
     

@@ -75,6 +75,13 @@ class WeatherManager {
         }).resume()
     }
     
+    func configureSettings() {
+        UserDefaults.standard.set("celsius", forKey: "temp-units")
+        UserDefaults.standard.set("km", forKey: "speed-units")
+        UserDefaults.standard.set("24h", forKey: "time-units")
+        UserDefaults.standard.set(true, forKey: "isNotificationOn")
+    }
+    
     func getCelsiusTemp(from temp: Double) -> Int {
         let celsiusTemp = (Int(temp) - 32) * 5 / 9
         return celsiusTemp

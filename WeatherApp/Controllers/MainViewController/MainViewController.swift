@@ -138,6 +138,7 @@ class MainViewController: UIViewController {
     private func checkOnboardingStatus() {
         if !UserDefaults.standard.bool(forKey: "seen-onboarding") {
             navigationController?.pushViewController(OnboardingViewController(), animated: true)
+            WeatherManager.shared.configureSettings()
         } else {
             LocationManager.shared.getUserLocation()
         }

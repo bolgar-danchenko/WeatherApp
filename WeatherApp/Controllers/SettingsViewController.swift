@@ -30,7 +30,23 @@ class SettingsViewController: UIViewController {
     private lazy var tempLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular16Font, color: Styles.settingsGrayColor)
-        label.text = "Temperature (C°/F°)"
+        label.text = "Temperature"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var fahrenheitLabel: UILabel = {
+        let label = UILabel()
+        label.applyStyle(font: Styles.rubikRegular16Font, color: .black)
+        label.text = "F°"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var celciusLabel: UILabel = {
+        let label = UILabel()
+        label.applyStyle(font: Styles.rubikRegular16Font, color: .black)
+        label.text = "C°"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -38,7 +54,23 @@ class SettingsViewController: UIViewController {
     private lazy var windSpeedLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular16Font, color: Styles.settingsGrayColor)
-        label.text = "Wind Speed (mi/km)"
+        label.text = "Wind Speed"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var kmLabel: UILabel = {
+        let label = UILabel()
+        label.applyStyle(font: Styles.rubikRegular16Font, color: .black)
+        label.text = "km"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var miLabel: UILabel = {
+        let label = UILabel()
+        label.applyStyle(font: Styles.rubikRegular16Font, color: .black)
+        label.text = "mi"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -46,7 +78,23 @@ class SettingsViewController: UIViewController {
     private lazy var timeFormatLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular16Font, color: Styles.settingsGrayColor)
-        label.text = "Time (12h/24h)"
+        label.text = "Time"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var h24Label: UILabel = {
+        let label = UILabel()
+        label.applyStyle(font: Styles.rubikRegular16Font, color: .black)
+        label.text = "24h"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var h12Label: UILabel = {
+        let label = UILabel()
+        label.applyStyle(font: Styles.rubikRegular16Font, color: .black)
+        label.text = "12h"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -54,7 +102,23 @@ class SettingsViewController: UIViewController {
     private lazy var notificationsLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular16Font, color: Styles.settingsGrayColor)
-        label.text = "Notifications (On/Off)"
+        label.text = "Notifications"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var onLabel: UILabel = {
+        let label = UILabel()
+        label.applyStyle(font: Styles.rubikRegular16Font, color: .black)
+        label.text = "On"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var offLabel: UILabel = {
+        let label = UILabel()
+        label.applyStyle(font: Styles.rubikRegular16Font, color: .black)
+        label.text = "Off"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -118,6 +182,7 @@ class SettingsViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         setupSubview()
         setupConstraints()
+        setupSwitches()
     }
     
     private func setupSubview() {
@@ -133,6 +198,14 @@ class SettingsViewController: UIViewController {
         containerView.addSubview(windSpeedSwitch)
         containerView.addSubview(timeFormatSwitch)
         containerView.addSubview(notificationsSwitch)
+        containerView.addSubview(fahrenheitLabel)
+        containerView.addSubview(celciusLabel)
+        containerView.addSubview(miLabel)
+        containerView.addSubview(kmLabel)
+        containerView.addSubview(h12Label)
+        containerView.addSubview(h24Label)
+        containerView.addSubview(offLabel)
+        containerView.addSubview(onLabel)
         view.addSubview(cloudImage1)
         view.addSubview(cloudImage2)
         view.addSubview(cloudImage3)
@@ -168,17 +241,41 @@ class SettingsViewController: UIViewController {
             settingsButton.heightAnchor.constraint(equalToConstant: 40),
             settingsButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
             
+            celciusLabel.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor),
+            celciusLabel.centerXAnchor.constraint(equalTo: h24Label.centerXAnchor),
+
             tempSwitch.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor),
-            tempSwitch.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30),
-            
+            tempSwitch.centerXAnchor.constraint(equalTo: timeFormatSwitch.centerXAnchor),
+
+            fahrenheitLabel.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor),
+            fahrenheitLabel.centerXAnchor.constraint(equalTo: h12Label.centerXAnchor),
+
+            kmLabel.centerYAnchor.constraint(equalTo: windSpeedLabel.centerYAnchor),
+            kmLabel.centerXAnchor.constraint(equalTo: h24Label.centerXAnchor),
+
             windSpeedSwitch.centerYAnchor.constraint(equalTo: windSpeedLabel.centerYAnchor),
-            windSpeedSwitch.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30),
+            windSpeedSwitch.centerXAnchor.constraint(equalTo: timeFormatSwitch.centerXAnchor),
+
+            miLabel.centerYAnchor.constraint(equalTo: windSpeedLabel.centerYAnchor),
+            miLabel.centerXAnchor.constraint(equalTo: h12Label.centerXAnchor),
+            
+            h24Label.centerYAnchor.constraint(equalTo: timeFormatLabel.centerYAnchor),
+            h24Label.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30),
             
             timeFormatSwitch.centerYAnchor.constraint(equalTo: timeFormatLabel.centerYAnchor),
-            timeFormatSwitch.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30),
+            timeFormatSwitch.trailingAnchor.constraint(equalTo: h24Label.leadingAnchor, constant: -10),
             
+            h12Label.centerYAnchor.constraint(equalTo: timeFormatLabel.centerYAnchor),
+            h12Label.trailingAnchor.constraint(equalTo: timeFormatSwitch.leadingAnchor, constant: -10),
+            
+            onLabel.centerYAnchor.constraint(equalTo: notificationsLabel.centerYAnchor),
+            onLabel.centerXAnchor.constraint(equalTo: h24Label.centerXAnchor),
+
             notificationsSwitch.centerYAnchor.constraint(equalTo: notificationsLabel.centerYAnchor),
-            notificationsSwitch.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30),
+            notificationsSwitch.centerXAnchor.constraint(equalTo: timeFormatSwitch.centerXAnchor),
+
+            offLabel.centerYAnchor.constraint(equalTo: notificationsLabel.centerYAnchor),
+            offLabel.centerXAnchor.constraint(equalTo: h12Label.centerXAnchor),
             
             cloudImage1.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 37),
             cloudImage1.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -129.6),
@@ -197,26 +294,55 @@ class SettingsViewController: UIViewController {
         ])
     }
     
+    private func setupSwitches() {
+        
+        (UserDefaults.standard.value(forKey: "temp-units") as? String == "celsius") ? (tempSwitch.isOn = true) : (tempSwitch.isOn = false)
+        
+        (UserDefaults.standard.value(forKey: "speed-units") as? String == "km") ? (windSpeedSwitch.isOn = true) : (windSpeedSwitch.isOn = false)
+        
+        (UserDefaults.standard.value(forKey: "time-units") as? String == "24h") ? (timeFormatSwitch.isOn = true) : (timeFormatSwitch.isOn = false)
+        
+        UserDefaults.standard.bool(forKey: "isNotificationOn") ? (notificationsSwitch.isOn = true) : (notificationsSwitch.isOn = false)
+    }
+    
     // MARK: - Actions
     
-    @objc func didTapSettingsButton() {
+    @objc private func didTapSettingsButton() {
         navigationController?.popViewController(animated: true)
     }
     
     private func didTapTempSwitch() {
-        
+        if tempSwitch.isOn {
+            UserDefaults.standard.set("celsius", forKey: "temp-units")
+        } else {
+            UserDefaults.standard.set("fahrenheit", forKey: "temp-units")
+        }
     }
     
     private func didTapWindSwitch() {
-        
+        if windSpeedSwitch.isOn {
+            UserDefaults.standard.set("km", forKey: "speed-units")
+        } else {
+            UserDefaults.standard.set("mi", forKey: "speed-units")
+        }
     }
     
     private func didTapTimeSwitch() {
-        
+        if timeFormatSwitch.isOn {
+            UserDefaults.standard.set("24h", forKey: "time-units")
+        } else {
+            UserDefaults.standard.set("12h", forKey: "time-units")
+        }
     }
     
     private func didTapNotificationsSwitch() {
-        
+        if notificationsSwitch.isOn {
+            UserDefaults.standard.set(true, forKey: "isNotificationOn")
+            AlertModel.shared.okActionAlert(title: "Attention", message: "Notifications enabled")
+        } else {
+            UserDefaults.standard.set(false, forKey: "isNotificationOn")
+            AlertModel.shared.okActionAlert(title: "Attention", message: "Notifications disabled")
+        }
     }
     
 }
