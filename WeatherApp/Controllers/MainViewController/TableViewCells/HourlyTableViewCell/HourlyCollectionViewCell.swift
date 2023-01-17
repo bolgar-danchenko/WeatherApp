@@ -29,7 +29,7 @@ class HourlyCollectionViewCell: UICollectionViewCell {
     
     private lazy var weatherImage: UIImageView = {
         let imageView = UIImageView()
-        
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -56,7 +56,6 @@ class HourlyCollectionViewCell: UICollectionViewCell {
             
             timeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             timeLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            timeLabel.heightAnchor.constraint(equalToConstant: 18),
             timeLabel.widthAnchor.constraint(equalToConstant: 45),
             
             weatherImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),

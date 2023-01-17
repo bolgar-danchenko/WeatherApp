@@ -13,10 +13,7 @@ class LocationManager: NSObject {
     static let shared = LocationManager()
     
     let locationManager = CLLocationManager()
-    var currentLocation: CLLocation?
-    var timeZone: String?
-    
-    var userLocations = [CLLocation]()
+    var newLocationHandler: ((CLLocation) -> Void)?
     
     func getUserLocation() {
         locationManager.delegate = self
@@ -28,8 +25,12 @@ class LocationManager: NSObject {
         
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { placemarks, error in
-            guard let place = placemarks?.first, error == nil else {
-                print(error?.localizedDescription ?? "No errors")
+            
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            guard let place = placemarks?.first else {
                 completion(nil)
                 return }
             
@@ -46,7 +47,7 @@ class LocationManager: NSObject {
         }
     }
     
-    func getLocationFromString(with address: String, completion: @escaping (_ location: CLLocation?) -> Void) {
+    func getLocationFromString(with address: String) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address) { [weak self] placemarks, error in
             
@@ -58,29 +59,24 @@ class LocationManager: NSObject {
             
             guard let placemarks = placemarks,
                   let location = placemarks.first?.location else {
-                completion(nil)
                 return
             }
-            if !strongSelf.userLocations.contains(where: { $0.coordinate == location.coordinate }) {
-                strongSelf.userLocations.append(location)
-            } else {
-                print("Location already exists")
-            }
-            completion(location)
+            
+            strongSelf.newLocationHandler?(location)
         }
     }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if !locations.isEmpty, currentLocation == nil {
+        
+        if !locations.isEmpty {
             
             guard let location = locations.first else { return }
             
-            currentLocation = location
-            userLocations.append(location)
             locationManager.stopUpdatingLocation()
-            WeatherManager.shared.requestWeatherForLocation()
+            WeatherManager.shared.requestWeather(for: location)
+            newLocationHandler?(location)
         }
     }
 }

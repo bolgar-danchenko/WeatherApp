@@ -106,14 +106,7 @@ class DetailsViewController: UIViewController {
     }
     
     private func setLocation() {
-        guard let currentLocation = LocationManager.shared.currentLocation else { return }
-        
-        DispatchQueue.main.async {
-            LocationManager.shared.resolveLocationName(with: currentLocation) { locationName in
-                guard let locationName = locationName else { return }
-                self.locationLabel.text = locationName
-            }
-        }
+        locationLabel.text = UserDefaults.standard.string(forKey: "current_title")
     }
     
     private func tuneTableView() {

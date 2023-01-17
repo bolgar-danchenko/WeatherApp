@@ -49,6 +49,7 @@ class DetailsTableViewCell: UITableViewCell {
     
     private lazy var windLabel: UILabel = {
         let label = UILabel()
+        label.text = "Wind"
         label.applyStyle(font: Styles.rubikRegular14Font, color: .black)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -57,6 +58,7 @@ class DetailsTableViewCell: UITableViewCell {
     
     private lazy var precipLabel: UILabel = {
         let label = UILabel()
+        label.text = "Precipitation"
         label.applyStyle(font: Styles.rubikRegular14Font, color: .black)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -65,6 +67,7 @@ class DetailsTableViewCell: UITableViewCell {
     
     private lazy var cloudLabel: UILabel = {
         let label = UILabel()
+        label.text = "Cloud Cover"
         label.applyStyle(font: Styles.rubikRegular14Font, color: .black)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -256,11 +259,8 @@ class DetailsTableViewCell: UITableViewCell {
         self.feelsValueLabel.text = "Feels like \(WeatherManager.shared.getCelsiusTemp(from: model.apparentTemperature))°"
         
         self.summaryLabel.text = model.summary
-        self.windLabel.text = "Wind"
         self.windValueLabel.text = "\(Int(model.windSpeed)) m/s"
-        self.precipLabel.text = "Precipitation"
         self.precipValueLabel.text = "\(Int(model.precipProbability * 100))%"
-        self.cloudLabel.text = "Cloud Cover"
         self.cloudValueLabel.text = "\(Int(model.cloudCover * 100))%"
     }
 }

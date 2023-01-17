@@ -6,28 +6,25 @@
 //
 
 import Foundation
+import CoreLocation
+
+struct CityWeather {
+    let location: CLLocation
+    let dailyModels: [DailyWeatherEntry]
+    let hourlyModels: [HourlyWeatherEntry]
+    let currentModels: CurrentWeather
+}
 
 class WeatherManager {
     
     static let shared = WeatherManager()
     
-    var weatherResponse: WeatherResponse?
+    var cityWeatherList = [CityWeather]()
     
-    var listOfCities: [WeatherViewController]?
-    
-    var dailyModels = [DailyWeatherEntry]()
-    var hourlyModels = [HourlyWeatherEntry]()
-    var currentModels = [CurrentWeather]()
-    
-    func requestWeatherForLocation() {
+    func requestWeather(for location: CLLocation) {
         
-        guard let currentLocation = LocationManager.shared.currentLocation else {
-            print("Could not receive current location")
-            return
-        }
-        
-        let longitude = currentLocation.coordinate.longitude
-        let latitude = currentLocation.coordinate.latitude
+        let longitude = location.coordinate.longitude
+        let latitude = location.coordinate.latitude
         
         let url = "https://api.darksky.net/forecast/ddcc4ebb2a7c9930b90d9e59bda0ba7a/\(latitude),\(longitude)?exclude=[flags,minutely]"
         
@@ -60,17 +57,11 @@ class WeatherManager {
                 return
             }
             
-            self.weatherResponse = result
-            
             let dailyEntries = result.daily.data
             
-            self.dailyModels.removeAll()
-            self.dailyModels.append(contentsOf: dailyEntries)
-            self.hourlyModels = result.hourly.data
+            let cityWeather = CityWeather(location: location, dailyModels: dailyEntries, hourlyModels: result.hourly.data, currentModels: result.currently)
             
-            let currentEntries = result.currently
-            self.currentModels.removeAll()
-            self.currentModels.append(currentEntries)
+            self.cityWeatherList.append(cityWeather)
             
             let nc = NotificationCenter.default
             nc.post(name: Notification.Name("WeatherReceived"), object: nil)

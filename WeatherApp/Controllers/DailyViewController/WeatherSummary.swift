@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DailyWeatherView: UIView {
+class WeatherSummary: UIView {
 
     var dailyModel: DailyWeatherEntry
     
@@ -23,12 +23,15 @@ class DailyWeatherView: UIView {
     
     private lazy var weatherImage: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     private lazy var summaryLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 2
+        label.textAlignment = .center
         label.applyStyle(font: Styles.rubikMedium18Font, color: .black)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -196,18 +199,20 @@ class DailyWeatherView: UIView {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            weatherImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
-            weatherImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 134),
-            weatherImage.widthAnchor.constraint(equalToConstant: 26),
-            weatherImage.heightAnchor.constraint(equalToConstant: 29),
-            
-            tempLabel.centerYAnchor.constraint(equalTo: weatherImage.centerYAnchor),
-            tempLabel.leadingAnchor.constraint(equalTo: weatherImage.trailingAnchor, constant: 10),
+            tempLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 19),
+            tempLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 170),
+        
+            weatherImage.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor),
+            weatherImage.trailingAnchor.constraint(equalTo: tempLabel.leadingAnchor, constant: -10),
+            weatherImage.heightAnchor.constraint(equalToConstant: 30),
             
             summaryLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            summaryLabel.topAnchor.constraint(equalTo: weatherImage.bottomAnchor, constant: 13),
+            summaryLabel.topAnchor.constraint(equalTo: tempLabel.bottomAnchor, constant: 15),
+            summaryLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            summaryLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            summaryLabel.heightAnchor.constraint(equalToConstant: 45),
             
-            feelsLikeLabel.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: 28),
+            feelsLikeLabel.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: 20),
             feelsLikeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 54),
             
             windLabel.topAnchor.constraint(equalTo: feelsLikeLabel.bottomAnchor, constant: 27),

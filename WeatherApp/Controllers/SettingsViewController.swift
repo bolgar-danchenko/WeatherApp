@@ -30,7 +30,7 @@ class SettingsViewController: UIViewController {
     private lazy var tempLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular16Font, color: Styles.settingsGrayColor)
-        label.text = "Temperature"
+        label.text = "Temperature (C°/F°)"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -38,7 +38,7 @@ class SettingsViewController: UIViewController {
     private lazy var windSpeedLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular16Font, color: Styles.settingsGrayColor)
-        label.text = "Wind Speed"
+        label.text = "Wind Speed (mi/km)"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -46,7 +46,7 @@ class SettingsViewController: UIViewController {
     private lazy var timeFormatLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular16Font, color: Styles.settingsGrayColor)
-        label.text = "Time Format"
+        label.text = "Time (12h/24h)"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -54,40 +54,17 @@ class SettingsViewController: UIViewController {
     private lazy var notificationsLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular16Font, color: Styles.settingsGrayColor)
-        label.text = "Notifications"
+        label.text = "Notifications (On/Off)"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var settingsButton = CustomButton(action: didTapSettingsButton, color: Styles.orangeButtonColor, title: "Confirm", titleColor: Styles.solitudeColor, font: Styles.rubikRegular16Font)
     
-    private lazy var tempSwitch: UISwitch = {
-        let mySwitch = UISwitch()
-
-        mySwitch.translatesAutoresizingMaskIntoConstraints = false
-        return mySwitch
-    }()
-    
-    private lazy var windSpeedSwitch: UISwitch = {
-        let mySwitch = UISwitch()
-        
-        mySwitch.translatesAutoresizingMaskIntoConstraints = false
-        return mySwitch
-    }()
-    
-    private lazy var timeFormatSwitch: UISwitch = {
-        let mySwitch = UISwitch()
-        
-        mySwitch.translatesAutoresizingMaskIntoConstraints = false
-        return mySwitch
-    }()
-    
-    private lazy var notificationsSwitch: UISwitch = {
-        let mySwitch = UISwitch()
-        
-        mySwitch.translatesAutoresizingMaskIntoConstraints = false
-        return mySwitch
-    }()
+    private lazy var tempSwitch = CustomSwitch(action: didTapTempSwitch)
+    private lazy var timeFormatSwitch = CustomSwitch(action: didTapTimeSwitch)
+    private lazy var windSpeedSwitch = CustomSwitch(action: didTapWindSwitch)
+    private lazy var notificationsSwitch = CustomSwitch(action: didTapNotificationsSwitch)
     
     private lazy var cloudImage1: UIImageView = {
         let imageView = UIImageView()
@@ -117,6 +94,11 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         view.backgroundColor = Styles.darkBlueColor
+        
+        tempSwitch.setup()
+        windSpeedSwitch.setup()
+        timeFormatSwitch.setup()
+        notificationsSwitch.setup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -202,7 +184,6 @@ class SettingsViewController: UIViewController {
             cloudImage1.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -129.6),
             cloudImage1.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             cloudImage1.heightAnchor.constraint(equalToConstant: 58.1),
-//            cloudImage1.widthAnchor.constraint(equalToConstant: 231.4),
             
             cloudImage2.bottomAnchor.constraint(equalTo: containerView.topAnchor, constant: -25.8),
             cloudImage2.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
@@ -220,6 +201,22 @@ class SettingsViewController: UIViewController {
     
     @objc func didTapSettingsButton() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func didTapTempSwitch() {
+        
+    }
+    
+    private func didTapWindSwitch() {
+        
+    }
+    
+    private func didTapTimeSwitch() {
+        
+    }
+    
+    private func didTapNotificationsSwitch() {
+        
     }
     
 }
