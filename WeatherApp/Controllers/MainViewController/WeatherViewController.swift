@@ -104,7 +104,7 @@ class WeatherViewController: UIViewController {
         guard let currentModel = WeatherManager.shared.cityWeatherList.first(where: { $0.location == location }) else { return }
         
         self.dailyModels = currentModel.dailyModels
-        self.currentModels = [currentModel.currentModels]
+        self.currentModels = [currentModel.currentModel]
         self.hourlyModels = currentModel.hourlyModels
         
         DispatchQueue.main.async {

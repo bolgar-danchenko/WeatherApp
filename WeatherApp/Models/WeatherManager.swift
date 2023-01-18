@@ -9,10 +9,11 @@ import Foundation
 import CoreLocation
 
 struct CityWeather {
+    let cityName: String
     let location: CLLocation
     let dailyModels: [DailyWeatherEntry]
     let hourlyModels: [HourlyWeatherEntry]
-    let currentModels: CurrentWeather
+    let currentModel: CurrentWeather
 }
 
 class WeatherManager {
@@ -65,13 +66,21 @@ class WeatherManager {
             
             let dailyEntries = result.daily.data
             
-            let cityWeather = CityWeather(location: location, dailyModels: dailyEntries, hourlyModels: result.hourly.data, currentModels: result.currently)
-            
-            self.cityWeatherList.append(cityWeather)
-            
-            let nc = NotificationCenter.default
-            nc.post(name: Notification.Name("WeatherReceived"), object: nil)
-            
+            location.cityName { decodeResult in
+                switch decodeResult {
+                case .success(let success):
+                    let cityWeather = CityWeather(cityName: success, location: location, dailyModels: dailyEntries, hourlyModels: result.hourly.data, currentModel: result.currently)
+                    
+                    self.cityWeatherList.append(cityWeather)
+                    CoreDataManager.shared.saveToCoreData(cityWeather: cityWeather)
+                    
+                    let nc = NotificationCenter.default
+                    nc.post(name: Notification.Name("WeatherReceived"), object: nil)
+                case .failure(let failure):
+                    print(failure)
+                    break
+                }
+            }
         }).resume()
     }
     
@@ -79,7 +88,7 @@ class WeatherManager {
         UserDefaults.standard.set("celsius", forKey: "temp-units")
         UserDefaults.standard.set("km", forKey: "speed-units")
         UserDefaults.standard.set("24h", forKey: "time-units")
-        UserDefaults.standard.set(true, forKey: "isNotificationOn")
+        UserDefaults.standard.set(false, forKey: "isNotificationOn")
     }
     
     func getTemp(from temp: Double) -> Int {
@@ -108,15 +117,4 @@ class WeatherManager {
         
         return formatter.string(from: inputDate)
     }
-}
-
-enum TimeFormat: String {
-    
-    case time24 = "HH:mm" // 12:00
-    case time12 = "h a" // 3 PM
-    case date = "d/MM" // 25/11
-    case dateAndTime24 = "MMM d, HH:mm" // Nov 25, 15:12
-    case dateAndTime12 = "MMM d, h:mm a" // Nov 26, 3:12 PM
-    case dayAndDate = "E, dd/MM" // Wed, 25/11
-    
 }
