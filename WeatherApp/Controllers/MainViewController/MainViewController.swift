@@ -16,7 +16,7 @@ class MainViewController: UIViewController {
     
     private lazy var addLocationButton: UIBarButtonItem = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "pin"), for: .normal)
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.tintColor = .black
         button.addTarget(self, action: #selector(addLocation), for: .touchUpInside)
         
