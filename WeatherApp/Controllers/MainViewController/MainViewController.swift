@@ -28,6 +28,20 @@ class MainViewController: UIViewController {
         return menuBarItem
     }()
     
+    private lazy var deleteLocationButton: UIBarButtonItem = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "trash"), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(deleteLocation), for: .touchUpInside)
+        
+        let menuBarItem = UIBarButtonItem(customView: button)
+        menuBarItem.customView?.translatesAutoresizingMaskIntoConstraints = false
+        menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 26).isActive = true
+        menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 20).isActive = true
+    
+        return menuBarItem
+    }()
+    
     private lazy var settingsButton: UIBarButtonItem = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "menu-button"), for: .normal)
@@ -110,7 +124,7 @@ class MainViewController: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "RubikRoman-Regular", size: 18) ?? UIFont()]
         title = "No Location"
         
-        navigationItem.rightBarButtonItem = addLocationButton
+        navigationItem.rightBarButtonItems = [addLocationButton, deleteLocationButton]
         navigationItem.leftBarButtonItem = settingsButton
     }
     
@@ -155,15 +169,6 @@ class MainViewController: UIViewController {
         DispatchQueue.main.async {
             self.title = cityName
         }
-    }
-    
-    private func deleteCity() {
-        
-        guard let title = title else { return }
-        
-        CoreDataManager.shared.removeCity(cityName: title)
-        pageController?.removeCurrentController()
-        pageControl.numberOfPages -= 1
     }
     
     @objc private func getWeather() {
@@ -227,9 +232,17 @@ class MainViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
+    @objc private func deleteLocation() {
+        
+        guard let title = title else { return }
+        
+        CoreDataManager.shared.removeCity(cityName: title)
+        pageController?.removeCurrentController()
+        pageControl.numberOfPages -= 1
+    }
+    
     @objc private func didTapSettings() {
-//        navigationController?.pushViewController(SettingsViewController(), animated: true)
-        deleteCity()
+        navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
 }
 
