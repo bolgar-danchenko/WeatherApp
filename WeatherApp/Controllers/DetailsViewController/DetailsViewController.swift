@@ -61,14 +61,7 @@ class DetailsViewController: UIViewController {
     init(hourlyModels: [HourlyWeatherEntry]) {
         super.init(nibName: nil, bundle: nil)
         
-        var models = [HourlyWeatherEntry]()
-        for model in hourlyModels {
-            if models.count < 24 {
-                models.append(model)
-            }
-        }
-        
-        self.hourlyModels = models
+        self.hourlyModels = hourlyModels
     }
     
     required init?(coder: NSCoder) {

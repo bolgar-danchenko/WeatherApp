@@ -48,7 +48,16 @@ class WeatherViewController: UIViewController {
         if let currentModel = WeatherManager.shared.cityWeatherList.first(where: { $0.cityName == city?.cityName }) {
             self.dailyModels = currentModel.dailyModels.sorted(by: { $0.time < $1.time } )
             self.currentModels = [currentModel.currentModel]
-            self.hourlyModels = currentModel.hourlyModels.sorted(by: { $0.time < $1.time } )
+            
+            let allHourlyModels = currentModel.hourlyModels.sorted(by: { $0.time < $1.time } )
+            
+            var models = [HourlyWeatherEntry]()
+            for model in allHourlyModels {
+                if models.count < 24 {
+                    models.append(model)
+                }
+            }
+            self.hourlyModels = models
         }
         tableView.reloadData()
     }
