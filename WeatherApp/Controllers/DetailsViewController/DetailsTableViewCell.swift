@@ -15,17 +15,9 @@ class DetailsTableViewCell: UITableViewCell {
     
     // MARK: - Subviews
     
-    private lazy var dateLabel: UILabel = {
-        let label = UILabel()
-        label.applyStyle(font: Styles.rubikMedium18Font, color: .black)
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     private lazy var timeLabel: UILabel = {
         let label = UILabel()
-        label.applyStyle(font: Styles.rubikRegular14Font, color: Styles.dateGrayColor)
+        label.applyStyle(font: Styles.rubikMedium18Font, color: .black)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -160,7 +152,6 @@ class DetailsTableViewCell: UITableViewCell {
         contentView.clipsToBounds = true
         contentView.backgroundColor = Styles.solitudeColor
         
-        contentView.addSubview(dateLabel)
         contentView.addSubview(timeLabel)
         contentView.addSubview(tempLabel)
         contentView.addSubview(summaryLabel)
@@ -180,21 +171,16 @@ class DetailsTableViewCell: UITableViewCell {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
-            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            dateLabel.heightAnchor.constraint(equalToConstant: 22),
-            
-            timeLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 8),
+            timeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             timeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            timeLabel.widthAnchor.constraint(equalToConstant: 47),
-            timeLabel.heightAnchor.constraint(equalToConstant: 19),
+            timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            timeLabel.heightAnchor.constraint(equalToConstant: 22),
             
             tempLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 10),
             tempLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             tempLabel.heightAnchor.constraint(equalToConstant: 23),
             
-            summaryImage.centerYAnchor.constraint(equalTo: timeLabel.centerYAnchor),
+            summaryImage.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor),
             summaryImage.trailingAnchor.constraint(equalTo: summaryLabel.leadingAnchor, constant: -7),
             summaryImage.widthAnchor.constraint(equalToConstant: 12),
             summaryImage.heightAnchor.constraint(equalToConstant: 12),
@@ -252,8 +238,6 @@ class DetailsTableViewCell: UITableViewCell {
     // MARK: - Configure
     
     func configure(with model: HourlyWeatherEntry) {
-        
-        dateLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.dayAndDate.rawValue)
         
         if UserDefaults.standard.value(forKey: "time-units") as? String == "24h" {
             timeLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.time24.rawValue)
