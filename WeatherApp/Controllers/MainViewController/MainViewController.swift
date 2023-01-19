@@ -120,12 +120,14 @@ class MainViewController: UIViewController {
     }
     
     private func setupDeleteButton() {
-        let controllersCount = pageViewController?.cities.count ?? 0
-        
-        if controllersCount == 0 || controllersCount == 1 {
-            deleteLocationButton.isHidden = true
-        } else {
-            deleteLocationButton.isHidden = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            let controllersCount = self.pageViewController?.cities.count ?? 0
+
+            if controllersCount == 0 || controllersCount == 1 {
+                self.deleteLocationButton.isHidden = true
+            } else {
+                self.deleteLocationButton.isHidden = false
+            }
         }
     }
     
@@ -252,7 +254,6 @@ class MainViewController: UIViewController {
             pageViewController?.removeCurrentController()
             pageControl.numberOfPages -= 1
         }
-        
         setupDeleteButton()
     }
     

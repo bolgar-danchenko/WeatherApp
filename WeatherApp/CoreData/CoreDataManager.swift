@@ -37,6 +37,7 @@ final class CoreDataManager {
         let city = CityWeatherEntity(entity: entityDescription, insertInto: viewContext)
 
         city.cityName = cityWeather.cityName
+        city.dateAdded = Date()
 
         let dailyEntityModels = cityWeather.dailyModels.compactMap { dailyModel -> DailyWeatherEntryEntity? in
 
@@ -110,6 +111,8 @@ final class CoreDataManager {
     public func readFromCoreData(completion: @escaping (([CityWeather]) -> Void)) {
         
         let fetchRequest = NSFetchRequest<CityWeatherEntity>(entityName: "CityWeather")
+        let sort = NSSortDescriptor(key: "dateAdded", ascending: true)
+        fetchRequest.sortDescriptors = [sort]
 
         let group = DispatchGroup()
         var weatherList = [CityWeather]()
