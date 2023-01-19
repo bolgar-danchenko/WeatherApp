@@ -13,8 +13,16 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Subviews
     
+    private lazy var labelBackground: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private lazy var label: UILabel = {
         let label = UILabel()
+        label.applyStyle(font: Styles.rubikRegular18Font, color: .black)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -35,8 +43,10 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                label.textColor = .blue
+                labelBackground.backgroundColor = Styles.darkBlueColor
+                label.textColor = .white
             } else {
+                labelBackground.backgroundColor = .clear
                 label.textColor = .black
             }
         }
@@ -45,15 +55,19 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
     // MARK: - Layout
     
     private func setupView() {
-        self.addSubview(label)
+        self.addSubview(labelBackground)
+        labelBackground.addSubview(label)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: self.topAnchor),
-            label.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            label.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            labelBackground.topAnchor.constraint(equalTo: self.topAnchor),
+            labelBackground.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            labelBackground.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            labelBackground.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            label.centerXAnchor.constraint(equalTo: labelBackground.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: labelBackground.centerYAnchor)
         ])
     }
     

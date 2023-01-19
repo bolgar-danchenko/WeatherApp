@@ -47,35 +47,19 @@ class DailyViewController: UIViewController {
         return label
     }()
     
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: segmentedControlButtons)
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 12
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private lazy var stackScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.backgroundColor = .white
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
+    private lazy var collectionView: UICollectionView = {
+        let viewFlowLayout = UICollectionViewFlowLayout()
+        viewFlowLayout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: viewFlowLayout)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
     }()
     
     private lazy var dailyView: UIView = {
         let view = WeatherSummary(dailyModel: dailyModels[selectedDay])
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
-    }()
-    
-    private lazy var collectionView: UICollectionView = {
-        let viewFlowLayout = UICollectionViewFlowLayout()
-        viewFlowLayout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: viewFlowLayout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
     }()
     
     // MARK: - Init
@@ -95,25 +79,16 @@ class DailyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setButtons()
         
         setupSubview()
+        tuneCollectionView()
         setupConstraints()
         setupDailyView()
-        
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(ButtonsCollectionViewCell.self, forCellWithReuseIdentifier: ButtonsCollectionViewCell.identifier)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        configureCustomSegmentedControl()
+        scrollCollectionView()
     }
     
     @objc func didTapBack() {
@@ -161,46 +136,15 @@ class DailyViewController: UIViewController {
     
     // MARK: - Private
     
-    private func setButtons() {
-        for day in dailyModels {
-            let name = WeatherManager.shared.getTime(date: day.time, format: TimeFormat.dayAndDate.rawValue)
-            let button = UIButton()
-            button.setTitle(name, for: .normal)
-            button.setTitleColor(.black, for: .normal)
-            button.backgroundColor = .white
-            button.layer.cornerRadius = 5
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.widthAnchor.constraint(equalToConstant: 105).isActive = true
-            segmentedControlButtons.append(button)
-        }
+    private func tuneCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(ButtonsCollectionViewCell.self, forCellWithReuseIdentifier: ButtonsCollectionViewCell.identifier)
     }
     
-    private func configureCustomSegmentedControl() {
-
+    private func scrollCollectionView() {
         let indexPath = IndexPath(row: selectedDay, section: 0)
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
-    }
-    
-    @objc private func handleSegmentedControlButtons(sender: UIButton) {
-        
-        for button in segmentedControlButtons {
-            if button == sender {
-                UIView.animate(withDuration: 0.2, delay: 0.1, options: .transitionFlipFromLeft) {
-                    button.backgroundColor = Styles.darkBlueColor
-                    button.setTitleColor(.white, for: .normal)
-                }
-                if let index = segmentedControlButtons.firstIndex(of: button) {
-                    selectedDay = index
-                    
-                    setupDailyView()
-                }
-            } else {
-                UIView.animate(withDuration: 0.2, delay: 0.1, options: .transitionFlipFromLeft) {
-                    button.backgroundColor = .white
-                    button.setTitleColor(.black, for: .normal)
-                }
-            }
-        }
     }
     
     private func setupDailyView() {
@@ -215,7 +159,7 @@ class DailyViewController: UIViewController {
 extension DailyViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 88, height: 36)
+        return CGSize(width: 105, height: 36)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
