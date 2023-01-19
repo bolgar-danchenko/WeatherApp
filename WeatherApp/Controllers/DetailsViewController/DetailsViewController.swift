@@ -11,6 +11,12 @@ class DetailsViewController: UIViewController {
     
     var hourlyModels = [HourlyWeatherEntry]()
     
+    override var title: String? {
+        didSet {
+            locationLabel.text = title
+        }
+    }
+    
     // MARK: - Properties
     
     private lazy var backArrow: UIButton = {
@@ -78,7 +84,6 @@ class DetailsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = true
-        setLocation()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -103,10 +108,6 @@ class DetailsViewController: UIViewController {
         view.addSubview(locationLabel)
         view.addSubview(chartView)
         view.addSubview(tableView)
-    }
-    
-    private func setLocation() {
-        locationLabel.text = UserDefaults.standard.string(forKey: "current_title")
     }
     
     private func tuneTableView() {

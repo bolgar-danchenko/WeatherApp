@@ -31,7 +31,7 @@ class WeatherManager {
         
         guard let url = URL(string: urlString) else { return }
         
-        URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
+        URLSession.shared.dataTask(with: url, completionHandler: { [weak self] data, response, error in
             
             if let error {
                 AlertModel.shared.okActionAlert(title: "Attention", message: "Weather is currently unavailable. Please try again later.")
@@ -71,17 +71,28 @@ class WeatherManager {
                 case .success(let success):
                     let cityWeather = CityWeather(cityName: success, location: location, dailyModels: dailyEntries, hourlyModels: result.hourly.data, currentModel: result.currently)
                     
-                    self.cityWeatherList.append(cityWeather)
                     CoreDataManager.shared.saveToCoreData(cityWeather: cityWeather)
-                    
-                    let nc = NotificationCenter.default
-                    nc.post(name: Notification.Name("WeatherReceived"), object: nil)
+                    CoreDataManager.shared.readFromCoreData { result in
+                        self?.cityWeatherList = result
+                        
+                        let nc = NotificationCenter.default
+                        nc.post(name: Notification.Name("WeatherReceived"), object: nil)
+                    }
                 case .failure(let failure):
                     print(failure)
                     break
                 }
             }
         }).resume()
+    }
+    
+    func updateCachedData(completion: @escaping (([CityWeather]) -> Void)) {
+        CoreDataManager.shared.readFromCoreData { [weak self] result in
+            result.forEach { cityWeather in
+                self?.requestWeather(for: cityWeather.location)
+            }
+            completion(result)
+        }
     }
     
     func configureSettings() {

@@ -9,6 +9,11 @@ import Foundation
 import UIKit
 import CoreLocation
 
+struct City {
+    let cityName: String
+    let location: CLLocation
+}
+
 class LocationManager: NSObject {
     
     static let shared = LocationManager()
@@ -20,6 +25,10 @@ class LocationManager: NSObject {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+    }
+    
+    func isLocationAuth() -> Bool {
+        locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways
     }
     
     func resolveLocationName(with location: CLLocation, completion: @escaping ((String?) -> Void)) {

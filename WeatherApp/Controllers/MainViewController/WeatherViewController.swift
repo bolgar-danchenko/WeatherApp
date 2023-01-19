@@ -18,7 +18,7 @@ class WeatherViewController: UIViewController {
     var hourlyModels = [HourlyWeatherEntry]()
     var dailyModels = [DailyWeatherEntry]()
     
-    var location: CLLocation?
+    var city: City?
     
     // MARK: - Bar button items
     
@@ -45,12 +45,17 @@ class WeatherViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        if let currentModel = WeatherManager.shared.cityWeatherList.first(where: { $0.cityName == city?.cityName }) {
+            self.dailyModels = currentModel.dailyModels.sorted(by: { $0.time < $1.time } )
+            self.currentModels = [currentModel.currentModel]
+            self.hourlyModels = currentModel.hourlyModels.sorted(by: { $0.time < $1.time } )
+        }
         tableView.reloadData()
     }
     
     @objc func refresh(_ sender: AnyObject) {
         
-        guard let location = location else { return }
+        guard let location = city?.location else { return }
         
         DispatchQueue.main.async {
             WeatherManager.shared.requestWeather(for: location)
@@ -101,11 +106,11 @@ class WeatherViewController: UIViewController {
             self.refreshControl.endRefreshing()
         }
         
-        guard let currentModel = WeatherManager.shared.cityWeatherList.first(where: { $0.location == location }) else { return }
+        guard let currentModel = WeatherManager.shared.cityWeatherList.first(where: { $0.cityName == city?.cityName }) else { return }
         
-        self.dailyModels = currentModel.dailyModels
+        self.dailyModels = currentModel.dailyModels.sorted(by: { $0.time < $1.time } )
         self.currentModels = [currentModel.currentModel]
-        self.hourlyModels = currentModel.hourlyModels
+        self.hourlyModels = currentModel.hourlyModels.sorted(by: { $0.time < $1.time } )
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -168,10 +173,12 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.section == 1 {
-            navigationController?.pushViewController(DetailsViewController(hourlyModels: hourlyModels), animated: true)
+            let vc = DetailsViewController(hourlyModels: hourlyModels)
+            vc.title = city?.cityName
+            navigationController?.pushViewController(vc, animated: true)
         } else if indexPath.section == 3 {
-//            let vc = DailyViewController(dailyModel: dailyModels[indexPath.row])
             let vc = DailyViewController(dailyModels: dailyModels, selectedDay: indexPath.row)
+            vc.title = city?.cityName
             present(vc, animated: true)
         }
     }

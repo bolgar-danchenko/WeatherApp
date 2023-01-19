@@ -223,4 +223,13 @@ final class CoreDataManager {
             print(error)
         }
     }
+    
+    public func removeCity(cityName: String) {
+        removeOldData(cityName: cityName)
+        do {
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
 }

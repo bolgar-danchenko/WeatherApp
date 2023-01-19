@@ -75,15 +75,21 @@ class MainViewController: UIViewController {
         setupSubview()
         checkOnboardingStatus()
         setupNavigationBar()
-        getWeather()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        updateWeather()
+        setupPageViewController()
         
-        if pageController == nil {
-            getWeather()
-            setupPageViewController()
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(getWeather), name: Notification.Name("WeatherReceived"), object: nil)
+        
+        if !LocationManager.shared.isLocationAuth() {
+            WeatherManager.shared.updateCachedData { [weak self] cityWeatherArray in
+                let cities = cityWeatherArray.compactMap { cityWeather in
+                    let city = City(cityName: cityWeather.cityName, location: cityWeather.location)
+                    return city
+                }
+                self?.pageController?.setCities(cities: cities)
+                self?.pageControl.numberOfPages = cities.count
+            }
         }
     }
     
@@ -141,27 +147,59 @@ class MainViewController: UIViewController {
             WeatherManager.shared.configureSettings()
         } else {
             LocationManager.shared.getUserLocation()
+            
         }
     }
     
-    private func setTitle(location: CLLocation) {
+    private func setTitle(cityName: String) {
         DispatchQueue.main.async {
-            LocationManager.shared.resolveLocationName(with: location) { locationName in
-                guard let locationName = locationName else { return }
-                self.title = locationName
-                UserDefaults.standard.set(locationName, forKey: "current_title")
-            }
+            self.title = cityName
         }
     }
     
-    private func getWeather() {
+    private func deleteCity() {
+        
+        guard let title = title else { return }
+        
+        CoreDataManager.shared.removeCity(cityName: title)
+        pageController?.removeCurrentController()
+        pageControl.numberOfPages -= 1
+    }
+    
+    @objc private func getWeather() {
+        
+        let pageControllersCount = self.pageController?.cities.count ?? 0
+        
+        if self.pageController?.viewControllers?.isEmpty == true || pageControllersCount < WeatherManager.shared.cityWeatherList.count {
+            let cities = WeatherManager.shared.cityWeatherList.compactMap { cityWeather in
+                let city = City(cityName: cityWeather.cityName, location: cityWeather.location)
+                return city
+            }
+            
+            self.pageController?.setCities(cities: cities)
+            self.pageControl.numberOfPages = cities.count
+        }
+    }
+    
+    private func updateWeather() {
         LocationManager.shared.newLocationHandler = { location in
-            
+
             WeatherManager.shared.requestWeather(for: location)
-            
-            self.pageController?.addWeatherController(location: location)
-            self.pageControl.numberOfPages += 1
-            self.pageController?.goToController(with: location)
+            location.cityName { [weak self] result in
+                switch result {
+                case .success(let cityName):
+                    guard !WeatherManager.shared.cityWeatherList.contains(where: { $0.cityName == cityName} ) else { return }
+                    let city = City(cityName: cityName, location: location)
+
+                    if self?.pageController?.addWeatherController(city: city) == true {
+                        self?.pageControl.numberOfPages += 1
+                        self?.pageController?.goToController(with: city)
+                    }
+
+                case.failure(let error):
+                    print(error)
+                }
+            }
         }
     }
     
@@ -181,7 +219,7 @@ class MainViewController: UIViewController {
                 LocationManager.shared.getLocationFromString(with: userInput)
             } else {
                 LocationManager.shared.getLocationFromString(with: userInput)
-                self.getWeather()
+                self.updateWeather()
                 self.setupPageViewController()
             }
         })
@@ -190,7 +228,8 @@ class MainViewController: UIViewController {
     }
     
     @objc private func didTapSettings() {
-        navigationController?.pushViewController(SettingsViewController(), animated: true)
+//        navigationController?.pushViewController(SettingsViewController(), animated: true)
+        deleteCity()
     }
 }
 
@@ -203,7 +242,7 @@ extension MainViewController: PageViewControllerDelegate {
             self.pageControl.currentPage = index
         }
         guard let weatherController = pageVC.currentViewController() as? WeatherViewController,
-        let location = weatherController.location else { return }
-        setTitle(location: location)
+              let cityName = weatherController.city?.cityName else { return }
+        setTitle(cityName: cityName)
     }
 }
