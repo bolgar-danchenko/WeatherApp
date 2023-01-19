@@ -27,7 +27,7 @@ class LocationManager: NSObject {
         locationManager.startUpdatingLocation()
     }
     
-    func isLocationAuth() -> Bool {
+    func isLocationAllowed() -> Bool {
         locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways
     }
     
@@ -63,17 +63,14 @@ class LocationManager: NSObject {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address) { [weak self] placemarks, error in
             
-            guard let strongSelf = self else { return }
-            
             if let error = error {
                 AlertModel.shared.okActionAlert(title: "Attention", message: "This location is unavailable")
                 print(error.localizedDescription)
             }
-            
             guard let placemarks = placemarks,
                   let location = placemarks.first?.location else { return }
             
-            strongSelf.newLocationHandler?(location)
+            self?.newLocationHandler?(location)
         }
     }
 }
@@ -82,12 +79,10 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         if !locations.isEmpty {
-            
             guard let location = locations.first else {
                 AlertModel.shared.okActionAlert(title: "Attention", message: "Unable to determine your location")
                 return
             }
-            
             locationManager.stopUpdatingLocation()
             WeatherManager.shared.requestWeather(for: location)
             newLocationHandler?(location)

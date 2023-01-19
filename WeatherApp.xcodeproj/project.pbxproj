@@ -124,8 +124,8 @@
 		B535B22B2978774500F483C8 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				B56349312937E77F00A0612E /* WeatherApp.xcdatamodeld */,
 				B5ABA9E829784EBB0049C9FF /* CoreDataManager.swift */,
+				B56349312937E77F00A0612E /* WeatherApp.xcdatamodeld */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";

@@ -126,7 +126,7 @@ final class CoreDataManager {
 
                     switch decodedResult {
                     case .success(let success):
-                        guard let cityWeather = self?.cityWeather(by: success, entity: result) else {
+                        guard let cityWeather = self?.getCityWeather(by: success, entity: result) else {
                             group.leave()
                             return
                         }
@@ -145,7 +145,7 @@ final class CoreDataManager {
         }
     }
     
-    private func cityWeather(by location: CLLocation, entity: CityWeatherEntity) -> CityWeather? {
+    private func getCityWeather(by location: CLLocation, entity: CityWeatherEntity) -> CityWeather? {
         guard let dailyModelsArray = entity.dailyModels?.allObjects as? [DailyWeatherEntryEntity] else { return nil }
 
         let dailyEntityModels = dailyModelsArray.compactMap { dailyModel -> DailyWeatherEntry? in

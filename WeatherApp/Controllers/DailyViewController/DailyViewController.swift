@@ -18,8 +18,6 @@ class DailyViewController: UIViewController {
         }
     }
     
-    var segmentedControlButtons: [UIButton] = []
-    
     // MARK: - Subviews
     
     private lazy var backArrow: UIButton = {
@@ -169,7 +167,7 @@ extension DailyViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonsCollectionViewCell.identifier, for: indexPath) as! ButtonsCollectionViewCell
-        cell.configure(name: WeatherManager.shared.getTime(date: dailyModels[indexPath.row].time, format: TimeFormat.dayAndDate.rawValue))
+        cell.configure(dateLabel: WeatherManager.shared.getTime(date: dailyModels[indexPath.row].time, format: TimeFormat.dayAndDate.rawValue))
         return cell
     }
     

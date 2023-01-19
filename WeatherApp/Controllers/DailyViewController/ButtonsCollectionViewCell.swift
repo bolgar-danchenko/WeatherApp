@@ -20,7 +20,7 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    private lazy var label: UILabel = {
+    private lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: Styles.rubikRegular18Font, color: .black)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -44,10 +44,10 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         didSet {
             if isSelected {
                 labelBackground.backgroundColor = Styles.darkBlueColor
-                label.textColor = .white
+                dateLabel.textColor = .white
             } else {
                 labelBackground.backgroundColor = .clear
-                label.textColor = .black
+                dateLabel.textColor = .black
             }
         }
     }
@@ -56,7 +56,7 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
     
     private func setupView() {
         self.addSubview(labelBackground)
-        labelBackground.addSubview(label)
+        labelBackground.addSubview(dateLabel)
     }
     
     private func setupConstraints() {
@@ -66,14 +66,14 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
             labelBackground.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             labelBackground.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
-            label.centerXAnchor.constraint(equalTo: labelBackground.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: labelBackground.centerYAnchor)
+            dateLabel.centerXAnchor.constraint(equalTo: labelBackground.centerXAnchor),
+            dateLabel.centerYAnchor.constraint(equalTo: labelBackground.centerYAnchor)
         ])
     }
     
     // MARK: - Configure
     
-    func configure(name: String) {
-        label.text = name
+    func configure(dateLabel: String) {
+        self.dateLabel.text = dateLabel
     }
 }

@@ -10,7 +10,7 @@ import CoreLocation
 
 class MainViewController: UIViewController {
     
-    private var pageController: PageViewController?
+    private var pageViewController: PageViewController?
     
     // MARK: - Subviews
     
@@ -86,36 +86,25 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setupSubview()
         checkOnboardingStatus()
         setupNavigationBar()
+        setupSubview()
         updateWeather()
         setupPageViewController()
         
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(getWeather), name: Notification.Name("WeatherReceived"), object: nil)
         
-        if !LocationManager.shared.isLocationAuth() {
+        if !LocationManager.shared.isLocationAllowed() {
             WeatherManager.shared.updateCachedData { [weak self] cityWeatherArray in
                 let cities = cityWeatherArray.compactMap { cityWeather in
                     let city = City(cityName: cityWeather.cityName, location: cityWeather.location)
                     return city
                 }
-                self?.pageController?.setCities(cities: cities)
+                self?.pageViewController?.setCities(cities: cities)
                 self?.pageControl.numberOfPages = cities.count
             }
         }
-    }
-    
-    private func setupSubview() {
-        view.addSubview(noLocationLabel)
-        
-        NSLayoutConstraint.activate([
-            noLocationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            noLocationLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            noLocationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            noLocationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-        ])
     }
     
     // MARK: - Layout
@@ -126,6 +115,18 @@ class MainViewController: UIViewController {
         
         navigationItem.rightBarButtonItems = [addLocationButton, deleteLocationButton]
         navigationItem.leftBarButtonItem = settingsButton
+        
+        setupDeleteButton()
+    }
+    
+    private func setupDeleteButton() {
+        let controllersCount = pageViewController?.cities.count ?? 0
+        
+        if controllersCount == 0 || controllersCount == 1 {
+            deleteLocationButton.isHidden = true
+        } else {
+            deleteLocationButton.isHidden = false
+        }
     }
     
     private func setupPageViewController() {
@@ -150,7 +151,18 @@ class MainViewController: UIViewController {
             pageControl.centerXAnchor.constraint(equalTo: pageVC.view.centerXAnchor)
         ])
         
-        pageController = pageVC
+        pageViewController = pageVC
+    }
+    
+    private func setupSubview() {
+        view.addSubview(noLocationLabel)
+        
+        NSLayoutConstraint.activate([
+            noLocationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noLocationLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            noLocationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            noLocationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+        ])
     }
     
     // MARK: - Private
@@ -161,7 +173,6 @@ class MainViewController: UIViewController {
             WeatherManager.shared.configureSettings()
         } else {
             LocationManager.shared.getUserLocation()
-            
         }
     }
     
@@ -173,15 +184,14 @@ class MainViewController: UIViewController {
     
     @objc private func getWeather() {
         
-        let pageControllersCount = self.pageController?.cities.count ?? 0
+        let pageControllersCount = self.pageViewController?.cities.count ?? 0
         
-        if self.pageController?.viewControllers?.isEmpty == true || pageControllersCount < WeatherManager.shared.cityWeatherList.count {
+        if self.pageViewController?.viewControllers?.isEmpty == true || pageControllersCount < WeatherManager.shared.cityWeatherList.count {
             let cities = WeatherManager.shared.cityWeatherList.compactMap { cityWeather in
                 let city = City(cityName: cityWeather.cityName, location: cityWeather.location)
                 return city
             }
-            
-            self.pageController?.setCities(cities: cities)
+            self.pageViewController?.setCities(cities: cities)
             self.pageControl.numberOfPages = cities.count
         }
     }
@@ -196,11 +206,13 @@ class MainViewController: UIViewController {
                     guard !WeatherManager.shared.cityWeatherList.contains(where: { $0.cityName == cityName} ) else { return }
                     let city = City(cityName: cityName, location: location)
 
-                    if self?.pageController?.addWeatherController(city: city) == true {
+                    if self?.pageViewController?.addWeatherController(city: city) == true {
                         self?.pageControl.numberOfPages += 1
-                        self?.pageController?.goToController(with: city)
+                        self?.pageViewController?.goToController(with: city)
+                        DispatchQueue.main.async {
+                            self?.setupDeleteButton()
+                        }
                     }
-
                 case.failure(let error):
                     print(error)
                 }
@@ -214,18 +226,17 @@ class MainViewController: UIViewController {
         let alert = UIAlertController(title: "Add Location", message: "", preferredStyle: .alert)
         alert.addTextField()
         alert.textFields?.first?.placeholder = "City or territory..."
-        alert.addAction(UIAlertAction(title: "Add", style: .default) {_ in
+        alert.addAction(UIAlertAction(title: "Add", style: .default) { [weak self] _ in
             guard let userInput = alert.textFields?.first?.text, !userInput.isEmpty else {
                 AlertModel.shared.okActionAlert(title: "Attention", message: "Location cannot be ampty")
                 return
             }
-            
             if LocationManager.shared.newLocationHandler != nil {
                 LocationManager.shared.getLocationFromString(with: userInput)
             } else {
                 LocationManager.shared.getLocationFromString(with: userInput)
-                self.updateWeather()
-                self.setupPageViewController()
+                self?.updateWeather()
+                self?.setupPageViewController()
             }
         })
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
@@ -236,9 +247,13 @@ class MainViewController: UIViewController {
         
         guard let title = title else { return }
         
-        CoreDataManager.shared.removeCity(cityName: title)
-        pageController?.removeCurrentController()
-        pageControl.numberOfPages -= 1
+        if pageControl.numberOfPages > 1 {
+            CoreDataManager.shared.removeCity(cityName: title)
+            pageViewController?.removeCurrentController()
+            pageControl.numberOfPages -= 1
+        }
+        
+        setupDeleteButton()
     }
     
     @objc private func didTapSettings() {

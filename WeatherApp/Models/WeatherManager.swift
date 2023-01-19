@@ -38,18 +38,15 @@ class WeatherManager {
                 print(error.localizedDescription)
                 return
             }
-            
             if (response as? HTTPURLResponse)?.statusCode != 200 {
                 AlertModel.shared.okActionAlert(title: "Attention", message: "Weather is currently unavailable. Please try again later.")
                 print("Status code = \((response as? HTTPURLResponse)?.statusCode ?? 0)")
                 return
             }
-            
             guard let data else {
                 AlertModel.shared.okActionAlert(title: "Attention", message: "Weather is currently unavailable. Please try again later.")
                 return
             }
-            
             var json: WeatherResponse?
             
             do {
@@ -58,12 +55,10 @@ class WeatherManager {
                 AlertModel.shared.okActionAlert(title: "Attention", message: "Weather is currently unavailable. Please try again later.")
                 print("Error: \(error)")
             }
-            
             guard let result = json else {
                 AlertModel.shared.okActionAlert(title: "Attention", message: "Weather is currently unavailable. Please try again later.")
                 return
             }
-            
             let dailyEntries = result.daily.data
             
             location.cityName { decodeResult in

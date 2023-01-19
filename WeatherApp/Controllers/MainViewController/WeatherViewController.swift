@@ -10,17 +10,12 @@ import CoreLocation
 
 class WeatherViewController: UIViewController {
     
-    let refreshControl = UIRefreshControl()
-    
-    // MARK: - Models
-    
+    var city: City?
     var currentModels = [CurrentWeather]()
     var hourlyModels = [HourlyWeatherEntry]()
     var dailyModels = [DailyWeatherEntry]()
     
-    var city: City?
-    
-    // MARK: - Bar button items
+    let refreshControl = UIRefreshControl()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView.init(frame: .zero, style: .plain)
@@ -137,16 +132,13 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 0 {
-            // 1 cell that is CollectionTableViewCell
+        if section == 0 { // Current Weather
             return 1
-        } else if section == 1 {
-            // 1 cell that is CollectionTableViewCell
+        } else if section == 1 { // Hourly Weather
             return 1
-        } else if section == 2 {
-            // 1 cell with header for daily weather
+        } else if section == 2 { // Daily Weather Title
             return 1
-        } else {
+        } else { // Daily Weather
             return dailyModels.count
         }
     }
@@ -167,7 +159,6 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
             
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: DailyTitleTableViewCell.identifier, for: indexPath) as! DailyTitleTableViewCell
-//            cell.configure()
             cell.selectionStyle = .none
             return cell
             
@@ -200,7 +191,6 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 2 {
             return 30
         }
-
         return 66
     }
 }
