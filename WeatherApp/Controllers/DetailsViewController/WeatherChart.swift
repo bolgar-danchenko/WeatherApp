@@ -21,30 +21,48 @@ struct WeatherChart: View {
                 Chart {
                     ForEach(hourlyModels) { hour in
                         LineMark(
-                            x: .value("Time", WeatherManager.shared.getTime(date: hour.time, format: TimeFormat.time.rawValue)),
-                            y: .value("Temperature", WeatherManager.shared.getCelsiusTemp(from: hour.temperature))
+                            x: .value(
+                                "Time",
+                                WeatherManager.shared.getTime(
+                                    date: hour.time,
+                                    format: (UserDefaults.standard.value(forKey: "time-units") as? String == "24h") ? TimeFormat.time24.rawValue : TimeFormat.time12.rawValue
+                                )
+                            ),
+                            y: .value("Temperature", WeatherManager.shared.getTemp(from: hour.temperature))
                         )
                         .lineStyle(.init(lineWidth: 0.7))
                         .foregroundStyle(Color(uiColor: Styles.darkBlueColor))
                         
                         PointMark(
-                            x: .value("Time", WeatherManager.shared.getTime(date: hour.time, format: TimeFormat.time.rawValue)),
-                            y: .value("Temperature", WeatherManager.shared.getCelsiusTemp(from: hour.temperature))
+                            x: .value(
+                                "Time",
+                                WeatherManager.shared.getTime(
+                                    date: hour.time,
+                                    format: (UserDefaults.standard.value(forKey: "time-units") as? String == "24h") ? TimeFormat.time24.rawValue : TimeFormat.time12.rawValue
+                                )
+                            ),
+                            y: .value("Temperature", WeatherManager.shared.getTemp(from: hour.temperature))
                         )
                         .foregroundStyle(.white)
                         .symbolSize(40)
                         .annotation(position: .top, alignment: .center) {
-                            Text("\(WeatherManager.shared.getCelsiusTemp(from: hour.temperature))°")
+                            Text("\(WeatherManager.shared.getTemp(from: hour.temperature))°")
                                 .font(.custom("RubikRoman-Regular", size: 14))
                                 .padding(.bottom, 5)
                         }
                         
                         AreaMark(
-                            x: .value("Time", WeatherManager.shared.getTime(date: hour.time, format: TimeFormat.time.rawValue)),
-                            yStart: .value("Temperature", WeatherManager.shared.getCelsiusTemp(from: hour.temperature) >= 0 ? WeatherManager.shared.getCelsiusTemp(from: hour.temperature) - 1 : WeatherManager.shared.getCelsiusTemp(from: hour.temperature) + 1),
+                            x: .value(
+                                "Time",
+                                WeatherManager.shared.getTime(
+                                    date: hour.time,
+                                    format: (UserDefaults.standard.value(forKey: "time-units") as? String == "24h") ? TimeFormat.time24.rawValue : TimeFormat.time12.rawValue
+                                )
+                            ),
+                            yStart: .value("Temperature", WeatherManager.shared.getTemp(from: hour.temperature) >= 0 ? WeatherManager.shared.getTemp(from: hour.temperature) - 1 : WeatherManager.shared.getTemp(from: hour.temperature) + 1),
                             yEnd: .value("minValue", 0)
                         )
-                        .foregroundStyle(WeatherManager.shared.getCelsiusTemp(from: hour.temperature) >= 0 ? Gradient(colors: [
+                        .foregroundStyle(WeatherManager.shared.getTemp(from: hour.temperature) >= 0 ? Gradient(colors: [
                             Color(red: 61/255.0, green: 105/255.0, blue: 220/225.0, opacity: 0.3),
                             Color(red: 32/255.0, green: 78/255.0, blue: 199/225.0, opacity: 0.3),
                             Color(red: 32/255.0, green: 78/255.0, blue: 199/225.0, opacity: 0),
@@ -66,14 +84,26 @@ struct WeatherChart: View {
                 Chart {
                     ForEach(hourlyModels) { hour in
                         LineMark(
-                            x: .value("Time", WeatherManager.shared.getTime(date: hour.time, format: TimeFormat.time.rawValue)),
+                            x: .value(
+                                "Time",
+                                WeatherManager.shared.getTime(
+                                    date: hour.time,
+                                    format: (UserDefaults.standard.value(forKey: "time-units") as? String == "24h") ? TimeFormat.time24.rawValue : TimeFormat.time12.rawValue
+                                )
+                            ),
                             y: .value("Precipitation", Int(hour.precipProbability * 100))
                         )
                         .lineStyle(.init(lineWidth: 1.0))
                         .foregroundStyle(Color(uiColor: Styles.darkBlueColor))
                         
                         PointMark(
-                            x: .value("Time", WeatherManager.shared.getTime(date: hour.time, format: TimeFormat.time.rawValue)),
+                            x: .value(
+                                "Time",
+                                WeatherManager.shared.getTime(
+                                    date: hour.time,
+                                    format: (UserDefaults.standard.value(forKey: "time-units") as? String == "24h") ? TimeFormat.time24.rawValue : TimeFormat.time12.rawValue
+                                )
+                            ),
                             y: .value("Precipitation", Int(hour.precipProbability * 100))
                         )
                         .foregroundStyle(Color(uiColor: Styles.darkBlueColor))

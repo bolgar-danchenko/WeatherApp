@@ -241,11 +241,11 @@ class CurrentCollectionViewCell: UICollectionViewCell {
     
     func configure(currentModel: CurrentWeather, dailyModel: DailyWeatherEntry) {
         
-        let currentCelsiusTemp = WeatherManager.shared.getCelsiusTemp(from: currentModel.temperature)
+        let currentCelsiusTemp = WeatherManager.shared.getTemp(from: currentModel.temperature)
         currentTempLabel.text = "\(currentCelsiusTemp)°"
         
-        let minCelsiusTemp = WeatherManager.shared.getCelsiusTemp(from: dailyModel.temperatureMin)
-        let maxCelsiusTemp = WeatherManager.shared.getCelsiusTemp(from: dailyModel.temperatureMax)
+        let minCelsiusTemp = WeatherManager.shared.getTemp(from: dailyModel.temperatureMin)
+        let maxCelsiusTemp = WeatherManager.shared.getTemp(from: dailyModel.temperatureMax)
         minMaxTempLabel.text = "\(minCelsiusTemp)°/\(maxCelsiusTemp)°"
         
         summaryLabel.text = currentModel.summary
@@ -253,15 +253,19 @@ class CurrentCollectionViewCell: UICollectionViewCell {
         let cloudPercentage = Int(currentModel.cloudCover*100)
         cloudCoverLabel.text = "\(Int(cloudPercentage))%"
         
-        windSpeedLabel.text = "\(Int(currentModel.windSpeed)) m/s"
+        windSpeedLabel.text = WeatherManager.shared.getSpeed(from: currentModel.windSpeed)
         
         let precipPercentage = Int(currentModel.precipProbability*100)
         precipLabel.text = "\(precipPercentage)%"
-
-        dateLabel.text = WeatherManager.shared.getTime(date: currentModel.time, format: TimeFormat.dateAndTime.rawValue)
         
-        sunriseTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunriseTime, format: TimeFormat.time.rawValue)
-        
-        sunsetTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunsetTime, format: TimeFormat.time.rawValue)
+        if UserDefaults.standard.value(forKey: "time-units") as? String == "24h" {
+            dateLabel.text = WeatherManager.shared.getTime(date: currentModel.time, format: TimeFormat.dateAndTime24.rawValue)
+            sunriseTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunriseTime, format: TimeFormat.time24.rawValue)
+            sunsetTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunsetTime, format: TimeFormat.time24.rawValue)
+        } else {
+            dateLabel.text = WeatherManager.shared.getTime(date: currentModel.time, format: TimeFormat.dateAndTime12.rawValue)
+            sunriseTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunriseTime, format: TimeFormat.time12.rawValue)
+            sunsetTimeLabel.text = WeatherManager.shared.getTime(date: dailyModel.sunsetTime, format: TimeFormat.time12.rawValue)
+        }
     }
 }

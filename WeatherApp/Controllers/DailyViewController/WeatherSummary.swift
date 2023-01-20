@@ -273,22 +273,22 @@ class WeatherSummary: UIView {
     
     private func configure() {
         
-        self.tempLabel.text = "\(WeatherManager.shared.getCelsiusTemp(from: dailyModel.temperatureMax))°"
-        self.summaryLabel.text = dailyModel.summary
+        tempLabel.text = "\(WeatherManager.shared.getTemp(from: dailyModel.temperatureMax))°"
+        summaryLabel.text = dailyModel.summary
         
         let icon = dailyModel.icon.lowercased()
         if icon.contains("clear") {
-            self.weatherImage.image = UIImage(named: "sun")
+            weatherImage.image = UIImage(named: "sun")
         } else if icon.contains("rain") {
-            self.weatherImage.image = UIImage(named: "cloud-rain")
+            weatherImage.image = UIImage(named: "cloud-rain")
         } else {
-            self.weatherImage.image = UIImage(named: "cloud")
+            weatherImage.image = UIImage(named: "cloud")
         }
         
-        self.feelsLikeValue.text = "\(WeatherManager.shared.getCelsiusTemp(from: dailyModel.apparentTemperatureHigh))°"
-        self.windValue.text = "\(Int(dailyModel.windSpeed)) m/s"
-        self.uvIndexValue.text = "\(dailyModel.uvIndex)"
-        self.precipValue.text = "\(Int(dailyModel.precipProbability * 100))%"
-        self.cloudValue.text = "\(Int(dailyModel.cloudCover * 100))%"
+        feelsLikeValue.text = "\(WeatherManager.shared.getTemp(from: dailyModel.apparentTemperatureHigh))°"
+        windValue.text = WeatherManager.shared.getSpeed(from: dailyModel.windSpeed)
+        uvIndexValue.text = "\(dailyModel.uvIndex)"
+        precipValue.text = "\(Int(dailyModel.precipProbability * 100))%"
+        cloudValue.text = "\(Int(dailyModel.cloudCover * 100))%"
     }
 }

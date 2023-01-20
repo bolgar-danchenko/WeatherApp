@@ -70,6 +70,19 @@ struct HourlyWeatherEntry: Codable, Identifiable {
     let windSpeed: Double // 24 hours - wind speed
     let windBearing: Int // 24 hours - wind bearing
     let cloudCover: Double // 24 hours - cloud cover
+    
+    enum CodingKeys: String, CodingKey {
+        case time
+        case summary
+        case icon
+        case precipProbability
+        case precipType
+        case temperature
+        case apparentTemperature
+        case windSpeed
+        case windBearing
+        case cloudCover
+    }
 }
 
 enum MoonPhases: String {

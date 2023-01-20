@@ -72,10 +72,14 @@ class HourlyCollectionViewCell: UICollectionViewCell {
     
     func configure(with model: HourlyWeatherEntry) {
         
-        let celsiusTemp = WeatherManager.shared.getCelsiusTemp(from: model.temperature)
+        let celsiusTemp = WeatherManager.shared.getTemp(from: model.temperature)
         self.tempLabel.text = "\(celsiusTemp)°"
         
-        self.timeLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.time.rawValue)
+        if UserDefaults.standard.value(forKey: "time-units") as? String == "24h" {
+            self.timeLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.time24.rawValue)
+        } else {
+            self.timeLabel.text = WeatherManager.shared.getTime(date: model.time, format: TimeFormat.time12.rawValue)
+        }
         
         let icon = model.icon.lowercased()
         if icon.contains("clear") {

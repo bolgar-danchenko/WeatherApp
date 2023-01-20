@@ -68,7 +68,7 @@ class HourlyTableViewCell: UITableViewCell {
             
             collectionView.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 24),
             collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
         
         ])

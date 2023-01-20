@@ -12,7 +12,11 @@ class DailyViewController: UIViewController {
     var dailyModels: [DailyWeatherEntry]
     var selectedDay: Int
     
-    var segmentedControlButtons: [UIButton] = []
+    override var title: String? {
+        didSet {
+            locationLabel.text = title
+        }
+    }
     
     // MARK: - Subviews
     
@@ -41,22 +45,13 @@ class DailyViewController: UIViewController {
         return label
     }()
     
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: segmentedControlButtons)
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 12
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private lazy var stackScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-//        scrollView.contentSize = CGSize(width: .zero, height: 50)
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.backgroundColor = .white
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
+    private lazy var collectionView: UICollectionView = {
+        let viewFlowLayout = UICollectionViewFlowLayout()
+        viewFlowLayout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: viewFlowLayout)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
     }()
     
     private lazy var dailyView: UIView = {
@@ -82,12 +77,16 @@ class DailyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setLocation()
-        setButtons()
-        configureCustomSegmentedControl()
+        
         setupSubview()
+        tuneCollectionView()
         setupConstraints()
         setupDailyView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        scrollCollectionView()
     }
     
     @objc func didTapBack() {
@@ -100,9 +99,8 @@ class DailyViewController: UIViewController {
         view.addSubview(backLabel)
         view.addSubview(backArrow)
         view.addSubview(locationLabel)
-        view.addSubview(stackScrollView)
-        stackScrollView.addSubview(stackView)
         view.addSubview(dailyView)
+        view.addSubview(collectionView)
     }
     
     private func setupConstraints() {
@@ -122,17 +120,12 @@ class DailyViewController: UIViewController {
             locationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             locationLabel.heightAnchor.constraint(equalToConstant: 22),
             
-            stackScrollView.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 40),
-            stackScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            stackScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            stackScrollView.heightAnchor.constraint(equalToConstant: 50),
+            collectionView.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 40),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            collectionView.heightAnchor.constraint(equalToConstant: 50),
             
-            stackView.centerYAnchor.constraint(equalTo: stackScrollView.centerYAnchor),
-            stackView.leadingAnchor.constraint(equalTo: stackScrollView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: stackScrollView.trailingAnchor),
-            stackView.heightAnchor.constraint(equalToConstant: 36),
-            
-            dailyView.topAnchor.constraint(equalTo: stackScrollView.bottomAnchor, constant: 40),
+            dailyView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 40),
             dailyView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             dailyView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             dailyView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -141,50 +134,15 @@ class DailyViewController: UIViewController {
     
     // MARK: - Private
     
-    private func setLocation() {
-        locationLabel.text = UserDefaults.standard.string(forKey: "current_title")
+    private func tuneCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(ButtonsCollectionViewCell.self, forCellWithReuseIdentifier: ButtonsCollectionViewCell.identifier)
     }
     
-    private func setButtons() {
-        for day in dailyModels {
-            let name = WeatherManager.shared.getTime(date: day.time, format: TimeFormat.dayAndDate.rawValue)
-            let button = UIButton()
-            button.setTitle(name, for: .normal)
-            button.setTitleColor(.black, for: .normal)
-            button.backgroundColor = .white
-            button.layer.cornerRadius = 5
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.widthAnchor.constraint(equalToConstant: 105).isActive = true
-            segmentedControlButtons.append(button)
-        }
-    }
-    
-    private func configureCustomSegmentedControl() {
-        segmentedControlButtons.forEach { $0.addTarget(self, action: #selector(handleSegmentedControlButtons(sender:)), for: .touchUpInside) }
-        segmentedControlButtons[selectedDay].backgroundColor = Styles.darkBlueColor
-        segmentedControlButtons[selectedDay].setTitleColor(.white, for: .normal)
-    }
-    
-    @objc private func handleSegmentedControlButtons(sender: UIButton) {
-        
-        for button in segmentedControlButtons {
-            if button == sender {
-                UIView.animate(withDuration: 0.2, delay: 0.1, options: .transitionFlipFromLeft) {
-                    button.backgroundColor = Styles.darkBlueColor
-                    button.setTitleColor(.white, for: .normal)
-                }
-                if let index = segmentedControlButtons.firstIndex(of: button) {
-                    selectedDay = index
-                    
-                    setupDailyView()
-                }
-            } else {
-                UIView.animate(withDuration: 0.2, delay: 0.1, options: .transitionFlipFromLeft) {
-                    button.backgroundColor = .white
-                    button.setTitleColor(.black, for: .normal)
-                }
-            }
-        }
+    private func scrollCollectionView() {
+        let indexPath = IndexPath(row: selectedDay, section: 0)
+        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
     }
     
     private func setupDailyView() {
@@ -195,3 +153,27 @@ class DailyViewController: UIViewController {
         setupConstraints()
     }
 }
+
+extension DailyViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 105, height: 36)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dailyModels.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonsCollectionViewCell.identifier, for: indexPath) as! ButtonsCollectionViewCell
+        cell.configure(dateLabel: WeatherManager.shared.getTime(date: dailyModels[indexPath.row].time, format: TimeFormat.dayAndDate.rawValue))
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedDay = indexPath.row
+        setupDailyView()
+    }
+}
+

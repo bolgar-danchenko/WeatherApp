@@ -12,7 +12,7 @@ class PageViewController: UIPageViewController {
 
     weak var pageViewControllerDelegate: PageViewControllerDelegate?
     
-    private var cities: [UIViewController] = []
+    private(set) var cities: [UIViewController] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +26,9 @@ class PageViewController: UIPageViewController {
         return firstVC
     }
     
-    func goToController(with location: CLLocation) {
+    func goToController(with city: City) {
         
-        guard let searchedController = cities.first(where: { ($0 as? WeatherViewController)?.location == location }) else { return }
+        guard let searchedController = cities.first(where: { ($0 as? WeatherViewController)?.city?.cityName == city.cityName }) else { return }
         
         setViewControllers([searchedController], direction: .forward, animated: true)
         
@@ -37,17 +37,54 @@ class PageViewController: UIPageViewController {
         }
     }
     
-    func addWeatherController(location: CLLocation) {
+    func addWeatherController(city: City) -> Bool {
+        
+        guard cities.first(where: { ($0 as? WeatherViewController)?.city?.cityName == city.cityName }) == nil else { return false }
+        
         let weatherVC = WeatherViewController()
-        weatherVC.location = location
+        weatherVC.city = city
         cities.append(weatherVC)
         
-        guard viewControllers?.isEmpty == true else { return }
+        guard viewControllers?.isEmpty == true else { return true }
         
         if let firstVC = cities.first {
             setViewControllers([firstVC], direction: .forward, animated: true)
             
             if let index = cities.firstIndex(of: firstVC) {
+                pageViewControllerDelegate?.pageViewController(pageVC: self, didUpdatePageIndex: index)
+            }
+        }
+        return true
+    }
+    
+    func removeCurrentController() {
+        self.cities.removeAll { vc in
+            (vc as? WeatherViewController)?.city?.cityName == (self.viewControllers?.first as? WeatherViewController)?.city?.cityName
+        }
+        
+        if let firstVC = cities.first {
+            setViewControllers([firstVC], direction: .forward, animated: true)
+            
+            if let index = cities.firstIndex(of: firstVC) {
+                pageViewControllerDelegate?.pageViewController(pageVC: self, didUpdatePageIndex: index)
+            }
+        }
+    }
+    
+    func setCities(cities: [City]) {
+        
+        self.cities.removeAll()
+        
+        cities.forEach { [weak self] city in
+            let weatherVC = WeatherViewController()
+            weatherVC.city = city
+            self?.cities.append(weatherVC)
+        }
+        
+        if let firstVC = self.cities.first {
+            setViewControllers([firstVC], direction: .forward, animated: true)
+            
+            if let index = self.cities.firstIndex(of: firstVC) {
                 pageViewControllerDelegate?.pageViewController(pageVC: self, didUpdatePageIndex: index)
             }
         }
