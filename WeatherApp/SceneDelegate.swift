@@ -15,17 +15,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
        
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let navVC = UINavigationController()
-        
-        let coordinator = MainCoordinator()
-        coordinator.navigationController = navVC
-        
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = navVC
+        window.rootViewController = UINavigationController(rootViewController: MainViewController())
         window.makeKeyAndVisible()
+        window.overrideUserInterfaceStyle = .light
         self.window = window
-        
-        coordinator.start()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -58,7 +52,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
-
-
 }
 
